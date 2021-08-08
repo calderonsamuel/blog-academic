@@ -9,7 +9,7 @@ headless: true
 # Order that this section appears on the page.
 weight: 40
 
-title: Experience
+title: Experiencia
 subtitle:
 
 # Date format for experience
@@ -22,19 +22,18 @@ date_format: Jan 2006
 #   Leave `date_end` empty if it's your current employer.
 #   Begin multi-line descriptions with YAML's `|2-` multi-line prefix.
 experience:
-  - title: CEO
-    company: GenCoin
-    company_url: ''
-    company_logo: org-gc
-    location: California
-    date_start: '2021-01-01'
+  - title: Integrante del Equipo Técnico Normativo de la Dirección de Licenciamiento
+    company: Superintendencia Nacional de Educación Universitaria
+    company_url: 'https://www.gob.pe/sunedu'
+    company_logo: sunedu-svg
+    location: Lima
+    date_start: '2020-08-24'
     date_end: ''
     description: |2-
-        Responsibilities include:
+        Responsabilidades:
         
-        * Analysing
+        * Recopilación, análisis y sistematización de información sobre la educación superior a nivel nacional e internacional
         * Modelling
-        * Deploying
         
   - title: Professor of Semiconductor Physics
     company: University X

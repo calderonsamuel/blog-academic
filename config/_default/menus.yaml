@@ -8,17 +8,17 @@ main:
     url: '#about'
     weight: 10
   - name: Blog
-    url: '#posts'
+    url: '/post/'
     weight: 20
   - name: Proyectos
-    url: '#projects'
+    url: '/project/'
     weight: 30
   - name: Presentaciones
     url: '#talks'
     weight: 40
-  - name: Publicaciones
-    url: '#publications'
-    weight: 50
+  # - name: Publicaciones
+  #   url: '#publications'
+  #   weight: 50
   - name: Cursos
     url: '#courses'
     weight: 60

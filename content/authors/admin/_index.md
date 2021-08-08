@@ -1,27 +1,20 @@
 ---
-bio: My research interests include distributed robotics, mobile computing and programmable
-  matter.
+bio: Me interesan los temas de datos abiertos, educación superior y enseñanza de uso de herramientas para análisis de datos.
 education:
   courses:
-  - course: PhD in Artificial Intelligence
-    institution: Stanford University
-    year: 2012
-  - course: MEng in Artificial Intelligence
-    institution: Massachusetts Institute of Technology
-    year: 2009
-  - course: BSc in Artificial Intelligence
-    institution: Massachusetts Institute of Technology
-    year: 2008
-email: ""
+  - course: Bach. En Ciencia Política
+    institution: Universidad Antonio Ruiz de Montoya
+    year: 2016
+email: "samuel.calderon@uarm.pe"
 highlight_name: false
 interests:
-- Artificial Intelligence
-- Computational Linguistics
-- Information Retrieval
+- Datos abiertos
+- Educación superior
+- Enseñanza de herramientas de uso de datos
 organizations:
-- name: Stanford University
-  url: https://www.stanford.edu/
-role: Professor of Artificial Intelligence
+- name: SUNEDU
+  url: https://www.gob.pe/sunedu
+role: Integrante del Equipo Técnico Normativo de la Dirección de Licenciamiento
 social:
 - icon: envelope
   icon_pack: fas
@@ -30,23 +23,20 @@ social:
     header: true
   icon: twitter
   icon_pack: fab
-  label: Follow me on Twitter
-  link: https://twitter.com/GeorgeCushen
-- icon: graduation-cap
-  icon_pack: fas
-  link: https://scholar.google.co.uk/citations?user=sIwtMXoAAAAJ
+  label: Sígueme en Twitter
+  link: https://twitter.com/samuel__case
 - icon: github
   icon_pack: fab
-  link: https://github.com/gcushen
+  link: https://github.com/calderonsamuel
 - icon: linkedin
   icon_pack: fab
-  link: https://www.linkedin.com/
+  link: https://www.linkedin.com/in/samuelcalderon/
 superuser: true
-title: Nelson Bighetti
+title: Samuel Calderon Serrano
 ---
 
-Nelson Bighetti is a professor of artificial intelligence at the Stanford AI Lab. His research interests include distributed robotics, mobile computing and programmable matter. He leads the Robotic Neurobiology group, which develops self-reconfiguring robots, systems of self-organizing robots, and mobile sensor networks.
+Politólogo de la Universidad Antonio Ruiz de Montoya. Actualmente trabaja en la Superintendencia Nacional de Educación Universitaria - SUNEDU como miembro del Equipo Técnico Normativo de la Dirección de Licenciamiento. Su desempeño profesional ha sido siempre en el sector público, participando en iniciativas de recojo, análisis y sistematización de información con miras a mejorar la calidad de los servicios brindados a la ciudadanía.
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed neque elit, tristique placerat feugiat ac, facilisis vitae arcu. Proin eget egestas augue. Praesent ut sem nec arcu pellentesque aliquet. Duis dapibus diam vel metus tempus vulputate.
+Miembro de la organización DecideBien, colabora ocasionalmente en iniciativas de código abierto. Durante los últimos meses, ha dictado talleres de Elaboración de Productos de Datos a profesionales de las ciencias sociales. Proviene de Lima, Perú. 
 
-{{< icon name="download" pack="fas" >}} Download my {{< staticref "uploads/demo_resume.pdf" "newtab" >}}resumé{{< /staticref >}}.
+{{< icon name="download" pack="fas" >}} Descarga mi {{< staticref "uploads/SamuelCalderonCV.pdf" "newtab" >}}CV{{< /staticref >}}.
