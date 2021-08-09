@@ -34,9 +34,10 @@ coordinates:
   longitude: ''
 directions: ''
 office_hours:
-  - 'Martes 19:00 a 20:00'
-  - 'Jueves 19:00 a 20:00'
-# appointment_url: 'https://calendly.com'
+  - 'Lunes 19:00 a 20:00'
+  - 'Miércoles 19:00 a 20:00'
+  - 'Viernes 19:00 a 20:00'
+appointment_url: 'https://calendly.com/samuelcalderon/short'
 contact_links:
   - icon: twitter
     icon_pack: fab

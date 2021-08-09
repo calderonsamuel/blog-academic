@@ -10,7 +10,7 @@ headless: true
 weight: 50
 
 # Note: `&shy;` is used to add a 'soft' hyphen in a long heading.
-title: 'Accomplish&shy;ments'
+title: 'Complemen&shy;tario'
 subtitle:
 
 # Date format
@@ -23,30 +23,38 @@ date_format: Jan 2006
 #   Leave other parameters empty if not required.
 #   Begin multi-line descriptions with YAML's `|2-` multi-line prefix.
 item:
-- certificate_url: https://www.coursera.org
+- certificate_url: https://www.freecodecamp.org/certification/samuel.calderon/responsive-web-design
   date_end: ""
-  date_start: "2021-01-25"
+  date_start: "2018-07-24"
   description: ""
-  organization: Coursera
-  organization_url: https://www.coursera.org
-  title: Neural Networks and Deep Learning
-  url: ""
-- certificate_url: https://www.edx.org
+  organization: FreeCodeCamp
+  organization_url: https://www.freecodecamp.org/
+  title: Responsive Web Design
+  url: "https://www.freecodecamp.org/learn/responsive-web-design/"
+- certificate_url: https://drive.google.com/file/d/1EzDnlWekoNRkit5Dw6XAmSfEQEQQzE8j/view?usp=sharing
+  date_end: "2019-12-06"
+  date_start: "2019-09-09"
+  description: ''
+  organization: Pontificia Universidad Católica del Perú
+  organization_url: https://www.pucp.edu.pe/
+  title: Diplomatura de Estudio en Gestión Pública
+  url: ''
+- certificate_url: https://drive.google.com/file/d/1MudzguRuR6HuRwKTSxkUwl8k1_9wIRfQ/view?usp=sharing
+  date_end: "2018-12-18"
+  date_start: "2018-08-09"
+  description: ''
+  organization: Escuela Nacional de Estadística e Informática
+  organization_url: https://www.inei.gob.pe/enei/
+  title: Especialización en Estadística Aplicada
+  url: ''
+- certificate_url: https://www.datacamp.com/statement-of-accomplishment/track/631e3d11648baec6e8544ae8a323beffdb0837d0
   date_end: ""
-  date_start: "2021-01-01"
-  description: Formulated informed blockchain models, hypotheses, and use cases.
-  organization: edX
-  organization_url: https://www.edx.org
-  title: Blockchain Fundamentals
-  url: https://www.edx.org/professional-certificate/uc-berkeleyx-blockchain-fundamentals
-- certificate_url: https://www.datacamp.com
-  date_end: "2020-12-21"
-  date_start: "2020-07-01"
-  description: ""
+  date_start: "2019-02-25"
+  description: "Versión 1 del Data Science Career Track que incluyó 23 cursos sobre sobre Análisis Exploratorio de Datos, Machine Learning y R Markdown"
   organization: DataCamp
   organization_url: https://www.datacamp.com
-  title: 'Object-Oriented Programming in R'
-  url: ""
+  title: 'Data Scientist with R Track'
+  url: "https://learn.datacamp.com/career-tracks/data-scientist-with-r?version=1"
 
 design:
   columns: '2' 
