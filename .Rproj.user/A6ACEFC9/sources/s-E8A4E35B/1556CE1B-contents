@@ -1,0 +1,124 @@
+---
+title: Cédula Elecciones 2020 usando ggplot2 (parte 1)
+author: Samuel Calderon
+date: '2020-01-15'
+slug: cedula-2020-ggplot2-parte-1
+categories:
+  - R
+tags:
+  - ggplot2
+  - cedula
+subtitle: ''
+summary: ''
+authors: []
+lastmod: '2021-08-15T20:23:21-05:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+---
+
+<script src="{{< blogdown/postref >}}index.es_files/header-attrs/header-attrs.js"></script>
+
+
+<p>No tengo conocimiento sobre el software que ha utilizado ONPE para diseñar la cédula que se utilizará en nuestras elecciones congresales, pero es posible intentar replicarla en R, usando funciones de la colección de paquetes del <code>tidyverse</code>.</p>
+<p>Para ello, primero cargamos los paquetes. Omitiré aquí los mensajes y warnings que aparecerán en una sesión normal. Además, en general utilizaré una línea por cada parámetro en las funciones que utilice, de modo que sea fácil de visualizar el código en teléfonos móviles.</p>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<p>El siguiente paso será crear una superficie en la que irá el gráfico. Usaremos las funciones de <code>ggplot2</code> para esto y para todas las futuras personalizaciones. Utilizaremos un ancho de 15 unidades (eje x) y un alto de 32 unidades (eje y) para mantener las proporciones definidas por la ONPE en la <a href="https://busquedas.elperuano.pe/normaslegales/aprueban-modelos-definitivos-de-cedulas-de-sufragio-para-vot-resolucion-jefatural-n-000263-2019-jnonpe-1835783-1/">RESOLUCIÓN JEFATURAL Nº 000263-2019-JN/ONPE</a>.</p>
+<pre class="r"><code>cedula &lt;- ggplot()+
+  # límites del plano
+  xlim(c(0, 15))+
+  ylim(c(0, 32))
+
+cedula</code></pre>
+<p><img src="{{< blogdown/postref >}}index.es_files/figure-html/limites-1.png" width="288" /></p>
+<p>Debido a que las líneas divisorias y el fondo no nos ayudan para nuestros propósitos, nos vamos a deshacer de ellos usando <code>theme_void()</code>. Para mantener la referencia de los límites del gráfico, crearemos un marco con borde negro utilizando <code>geom_rect()</code>.</p>
+<pre class="r"><code>cedula &lt;- cedula +
+  theme_void() +
+    # marco rectangular con borde negro
+    geom_rect(aes(xmin = 0, 
+                  xmax = 15, 
+                  ymin = 0, 
+                  ymax = 32), 
+              color = &quot;black&quot;, 
+              alpha = 0)
+
+cedula</code></pre>
+<p><img src="{{< blogdown/postref >}}index.es_files/figure-html/marco-1.png" width="288" /></p>
+<p>Lo siguiente es establecer el espacio que ocuparán los elementos de la cédula. En este caso, podemos llamar <code>instrucciones</code> a los marcos de texto que contienen las instrucciones de cómo votar. Los nombres de las columnas del <em>tibble</em> <code>instrucciones</code> nos permitirán identificarlos con los parámetros de <code>geom_rect()</code> cuando lo agreguemos al gráfico.</p>
+<pre class="r"><code>instrucciones &lt;- tribble(
+  ~xmin, ~xmax, ~ymin, ~ymax,
+  0.6,  11.8,  28.4,  29.9,
+  12.1,  14.4,  28.4,  29.9)
+
+cedula &lt;- cedula +
+    # contenedores debajo del título con instruciones
+    geom_rect(data = instrucciones, 
+              aes(xmin = xmin, 
+                  xmax = xmax,
+                  ymin = ymin, 
+                  ymax = ymax), 
+              alpha = 0.25)
+cedula</code></pre>
+<p><img src="{{< blogdown/postref >}}index.es_files/figure-html/instrucciones-1.png" width="288" /></p>
+<p>Llamaremos<code>rectangulos</code> a los marcos en los que van contenidos los nombres de las agrupaciones políticas. Debido a que son varios contenedores y la distancia entre ellos es uniforme, crearemos los valores del eje Y usando un generador de secuencias. Los valores del eje X, en cambio, son constantes.</p>
+<pre class="r"><code>rectangulos &lt;- tibble(xmin = 0.6, 
+                      xmax = 11.8, 
+                      ymin= seq(
+                        from = 27.3, 
+                        to = 2.1, 
+                        by = -1.2), 
+                      ymax = ymin + 1)
+
+cedula &lt;- cedula +
+# rectángulos para nombres de partidos
+    geom_rect(data = rectangulos, 
+              aes(xmin = xmin, 
+                  xmax = xmax,
+                  ymin = ymin, 
+                  ymax = ymax), 
+              alpha = 0.15)
+
+cedula</code></pre>
+<p><img src="{{< blogdown/postref >}}index.es_files/figure-html/rectangulos-1.png" width="288" /></p>
+<p>El <em>tibble</em> <code>preferencial</code> contiene los cuadrados en los que el votante puede marcar el logo de la agrupación política de su preferencia. Modificando un poco su ubicación el eje X en dos ocasiones, permitirá tener también los cuadrados de voto preferencial.</p>
+<pre class="r"><code>preferencial &lt;- tibble(
+  xmin = 10.8, 
+  xmax = 11.8, 
+  ymin= seq(
+    from = 27.3, 
+    to = 2.1, 
+    by = -1.2), 
+  ymax = ymin + 1)
+
+cedula &lt;- cedula +
+  # cuadrados para logo 
+  geom_rect(data = preferencial, 
+            aes(xmin = xmin, 
+                xmax = xmax,
+                ymin = ymin, 
+                ymax = ymax), 
+            color = &quot;black&quot;, 
+            fill = &quot;white&quot;) +
+  # cuadrado para voto preferencial 1
+  geom_rect(data = preferencial, 
+            aes(xmin = xmin + 1.3, 
+                xmax = xmax + 1.3,
+                ymin = ymin, 
+                ymax = ymax), 
+            color = &quot;black&quot;, 
+            fill = &quot;white&quot;) +
+  # cuadrado para voto preferencial 1
+  geom_rect(data = preferencial, 
+            aes(xmin = xmin + 2.6, 
+                xmax = xmax + 2.6,
+                ymin = ymin, 
+                ymax = ymax), 
+            color = &quot;black&quot;, 
+            fill = &quot;white&quot;)
+
+cedula</code></pre>
+<p><img src="{{< blogdown/postref >}}index.es_files/figure-html/preferencial-1.png" width="288" /></p>
+<p>En la segunda parte del post explicaré cómo agregar el texto, tanto de los nombres de los partidos políticos como de las instrucciones para votar.</p>

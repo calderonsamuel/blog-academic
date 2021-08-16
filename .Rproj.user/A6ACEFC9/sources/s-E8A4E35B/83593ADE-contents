@@ -1,0 +1,167 @@
+---
+title: 'Cédula Elecciones 2020 usando ggplot2 (parte 2)'
+author: 'Samuel Calderon'
+date: '2020-01-18'
+slug: 'cedula-2020-ggplot2-parte-2'
+categories:
+  - R
+tags:
+  - cedula
+  - ggplot2
+subtitle: ''
+summary: ''
+authors: []
+lastmod: '2021-08-15T20:33:04-05:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+---
+
+En el [post anterior](/blog/cedula-2020-ggplot2-parte-1/) mostramos cómo crear el "esqueleto" de la cédula. En este, en cambio, incluiremos el texto y los logos de los partidos. Primero lo primero, habilitamos los paquetes del tidyverse.
+
+```{r library, message=FALSE, warning=FALSE}
+library(tidyverse)
+```
+
+```{r options, include=FALSE}
+knitr::opts_chunk$set(comment=NA, fig.width=3, fig.height=6.4)
+
+instrucciones <- tribble(
+  ~xmin, ~xmax, ~ymin, ~ymax,
+  0.6,  11.8,  28.4,  29.9,
+  12.1,  14.4,  28.4,  29.9)
+
+rectangulos <- tibble(xmin = 0.6, xmax = 11.8, 
+                      ymin= seq(from = 27.3, to = 2.1, by = -1.2), 
+                      ymax = ymin + 1)
+
+preferencial <- tibble(xmin = 10.8, xmax = 11.8, 
+                       ymin= seq(from = 27.3, to = 2.1, by = -1.2), ymax = ymin + 1)
+
+cedula <- ggplot()+
+  # límites del plano
+  xlim(c(0, 15))+ ylim(c(0, 32))+ theme_void() +
+  # marco rectangular con borde negro
+  geom_rect(aes(xmin = 0, xmax = 15, ymin = 0, ymax = 32), color = "black", alpha = 0)+
+  # contenedores debajo del título con instruciones
+  geom_rect(data = instrucciones, aes(xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax),
+            alpha = 0.25)+
+  # rectángulos para nombres de partidos
+  geom_rect(data = rectangulos, aes(xmin = xmin, xmax = xmax,ymin = ymin, ymax = ymax), 
+            alpha = 0.15)+
+  # cuadrados para logo 
+  geom_rect(data = preferencial, aes(xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax), 
+  color = "black", fill = "white") +
+  # cuadrado para voto preferencial 1
+  geom_rect(data = preferencial, 
+            aes(xmin = xmin + 1.3, xmax = xmax + 1.3,
+                ymin = ymin, ymax = ymax), color = "black", fill = "white") +
+  # cuadrado para voto preferencial 1
+  geom_rect(data = preferencial, 
+            aes(xmin = xmin + 2.6, xmax = xmax + 2.6,
+                ymin = ymin, ymax = ymax), color = "black", fill = "white")
+```
+
+Nos aseguramos de contar con los objetos creados en el paso anterior. Especialmente el objeto `cedula`, que contiene las instrucciones de nuestro "esqueleto".
+
+```{r partidos}
+ls()
+```
+Comenzaremos por crear un vector que contenga los nombres de los partidos políticos en contienda, basados en el orden que obtuvieron en el [sorteo](https://www.onpe.gob.pe/sala-prensa/notas-prensa/elecciones-congresales-2020-onpe-sorteo-ubicacion-de-organizaciones-politicas-en-cedulas-sufragio/) realizado por la ONPE para determinar la posición en la cédula. Lo llamamos `partidos`.
+. 
+```{r}
+partidos <- c(
+  "EL FRENTE AMPLIO POR JUSTICIA, VIDA Y LIBERTAD",
+  "FUERZA POPULAR",
+  "JUNTOS POR EL PERU",
+  "PERU PATRIA SEGURA",
+  "TODOS POR EL PERU",
+  "ALIANZA PARA EL PROGRESO",
+  "PARTIDO MORADO",
+  "ACCION POPULAR",
+  "AVANZA PAIS – PARTIDO DE INTEGRACION SOCIAL",
+  "RENACIMIENTO UNIDO NACIONAL",
+  "PODEMOS PERU",
+  "UNION POR EL PERU",
+  "PARTIDO DEMOCRATICO SOMOS PERU",
+  "DEMOCRACIA DIRECTA",
+  "PARTIDO APRISTA PERUANO",
+  "PERU NACION",
+  "FRENTE POPULAR AGRICOLA FIA DEL PERU- FREPAP",
+  "PARTIDO POLITICO CONTIGO",
+  "PARTIDO POLITICO NACIONAL PERU LIBRE",
+  "VAMOS PERU",
+  "SOLIDARIDAD NACIONAL",
+  "PARTIDO POPULAR CRISTIANO - PPC")
+```
+
+Del mismo modo que utilizamos una secuencia para generar el objeto `preferencial` en la primera parte, generamos una secuencia para la ubicación de los nombres de los partidos. Esta vez, la generamos directamente dentro de `geom_text()`, la función que nos permite colocar texto en un gráfico de `ggplot`. Tengamos en cuenta que el argumento `size` cambiará según el tamaño en pixeles que le hayamos asignado al gráfico[^1].
+
+```{r}
+cedula <- cedula +
+  geom_text(
+    aes(x = 0.8, 
+        y = seq(
+          from = 27.8, 
+          to = 2.6, 
+          by = -1.2), 
+        label = partidos),
+      fontface = "bold",
+      size = 1.5,
+      hjust = 0)
+cedula
+```
+
+Lo siguiente es incluir el título de la cédula. Para esto utilizamos nuevamente `geom_text()`. Esta vez será necesario utilizar un *linebreak* (`\n`) para tener el texto en dos líneas.
+
+```{r}
+cedula <- cedula +
+  geom_text(
+    aes(x = 7.5, 
+        y = 30.6, 
+        label = "ELECCIONES CONGRESALES\nEXTRAORDINARIAS 2020"), 
+    fontface = "bold",
+    size = 2.1,
+    lineheight = 0.8)
+cedula
+```
+
+Incluyamos ahora las instrucciones que indican cómo votar. Nuevamente, `geom_text()` nos servirá para lograrlo. En esta ocasión incluiremos más de un *linebreak* en algunos casos.
+
+```{r}
+cedula <- cedula +
+  geom_text(
+    aes(x = 6.3, 
+        y = 29.6, 
+        label = "ORGANIZACIÓN POLÍTICA"),
+    fontface = "bold",
+    size = 1.2)+
+  geom_text(
+    aes(x = 6.3,
+        y = 28.9,
+        label = "MARQUE CON UNA CRUZ  +   O UN ASPA   X  DENTRO DEL RECUADRO DEL SÍMBOLO\nDE SU PREFERENCIA"),
+    size = 0.9) +
+  geom_text(
+    aes(x = 13.25,
+        y = 29.5,
+        label = "VOTO\nPREFERENCIAL"),
+    fontface = "bold",
+    size = 1.05,
+    lineheight = 0.8) +
+  geom_text(
+    aes(x = 13.25,
+        y = 28.9,
+        label = "SI DESEA COLOQUE DENTRO\nDE LOS RECUADROS UNO O DOS\nNÚMEROS DE LOS CANDIDATOS\nDE SU PREFERENCIA"),
+    size = 0.54,
+    lineheight = 0.9)
+
+cedula
+```
+
+¡Cada vez estamos más cerca! El siguiente paso es incluir los logos de las agrupaciones políticas.
+
+
+[^1]: En esta ocasión, el tamaño del gráfico es de 3 x 6.4 pulgadas, manteniendo la proporción del tamaño oficial.

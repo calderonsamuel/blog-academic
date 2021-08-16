@@ -1,0 +1,227 @@
+---
+title: Cédula Elecciones 2020 usando ggplot2 (parte 3)
+author: Samuel Calderon
+date: '2021-01-24'
+slug: cedula-2020-ggplot2-parte-3
+categories:
+  - R
+tags:
+  - cedula
+  - ggplot2
+subtitle: ''
+summary: ''
+authors: []
+lastmod: '2021-08-15T20:36:42-05:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+---
+
+En el [post anterior](/blog/cedula-2020-ggplot2-parte-2/) logramos agregarle texto al esqueleto de nuestra cédula. Ahora debemos aprender a agregarle imágenes. Iniciamos, como siempre, haciendo uso de nuestros paquetes predilectos.
+
+```{r library, message=FALSE, warning=FALSE}
+library(tidyverse)
+```
+
+```{r options, include=FALSE}
+knitr::opts_chunk$set(comment=NA, fig.width=3, fig.height=6.4, cache=TRUE)
+
+instrucciones <- tribble(
+  ~xmin, ~xmax, ~ymin, ~ymax,
+  0.6,  11.8,  28.4,  29.9,
+  12.1,  14.4,  28.4,  29.9)
+
+rectangulos <- tibble(xmin = 0.6, xmax = 11.8, 
+                      ymin= seq(from = 27.3, to = 2.1, by = -1.2), 
+                      ymax = ymin + 1)
+
+preferencial <- tibble(xmin = 10.8, xmax = 11.8, 
+                       ymin= seq(from = 27.3, to = 2.1, by = -1.2), ymax = ymin + 1)
+
+partidos <- c(
+  "EL FRENTE AMPLIO POR JUSTICIA, VIDA Y LIBERTAD",
+  "FUERZA POPULAR",
+  "JUNTOS POR EL PERU",
+  "PERU PATRIA SEGURA",
+  "TODOS POR EL PERU",
+  "ALIANZA PARA EL PROGRESO",
+  "PARTIDO MORADO",
+  "ACCION POPULAR",
+  "AVANZA PAIS – PARTIDO DE INTEGRACION SOCIAL",
+  "RENACIMIENTO UNIDO NACIONAL",
+  "PODEMOS PERU",
+  "UNION POR EL PERU",
+  "PARTIDO DEMOCRATICO SOMOS PERU",
+  "DEMOCRACIA DIRECTA",
+  "PARTIDO APRISTA PERUANO",
+  "PERU NACION",
+  "FRENTE POPULAR AGRICOLA FIA DEL PERU- FREPAP",
+  "PARTIDO POLITICO CONTIGO",
+  "PARTIDO POLITICO NACIONAL PERU LIBRE",
+  "VAMOS PERU",
+  "SOLIDARIDAD NACIONAL",
+  "PARTIDO POPULAR CRISTIANO - PPC")
+
+cedula <- ggplot()+
+  # límites del plano
+  xlim(c(0, 15))+ ylim(c(0, 32))+ theme_void() +
+  # marco rectangular con borde negro
+  geom_rect(aes(xmin = 0, xmax = 15, ymin = 0, ymax = 32), color = "black", alpha = 0)+
+  # contenedores debajo del título con instruciones
+  geom_rect(data = instrucciones, aes(xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax),
+            alpha = 0.25)+
+  # rectángulos para nombres de partidos
+  geom_rect(data = rectangulos, aes(xmin = xmin, xmax = xmax,ymin = ymin, ymax = ymax), 
+            alpha = 0.15)+
+  # cuadrados para logo 
+  geom_rect(data = preferencial, aes(xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax), 
+  color = "black", fill = "white") +
+  # cuadrado para voto preferencial 1
+  geom_rect(data = preferencial, 
+            aes(xmin = xmin + 1.3, xmax = xmax + 1.3,
+                ymin = ymin, ymax = ymax), color = "black", fill = "white") +
+  # cuadrado para voto preferencial 1
+  geom_rect(data = preferencial, 
+            aes(xmin = xmin + 2.6, xmax = xmax + 2.6,
+                ymin = ymin, ymax = ymax), color = "black", fill = "white") +
+  geom_text(aes(x = 0.8, y = seq(from = 27.8, to = 2.6, by = -1.2), 
+        label = partidos),fontface = "bold", size = 1.5, hjust = 0) +
+  geom_text(
+    aes(x = 7.5, y = 30.6, label = "ELECCIONES CONGRESALES\nEXTRAORDINARIAS 2020"), fontface = "bold", size = 2.1, lineheight = 0.8) +
+  geom_text(
+aes(x = 6.3, y = 29.6, label = "ORGANIZACIÓN POLÍTICA"), fontface = "bold", size = 1.2)+
+  geom_text(aes(x = 6.3, y = 28.9, label = "MARQUE CON UNA CRUZ  +   O UN ASPA   X  DENTRO DEL RECUADRO DEL SÍMBOLO\nDE SU PREFERENCIA"), size = 0.9) +
+  geom_text(aes(x = 13.25, y = 29.5, label = "VOTO\nPREFERENCIAL"), fontface = "bold", size = 1.05, lineheight = 0.8) +
+  geom_text(aes(x = 13.25, y = 28.9, label = "SI DESEA COLOQUE DENTRO\nDE LOS RECUADROS UNO O DOS\nNÚMEROS DE LOS CANDIDATOS\nDE SU PREFERENCIA"), size = 0.54, lineheight = 0.9)
+```
+
+### Lo básico
+
+Para poder entender cómo se logra insertar los logos de los partidos políticos hace falta primero entender cómo insertar imágenes a un gráfico de ggplot2. Hasta la fecha, la forma más conveniente que he encontrado es haciendo uso de `annotation_custom()`. Esta función toma como primer argumento un `grob`, un objeto que sirve como bloque básico de construcción de todos los gráficos de ggplot2. Para lo que buscamos hacer, colocar los logos de los partidos dentro del gráfico, necesitamos convertir nuestras imágenes en `grob`s. 
+
+Para que R interprete nuestras imágenes, hacemos uso de la función `load.image()` del paquete `imager`. Con el objeto obtenido hacemos uso de la función `rasterGrob()` del paquete `grid`, para obtener el `grob` necesario. Finalmente, `annotation_custom()` nos permite colocar el `grob` usando una sintaxis muy similar a la que hemos usado anteriormente con  `geom_rect()`. Con el siguiente ejemplo, que usa el logo de esta página, debería quedar más claro. 
+
+```{r message=FALSE, warning=FALSE}
+url_ejemplo <- "https://www.samuelenrique.com/images/240px.png"
+imagen_ejemplo <- imager::load.image(url_ejemplo)
+grob_ejemplo <- grid::rasterGrob(imagen_ejemplo)
+
+ggplot()+
+  xlim(c(0,10))+
+  ylim(c(0,10))+
+  annotation_custom(grob = grob_ejemplo,
+                    xmin = 0, xmax = 10,
+                    ymin = 0, ymax = 10)
+```
+
+### Lo real
+
+Ahora que hemos entendido cómo funciona el procedimiento de agregar las imágenes, estamos listos para agregar los logos a nuestra cédula. Podríamos repetir el procedimiento anterior por cada partido en contienda, sin embargo, aprovechemos las ventajas de usar R para hacerlo más rápido (no necesariamente más sencillo).
+
+Lo primero será tener los enlaces a todos los logos de los partidos. Esto es posible debido a que el portal [Voto Informado](https://votoinformado.jne.gob.pe/voto) cuenta con todos ellos. El vector `logo_url` fue creado manualmente para contener todos los logos, a excepción del de **Todos por el Perú** debido a que fue eliminado de la contienda por el JNE. En nuestro vector aparece como un `NA`.
+
+```{r logos}
+logo_url <- c(
+  "https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/2160.JPG",
+  "https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/1366.JPG",
+  "https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/1264.JPG",
+  "https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/55.JPG",
+  NA,
+  "https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/1257.JPG",
+  "https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/2840.JPG",
+  "https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/4.JPG",
+  "https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/2173.JPG",
+  "https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/5.JPG",
+  "https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/2731.JPG",
+  "https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/47.JPG",
+  "https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/14.JPG",
+  "https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/2191.JPG",
+  "https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/32.JPG",
+  "https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/2649.JPG",
+  "https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/2646.JPG",
+  "https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/2235.JPG",
+  "https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/2218.JPG",
+  "https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/2190.JPG",
+  "https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/22.JPG",
+  "https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/15.JPG"
+)
+```
+
+Ahora que contamos con los enlaces, creamos una función que nos permita repetir el proceso de crear los `grob`s, de tal modo que podamos usarla sistemáticamente. La función que estamos creando, `grob_url()`, devuelve los valores `NA`. El argumento `interpolate = TRUE` dentro de `grid::rasterGrob()` ayuda a mejorar la calidad de la imagen.
+
+```{r grob_url}
+grob_url <- function(fileurl){
+  if(is.na(fileurl)) return(NA)
+  img <- imager::load.image(fileurl)
+  grob <- grid::rasterGrob(
+    img, 
+    interpolate=TRUE)
+  
+  grob
+}
+```
+
+Ahora que contamos con una función que cumple nuestros objetivos, la aplicamos a todos los enlaces contenidos en `logo_url`. Para ello hacemos uso de la función `map()` del paquete `purrr`. Debido a que `map()` siempre nos devuelve una lista, usamos la función `tibble()` para crear un objeto *tibble* con una sola columna (grob), que contiene cada uno de nuestros `grob`s. Es el mismo nombre que el primer argumento de `annotation_custom()`, y tiene un motivo que descubriremos más adelante. El objeto `grob` ahora es una tabla que contiene listas en su única columna, pero nos permite trabajar con ella como si fuera cualquier *data.frame* normal.
+
+
+```{r grob, message=FALSE, warning=FALSE}
+grob <- map(logo_url, grob_url) %>% 
+  tibble(grob = .)
+
+head(grob)
+```
+
+Ahora podemos hacer uso de `annotation_custom()` en cada uno de nuestros `grob`s. Recordemos los argumentos que esta función necesita:
+
+1. `grob`: Es el *grob* que será dibujado en el gráfico.
+2. `xmin`: El primer valor del eje X, o posición de la esquina izquierda de la imagen.
+3. `xmax`: El segundo valor del eje X, o posición de la esquina derecha de la imagen.
+4. `ymin`: El primer valor del eje Y, o posición de la esquina inferior de la imagen.
+5. `ymax`: El segundo valor del eje Y, o posición de la esquina superior de la imagen.
+
+Ya tenemos nuestros *grobs* mapeados en el tibble `grob`, ahora necesitamos los otros cuatro argumentos. Sin embargo, estos ya los teníamos desde hace muchísimo antes. Están contenidos en el tibble `preferencial` que creamos en la [primera parte](/blog/cedula-2020-ggplot2-parte-2/) cuando usamos `geom_rect()` para dibujar los cuadros para voto preferencial.
+
+```{r}
+head(preferencial)
+```
+
+Entonces, lo que necesitamos hacer ahora es unir ambos tibbles con `bind_cols()` del paquete `dplyr()`. Luego usamos `filter()` para librarnos del valor `NA` porque ya no es útil (de hecho, si lo dejamos ocasionaremos un bug que me costó más tiempo del debido identificar). Finalmente, utilizamos `pmap()` del paquete `purrr` para usar cada fila de nuestri tibble como lista de argumentos de `annotation_custom()`. Con esto, hemos conseguido la lista `annotations` con la que podemos graficar todos los logos. 
+
+```{r}
+annotations <- grob %>% 
+  bind_cols(preferencial) %>% 
+  filter(!is.na(grob)) %>% 
+  pmap(annotation_custom)
+```
+
+Sin embargo, unir todos los *annotations* no es tan sencillo como hacer `cedula + annotations` debido a que `annotation_custom()` no se comporta como un `geom_*`. Será necesario crear una función que nos permita hacer una suma recursiva de todos los elementos: `rec_ggadd()` toma un objeto de `ggplot2` y una lista para añadir recursivamente sus elementos al objeto. El tercer argumento es un iterador que permite la recursividad, y no necesita ser identificado por quien use la función.
+
+```{r}
+rec_ggadd <- function(ggobj, lista, i = length(lista)){
+  if(i == 1){
+    ggobj + lista[[i]]
+  } else {
+    ggobj <- ggobj + lista[[i]]
+    rec_ggadd(ggobj, lista, i = i-1)
+  }
+}
+```
+
+Ahora sí, sólo queda aplicar la función a nuestra `cedula` y habremos conseguido lo que tanto deseábamos.
+```{r}
+cedula <- rec_ggadd(cedula, annotations)
+```
+
+Imprimimos `cedula` para ver que todo salió bien.
+```{r print, eval=FALSE, message=FALSE, warning=FALSE}
+cedula
+```
+
+![](cedula.png){width=288px height=615px}
+
+
+
+
