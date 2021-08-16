@@ -1,0 +1,116 @@
+---
+title: 'Cédula Elecciones 2020 usando ggplot2 (parte 2)'
+author: 'Samuel Calderon'
+date: '2020-01-18'
+slug: 'cedula-2020-ggplot2-parte-2'
+categories:
+  - R
+tags:
+  - cedula
+  - ggplot2
+subtitle: ''
+summary: ''
+authors: []
+lastmod: '2021-08-15T20:33:04-05:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+---
+
+<script src="{{< blogdown/postref >}}index.es_files/header-attrs/header-attrs.js"></script>
+
+
+<p>En el <a href="/blog/cedula-2020-ggplot2-parte-1/">post anterior</a> mostramos cómo crear el “esqueleto” de la cédula. En este, en cambio, incluiremos el texto y los logos de los partidos. Primero lo primero, habilitamos los paquetes del tidyverse.</p>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<p>Nos aseguramos de contar con los objetos creados en el paso anterior. Especialmente el objeto <code>cedula</code>, que contiene las instrucciones de nuestro “esqueleto”.</p>
+<pre class="r"><code>ls()</code></pre>
+<pre><code>[1] &quot;cedula&quot;        &quot;instrucciones&quot; &quot;preferencial&quot;  &quot;rectangulos&quot;  </code></pre>
+<p>Comenzaremos por crear un vector que contenga los nombres de los partidos políticos en contienda, basados en el orden que obtuvieron en el <a href="https://www.onpe.gob.pe/sala-prensa/notas-prensa/elecciones-congresales-2020-onpe-sorteo-ubicacion-de-organizaciones-politicas-en-cedulas-sufragio/">sorteo</a> realizado por la ONPE para determinar la posición en la cédula. Lo llamamos <code>partidos</code>.
+.</p>
+<pre class="r"><code>partidos &lt;- c(
+  &quot;EL FRENTE AMPLIO POR JUSTICIA, VIDA Y LIBERTAD&quot;,
+  &quot;FUERZA POPULAR&quot;,
+  &quot;JUNTOS POR EL PERU&quot;,
+  &quot;PERU PATRIA SEGURA&quot;,
+  &quot;TODOS POR EL PERU&quot;,
+  &quot;ALIANZA PARA EL PROGRESO&quot;,
+  &quot;PARTIDO MORADO&quot;,
+  &quot;ACCION POPULAR&quot;,
+  &quot;AVANZA PAIS – PARTIDO DE INTEGRACION SOCIAL&quot;,
+  &quot;RENACIMIENTO UNIDO NACIONAL&quot;,
+  &quot;PODEMOS PERU&quot;,
+  &quot;UNION POR EL PERU&quot;,
+  &quot;PARTIDO DEMOCRATICO SOMOS PERU&quot;,
+  &quot;DEMOCRACIA DIRECTA&quot;,
+  &quot;PARTIDO APRISTA PERUANO&quot;,
+  &quot;PERU NACION&quot;,
+  &quot;FRENTE POPULAR AGRICOLA FIA DEL PERU- FREPAP&quot;,
+  &quot;PARTIDO POLITICO CONTIGO&quot;,
+  &quot;PARTIDO POLITICO NACIONAL PERU LIBRE&quot;,
+  &quot;VAMOS PERU&quot;,
+  &quot;SOLIDARIDAD NACIONAL&quot;,
+  &quot;PARTIDO POPULAR CRISTIANO - PPC&quot;)</code></pre>
+<p>Del mismo modo que utilizamos una secuencia para generar el objeto <code>preferencial</code> en la primera parte, generamos una secuencia para la ubicación de los nombres de los partidos. Esta vez, la generamos directamente dentro de <code>geom_text()</code>, la función que nos permite colocar texto en un gráfico de <code>ggplot</code>. Tengamos en cuenta que el argumento <code>size</code> cambiará según el tamaño en pixeles que le hayamos asignado al gráfico<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>.</p>
+<pre class="r"><code>cedula &lt;- cedula +
+  geom_text(
+    aes(x = 0.8, 
+        y = seq(
+          from = 27.8, 
+          to = 2.6, 
+          by = -1.2), 
+        label = partidos),
+      fontface = &quot;bold&quot;,
+      size = 1.5,
+      hjust = 0)
+cedula</code></pre>
+<p><img src="{{< blogdown/postref >}}index.es_files/figure-html/unnamed-chunk-2-1.png" width="288" /></p>
+<p>Lo siguiente es incluir el título de la cédula. Para esto utilizamos nuevamente <code>geom_text()</code>. Esta vez será necesario utilizar un <em>linebreak</em> (<code>\n</code>) para tener el texto en dos líneas.</p>
+<pre class="r"><code>cedula &lt;- cedula +
+  geom_text(
+    aes(x = 7.5, 
+        y = 30.6, 
+        label = &quot;ELECCIONES CONGRESALES\nEXTRAORDINARIAS 2020&quot;), 
+    fontface = &quot;bold&quot;,
+    size = 2.1,
+    lineheight = 0.8)
+cedula</code></pre>
+<p><img src="{{< blogdown/postref >}}index.es_files/figure-html/unnamed-chunk-3-1.png" width="288" /></p>
+<p>Incluyamos ahora las instrucciones que indican cómo votar. Nuevamente, <code>geom_text()</code> nos servirá para lograrlo. En esta ocasión incluiremos más de un <em>linebreak</em> en algunos casos.</p>
+<pre class="r"><code>cedula &lt;- cedula +
+  geom_text(
+    aes(x = 6.3, 
+        y = 29.6, 
+        label = &quot;ORGANIZACIÓN POLÍTICA&quot;),
+    fontface = &quot;bold&quot;,
+    size = 1.2)+
+  geom_text(
+    aes(x = 6.3,
+        y = 28.9,
+        label = &quot;MARQUE CON UNA CRUZ  +   O UN ASPA   X  DENTRO DEL RECUADRO DEL SÍMBOLO\nDE SU PREFERENCIA&quot;),
+    size = 0.9) +
+  geom_text(
+    aes(x = 13.25,
+        y = 29.5,
+        label = &quot;VOTO\nPREFERENCIAL&quot;),
+    fontface = &quot;bold&quot;,
+    size = 1.05,
+    lineheight = 0.8) +
+  geom_text(
+    aes(x = 13.25,
+        y = 28.9,
+        label = &quot;SI DESEA COLOQUE DENTRO\nDE LOS RECUADROS UNO O DOS\nNÚMEROS DE LOS CANDIDATOS\nDE SU PREFERENCIA&quot;),
+    size = 0.54,
+    lineheight = 0.9)
+
+cedula</code></pre>
+<p><img src="{{< blogdown/postref >}}index.es_files/figure-html/unnamed-chunk-4-1.png" width="288" /></p>
+<p>¡Cada vez estamos más cerca! El siguiente paso es incluir los logos de las agrupaciones políticas.</p>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>En esta ocasión, el tamaño del gráfico es de 3 x 6.4 pulgadas, manteniendo la proporción del tamaño oficial.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>

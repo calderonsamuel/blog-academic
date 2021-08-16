@@ -1,0 +1,61 @@
+---
+title: '¿Por qué debo dejar que usen mi trabajo?'
+author: 'Samuel Calderon'
+date: '2020-03-10'
+slug: 'por-que-debo-dejar-que-usen-mi-trabajo'
+categories:
+  - 'Opinión'
+tags:
+  - 'Open source'
+  - 'Opinión'
+subtitle: ''
+summary: ''
+authors: []
+lastmod: '2021-08-15T21:00:48-05:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+---
+
+<script src="{{< blogdown/postref >}}index.es_files/header-attrs/header-attrs.js"></script>
+
+
+<p>El día de hoy ingresé, como ya se me está haciendo costumbre, a <a href="https://es.stackoverflow.com/">StackOverflow</a> a ver si podía hacer algo para aumentar mis puntos de reputación. Como suele ocurrir en internet, uno empieza viendo una cosa y termina en un sitio bien diferente.</p>
+<p>Llegué a <a href="https://academia.stackexchange.com/">StackExchange Academia</a> y vi una <a href="https://academia.stackexchange.com/questions/145212/advisor-professor-asking-me-for-the-source-code-of-my-dissertation-in-order-to-b">pregunta</a>, que me pareció muy interesante. Una persona cuenta que trabajó mucho para realizar un trabajo de investigación para su tesis de postgrado, y que ahora su asesor le está pidiendo el código utilizado en su trabajo para que otra persona lo utilice. Me pareció interesante además que una de las etiquetas con las que esta persona marcó su pregunta fuera la de <em>Propiedad intelectual</em>.</p>
+<div id="ser-autor-de-mi-trabajo-está-bien" class="section level2">
+<h2>Ser autor de mi trabajo está bien</h2>
+<p>No cuesta mucho entender por qué. Si me pasé meses (o años) de duro trabajo para encontrar o construir los datos o procedimientos de análisis que me permitieron validar o refutar una hipótesis mía o de la comunidad científica, si le dediqué tanto tiempo, esfuerzo y rigurosidad a que mi trabajo sea de una calidad que me permita obtener una gran nota en mi presentación, si tuve que gastar mis escasos recursos y tiempo para obtener mi trabajo, es lógico que todo lo que se derive de ello sea <strong>mío</strong>. Yo no creo que pensar de esta manera sea egoísta.</p>
+<p>La mayoría de instituciones que le dedican recursos a la investigación terminan publicando los resultados en algún tipo de reporte, libro, mapa, dashboard, medio de comunicación, redes sociales, etc. Nos llegamos a enterar de los resultados de las investigaciones a través de resúmenes ejecutivos o abstracts. Pero, ¿qué pasa si queremos verificar que la investigación siguió cierto estándar de calidad? Esto en general se refiere a los datos utilizados, desde su recolección hasta la metodología de análisis empleada. También me interesa averiguar si la persona que investigó obtuvo las conclusiones adecuadas respecto a los resultados de sus tests. Mientras más cercanas a la academia, las instituciones van aumentando su nivel de rigurosidad, y son mandatorios los marcos teóricos, capítulos de metodología, resultados y conclusiones. En el caso de las entidades públicas (y en general), se va haciendo cada vez más común que los conjuntos de datos utilizados en los análisis sean compartidos de manera pública. En el Perú, el <a href="www.inei.gob.pe">INEI</a> realiza esto a través de su portal de Microdatos y el Poder Ejecutivo muestra avances con su portal de <a href="https://www.datosabiertos.gob.pe/">Datos Abiertos</a>.</p>
+<p>Sin embargo, quiero atreverme a decir que esto no es suficiente. Cuando una persona se involucra en el análisis de datos, está realizando investigación, lo que significa que se encuentra una pregunta que quiere responder, se plantea una hipótesis al respecto y decide un método a través del cuál validará o rechazará su hipótesis. No hay investigación sin pregunta de investigación, ni hipótesis, ni metodología. Eso lo conocemos desde que asistimos a la primaria, porque es el método científico. En lo que nos quedamos cortos es en la <em>reproducibilidad</em> y la <em>replicabilidad</em>.</p>
+</div>
+<div id="replicable-o-reproducible" class="section level2">
+<h2>¿Replicable o reproducible?</h2>
+<p>Según el diccionario de Oxford, lo reproducible es algo que:</p>
+<blockquote>
+<p>Puede ser producido o hecho nuevamente de la misma manera<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></p>
+</blockquote>
+<p>En el caso de una investigación, nos referimos a que <em>con el mismo conjunto de datos</em> del análisis, realizando el mismo procedimiento, podemos obtener el mismo resultado. Esto hace que la calidad de la investigación tenga mayor facilidad de ser verificado por pares. Esta es una práctica bastante común en entornos que usan investigación estadística o a través de código.</p>
+<p>Por otro lado, lo replicable es algo que:</p>
+<blockquote>
+<p>Puede ser copiado exactamente<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a></p>
+</blockquote>
+<p>Roger D. Peng nos da un ejemplo de lo que esto significa en un contexto científico:</p>
+<blockquote>
+<p>Si dices que X causa Y, o que la Vitamina C agudiza una enfermedad, o que algo causa un problema, sucede que otros científicos, independientes de ti, tratarán de investigar la misma pregunta y ver si obtienen un resultado similar. Si muchas otras personas obtienen el mismo resultado y replican el hallazgo original, entonces tendemos a pensar que el hallazgo original probablemente fue verdadero, y que se trata de una relación o hallazgo real.<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a></p>
+</blockquote>
+<p>En otras palabras, un estudio es replicado cuando al usar el mismo método de análisis <em>en un nuevo conjunto de datos</em> generados por el mismo diseño experimental, los resultados son similares.</p>
+<p>La replicabilidad en sí no tiene nada de malo, es uno de los pilares del método científico y, en teoría, es aspirable. Sin embargo, es costosa. Recordemos que los resultados de los <a href="http://censo2017.inei.gob.pe/">Censos 2017</a> en Perú fueron cuestionados desde el mismo día de la recolección de datos, por la gran cantidad de personas que reportaron no haber sido visitados por el personal de INEI. Pero, ¿quién podría replicar un censo?. Fuera de los límites legales, ¿qué persona o institución privada querría disponer <a href="https://elcomercio.pe/peru/censo-2017-invertira-proceso-noticia-463178-noticia/">173.8 millones de soles</a> en verificar que los resultados obtenidos sean los mismos que los del INEI?</p>
+<p>Evidentemente, un censo es un caso extremo. Pero podríamos cuestionar también la replicabilidad de encuestas de hogares, estudios económicos, tests de tratamientos experimentales, y un largo etcétera que incluye las encuestas de opinión que tanto aparecen en los medios de comunicación. A medida que aumenta nuestra necesidad (y capacidad) de obtener información, la replicabilidad se vuelve cada vez más difícil.</p>
+<p>Es por ello que la reproducibilidad se convierte en una alternativa viable. Esto no quiere decir que la replicabilidad deje de ser deseada. Si volvemos al caso de la pregunta que encontré en Stack Exchange, esta persona fue cuestionada por su asesor acerca de que otra persona pueda usar su <em>código</em> para su trabajo de investigación, en otras palabras, esta nueva persona estaba buscando <em>replicar</em> el trabajo, cosa que debería ser aceptada y promovida, porque es la mejor manera de hacer que la ciencia avance.</p>
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>Traducción propia de <a href="https://www.oxfordlearnersdictionaries.com/us/definition/english/reproducible?q=reproducible" class="uri">https://www.oxfordlearnersdictionaries.com/us/definition/english/reproducible?q=reproducible</a><a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+<li id="fn2"><p>Traducción propia de <a href="https://www.oxfordlearnersdictionaries.com/definition/english/replicable?q=replicable" class="uri">https://www.oxfordlearnersdictionaries.com/definition/english/replicable?q=replicable</a><a href="#fnref2" class="footnote-back">↩︎</a></p></li>
+<li id="fn3"><p>Traducción propia de Peng, R. (2019) <em>Report writing for Data Science in R</em>. pg. 1. LeanPub.<a href="#fnref3" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>

@@ -1,0 +1,134 @@
+---
+title: Cédula Elecciones 2020 usando ggplot2 (parte 3)
+author: Samuel Calderon
+date: '2020-01-24'
+slug: cedula-2020-ggplot2-parte-3
+categories:
+  - R
+tags:
+  - cedula
+  - ggplot2
+subtitle: ''
+summary: ''
+authors: []
+lastmod: '2021-08-15T20:36:42-05:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+---
+
+<script src="{{< blogdown/postref >}}index.es_files/header-attrs/header-attrs.js"></script>
+
+
+<p>En el <a href="/blog/cedula-2020-ggplot2-parte-2/">post anterior</a> logramos agregarle texto al esqueleto de nuestra cédula. Ahora debemos aprender a agregarle imágenes. Iniciamos, como siempre, haciendo uso de nuestros paquetes predilectos.</p>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<div id="lo-básico" class="section level3">
+<h3>Lo básico</h3>
+<p>Para poder entender cómo se logra insertar los logos de los partidos políticos hace falta primero entender cómo insertar imágenes a un gráfico de ggplot2. Hasta la fecha, la forma más conveniente que he encontrado es haciendo uso de <code>annotation_custom()</code>. Esta función toma como primer argumento un <code>grob</code>, un objeto que sirve como bloque básico de construcción de todos los gráficos de ggplot2. Para lo que buscamos hacer, colocar los logos de los partidos dentro del gráfico, necesitamos convertir nuestras imágenes en <code>grob</code>s.</p>
+<p>Para que R interprete nuestras imágenes, hacemos uso de la función <code>load.image()</code> del paquete <code>imager</code>. Con el objeto obtenido hacemos uso de la función <code>rasterGrob()</code> del paquete <code>grid</code>, para obtener el <code>grob</code> necesario. Finalmente, <code>annotation_custom()</code> nos permite colocar el <code>grob</code> usando una sintaxis muy similar a la que hemos usado anteriormente con <code>geom_rect()</code>. Con el siguiente ejemplo, que usa el logo de esta página, debería quedar más claro.</p>
+<pre class="r"><code>url_ejemplo &lt;- &quot;https://www.samuelenrique.com/images/240px.png&quot;
+imagen_ejemplo &lt;- imager::load.image(url_ejemplo)
+grob_ejemplo &lt;- grid::rasterGrob(imagen_ejemplo)
+
+ggplot()+
+  xlim(c(0,10))+
+  ylim(c(0,10))+
+  annotation_custom(grob = grob_ejemplo,
+                    xmin = 0, xmax = 10,
+                    ymin = 0, ymax = 10)</code></pre>
+<p><img src="{{< blogdown/postref >}}index.es_files/figure-html/unnamed-chunk-1-1.png" width="288" /></p>
+</div>
+<div id="lo-real" class="section level3">
+<h3>Lo real</h3>
+<p>Ahora que hemos entendido cómo funciona el procedimiento de agregar las imágenes, estamos listos para agregar los logos a nuestra cédula. Podríamos repetir el procedimiento anterior por cada partido en contienda, sin embargo, aprovechemos las ventajas de usar R para hacerlo más rápido (no necesariamente más sencillo).</p>
+<p>Lo primero será tener los enlaces a todos los logos de los partidos. Esto es posible debido a que el portal <a href="https://votoinformado.jne.gob.pe/voto">Voto Informado</a> cuenta con todos ellos. El vector <code>logo_url</code> fue creado manualmente para contener todos los logos, a excepción del de <strong>Todos por el Perú</strong> debido a que fue eliminado de la contienda por el JNE. En nuestro vector aparece como un <code>NA</code>.</p>
+<pre class="r"><code>logo_url &lt;- c(
+  &quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/2160.JPG&quot;,
+  &quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/1366.JPG&quot;,
+  &quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/1264.JPG&quot;,
+  &quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/55.JPG&quot;,
+  NA,
+  &quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/1257.JPG&quot;,
+  &quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/2840.JPG&quot;,
+  &quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/4.JPG&quot;,
+  &quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/2173.JPG&quot;,
+  &quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/5.JPG&quot;,
+  &quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/2731.JPG&quot;,
+  &quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/47.JPG&quot;,
+  &quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/14.JPG&quot;,
+  &quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/2191.JPG&quot;,
+  &quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/32.JPG&quot;,
+  &quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/2649.JPG&quot;,
+  &quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/2646.JPG&quot;,
+  &quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/2235.JPG&quot;,
+  &quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/2218.JPG&quot;,
+  &quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/2190.JPG&quot;,
+  &quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/22.JPG&quot;,
+  &quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/15.JPG&quot;
+)</code></pre>
+<p>Ahora que contamos con los enlaces, creamos una función que nos permita repetir el proceso de crear los <code>grob</code>s, de tal modo que podamos usarla sistemáticamente. La función que estamos creando, <code>grob_url()</code>, devuelve los valores <code>NA</code>. El argumento <code>interpolate = TRUE</code> dentro de <code>grid::rasterGrob()</code> ayuda a mejorar la calidad de la imagen.</p>
+<pre class="r"><code>grob_url &lt;- function(fileurl){
+  if(is.na(fileurl)) return(NA)
+  img &lt;- imager::load.image(fileurl)
+  grob &lt;- grid::rasterGrob(
+    img, 
+    interpolate=TRUE)
+  
+  grob
+}</code></pre>
+<p>Ahora que contamos con una función que cumple nuestros objetivos, la aplicamos a todos los enlaces contenidos en <code>logo_url</code>. Para ello hacemos uso de la función <code>map()</code> del paquete <code>purrr</code>. Debido a que <code>map()</code> siempre nos devuelve una lista, usamos la función <code>tibble()</code> para crear un objeto <em>tibble</em> con una sola columna (grob), que contiene cada uno de nuestros <code>grob</code>s. Es el mismo nombre que el primer argumento de <code>annotation_custom()</code>, y tiene un motivo que descubriremos más adelante. El objeto <code>grob</code> ahora es una tabla que contiene listas en su única columna, pero nos permite trabajar con ella como si fuera cualquier <em>data.frame</em> normal.</p>
+<pre class="r"><code>grob &lt;- map(logo_url, grob_url) %&gt;% 
+  tibble(grob = .)
+
+head(grob)</code></pre>
+<pre><code># A tibble: 6 x 1
+  grob      
+  &lt;list&gt;    
+1 &lt;rastrgrb&gt;
+2 &lt;rastrgrb&gt;
+3 &lt;rastrgrb&gt;
+4 &lt;rastrgrb&gt;
+5 &lt;lgl [1]&gt; 
+6 &lt;rastrgrb&gt;</code></pre>
+<p>Ahora podemos hacer uso de <code>annotation_custom()</code> en cada uno de nuestros <code>grob</code>s. Recordemos los argumentos que esta función necesita:</p>
+<ol style="list-style-type: decimal">
+<li><code>grob</code>: Es el <em>grob</em> que será dibujado en el gráfico.</li>
+<li><code>xmin</code>: El primer valor del eje X, o posición de la esquina izquierda de la imagen.</li>
+<li><code>xmax</code>: El segundo valor del eje X, o posición de la esquina derecha de la imagen.</li>
+<li><code>ymin</code>: El primer valor del eje Y, o posición de la esquina inferior de la imagen.</li>
+<li><code>ymax</code>: El segundo valor del eje Y, o posición de la esquina superior de la imagen.</li>
+</ol>
+<p>Ya tenemos nuestros <em>grobs</em> mapeados en el tibble <code>grob</code>, ahora necesitamos los otros cuatro argumentos. Sin embargo, estos ya los teníamos desde hace muchísimo antes. Están contenidos en el tibble <code>preferencial</code> que creamos en la <a href="/blog/cedula-2020-ggplot2-parte-2/">primera parte</a> cuando usamos <code>geom_rect()</code> para dibujar los cuadros para voto preferencial.</p>
+<pre class="r"><code>head(preferencial)</code></pre>
+<pre><code># A tibble: 6 x 4
+   xmin  xmax  ymin  ymax
+  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1  10.8  11.8  27.3  28.3
+2  10.8  11.8  26.1  27.1
+3  10.8  11.8  24.9  25.9
+4  10.8  11.8  23.7  24.7
+5  10.8  11.8  22.5  23.5
+6  10.8  11.8  21.3  22.3</code></pre>
+<p>Entonces, lo que necesitamos hacer ahora es unir ambos tibbles con <code>bind_cols()</code> del paquete <code>dplyr()</code>. Luego usamos <code>filter()</code> para librarnos del valor <code>NA</code> porque ya no es útil (de hecho, si lo dejamos ocasionaremos un bug que me costó más tiempo del debido identificar). Finalmente, utilizamos <code>pmap()</code> del paquete <code>purrr</code> para usar cada fila de nuestri tibble como lista de argumentos de <code>annotation_custom()</code>. Con esto, hemos conseguido la lista <code>annotations</code> con la que podemos graficar todos los logos.</p>
+<pre class="r"><code>annotations &lt;- grob %&gt;% 
+  bind_cols(preferencial) %&gt;% 
+  filter(!is.na(grob)) %&gt;% 
+  pmap(annotation_custom)</code></pre>
+<p>Sin embargo, unir todos los <em>annotations</em> no es tan sencillo como hacer <code>cedula + annotations</code> debido a que <code>annotation_custom()</code> no se comporta como un <code>geom_*</code>. Será necesario crear una función que nos permita hacer una suma recursiva de todos los elementos: <code>rec_ggadd()</code> toma un objeto de <code>ggplot2</code> y una lista para añadir recursivamente sus elementos al objeto. El tercer argumento es un iterador que permite la recursividad, y no necesita ser identificado por quien use la función.</p>
+<pre class="r"><code>rec_ggadd &lt;- function(ggobj, lista, i = length(lista)){
+  if(i == 1){
+    ggobj + lista[[i]]
+  } else {
+    ggobj &lt;- ggobj + lista[[i]]
+    rec_ggadd(ggobj, lista, i = i-1)
+  }
+}</code></pre>
+<p>Ahora sí, sólo queda aplicar la función a nuestra <code>cedula</code> y habremos conseguido lo que tanto deseábamos.</p>
+<pre class="r"><code>cedula &lt;- rec_ggadd(cedula, annotations)</code></pre>
+<p>Imprimimos <code>cedula</code> para ver que todo salió bien.</p>
+<pre class="r"><code>cedula</code></pre>
+<p><img src="cedula.png" width="288" height="615" /></p>
+</div>

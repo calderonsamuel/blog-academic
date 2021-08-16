@@ -1,0 +1,148 @@
+---
+title: Propuesta para elegir preguntas en conferencia de prensa
+author: Samuel Calderon
+date: '2020-04-18'
+slug: propuesta-para-elegir-preguntas-en-conferencia-de-prensa
+categories:
+  - Opinión
+tags:
+  - Open source
+subtitle: ''
+summary: ''
+authors: []
+lastmod: '2021-08-15T21:05:56-05:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(flextable)
+
+googlesheets4::gs4_deauth()
+
+preguntas <- googlesheets4::read_sheet("https://docs.google.com/spreadsheets/d/1JgENwDadtb_HrGerTfgpAlRwCjb6c3mHCudEiRwEWrA/edit?usp=sharing")
+```
+
+
+## El motivo
+
+Casi todos los días vemos las conferencias de prensa que el presidente brinda. En ellas nos da las nuevas cifras importantes acerca del avance del covid19, nuevas medidas del gobierno y respuestas a preguntas de la prensa. Respecto a este último punto, no se conoce de fuentes oficiales la metodología a través de la cuál se realiza la elección de preguntas de la prensa. No me ha parecido que se hayan estado escogiendo preguntas malas, pero me quedé con la duda.
+
+Decidí consultarle a internet. El único medio que reportó algo acerca del tema fue [Líbero](https://libero.pe/ocio/1553598-coronavirus-peru-preguntas-presidente-martin-vizcarra-covid-19-whatsapp) (muy para mi sorpresa), y en realidad se trató de un artículo acerca de un hilo en twitter realizado por Eloy Marchán.
+
+<blockquote class="twitter-tweet" data-lang="es"><p lang="es" dir="ltr">(1/4) ¿Cómo salen las preguntas que el presidente <a href="https://twitter.com/MartinVizcarraC?ref_src=twsrc%5Etfw">@MartinVizcarraC</a> responde en las &quot;conferencias de prensa&quot; que da cada día?<br>-Hay un chat de Whatsapp llamado &quot;Actividades Palacio&quot;, lo administran los funcionarios Gabriela Carrillo y Juan Francisco Celis y tiene 172 integrantes. <a href="https://t.co/Fc43JZRj3n">pic.twitter.com/Fc43JZRj3n</a></p>&mdash; Eloy Marchán (@eloymarchan) <a href="https://twitter.com/eloymarchan/status/1250922549120315392?ref_src=twsrc%5Etfw">16 de abril de 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+En pocas palabras, según su explicación,  existe un grupo de Whatsapp integrado por funcionarios y periodistas de varios medios de comunicación a través del cual se les comunica qué medios podrán enviar sus preguntas, que luego son respondidas en la conferencia de prensa. Los medios son escogidos a través de un sorteo. 
+
+El asunto es que, según Marchán, no se sabe en qué consiste ese sorteo. Yo creo que es una duda razonable, e innecesaria de mantener porque podría tener una solución muy simple.
+
+## La propuesta
+
+Esta propuesta se basa en el supuesto de que es mejor hacer un sorteo de preguntas y no uno de medios de comunicación. 
+
+### Paso 1: Recolectar las preguntas
+
+Para esto se puede usar un servicio de recolección de formularios/encuestas, como el de Google Forms. Basta con tener dos campos de llenado en el formulario: uno de identificación y uno en el que se brinde el detalle de la pregunta. 
+
+El campo de identificación necesitaría que los medios ingresen una contraseña que previamente los funcionarios les hayan brindado. La contraseña es única por medio de comunicación y, para mayor seguridad, puede ser actualizada diariamente. 
+
+En el segundo campo de llenado los medios de comunicación ingresan sus preguntas. Se podría poner un límite de caracteres para asegurar que la pregunta no sea más larga que la respuesta que se brindará. 
+
+Aquí debajo pongo un formulario de ejemplo en el que sólo se puede llenar el campo de pregunta si se ingresa primero una contraseña adecuada. La contraseña de este formulario consiste de 16 caracteres alfanuméricos aleatorios.
+
+> Contraseña: sEcVwNCLpKqf8oH3
+
+<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfL_zYqFoWp7t0spC-fQ86Oe3TNZ8pttDaglfkGK_bvE75eyw/viewform?embedded=true" width=100% height="333" frameborder="0" marginheight="0" marginwidth="0">Cargando…</iframe>
+
+Después de llenar algunas preguntas en el formulario, obtuve la siguiente tabla. Esta tabla se irá actualizando conforme le lleguen nuevas preguntas.
+
+<iframe width= 100% height=350px src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQkF8DydOAYAGXVHuUi8oLBUZX1nBqKUBb9JUbVAT4EnZ9GVmhYEINYZNQ8pNC1Gax2ZXZCcd01kS7W/pubhtml?gid=1524799486&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
+
+Para trabajar el ejemplo, tomaré las cuatro (4) observaciones que yo ingresé. Con un cambio en los encabezados y un nuevo formato la tabla se ve así.
+
+```{r preguntas, echo = FALSE}
+preguntas <- 
+  preguntas %>% 
+    mutate(Hora = as.character(`Marca temporal`)) %>% 
+    select(Hora,
+           Contraseña = `Ingrese contraseña de su medio de comunicación`,
+           Pregunta = `Ingrese el detalle de su pregunta`)
+
+preguntas %>% 
+  flextable() %>% 
+  autofit()
+```
+
+La columna **Hora** se genera de manera automática en Google Forms e indica la hora y fecha en que fue ingresada la pregunta. Cuando cada medio tenga su contraseña, la columna **Contraseña** tendría contraseñas diferentes en cada fila. 
+
+
+### Paso 2: Sortear las preguntas
+
+Una vez obtenida la tabla de preguntas se debe realizar el sorteo y aquí viene el aporte principal de este artículo: el sorteo debe ser aleatorio y reproducible. Esto se puede lograr usando un valor *semilla* al momento de realizar el muestreo. En el siguiente bloque de código de R uso como valor semilla la fecha de hoy para obtener una muestra de dos observaciones de mi tabla de `preguntas`[^1]. 
+
+```{r sample, eval=FALSE}
+set.seed(18042020)
+muestra <- dplyr::sample_n(preguntas, size = 2)
+print(muestra)
+```
+
+```{r sample_true, echo=FALSE}
+set.seed(18042020)
+flextable(dplyr::sample_n(preguntas, size = 2)) %>% 
+  autofit()
+```
+
+Ahora, cualquier persona que tenga acceso a la tabla de preguntas puede reproducir el resultado de mi "elección" aleatoria usando el valor *semilla*. 
+
+### Paso 3: Comunicar los resultados
+
+Además de contestar las preguntas que fueron escogidas, es necesario que se hagan públicos la tabla de preguntas y el valor semilla utilizado para el muestreo (compartir el código utilizado sería incluso más útil). Esto puede servir de oportunidad para compartirse de manera conjunta con un resumen indicando las preguntas escogidas y sus respectivas respuestas.
+
+La "elección" de preguntas tendría que hacerse con el tiempo prudente para preparar respuestas satisfactorias y descartar preguntas repetidas o inútiles (riesgos latentes). En este artículo no se propone que se haga esta elección en medio de la conferencia de prensa.
+
+### Paso 4: Repetir
+
+Para la siguiente conferencia de prensa basta con limpiar los registros anteriores o filtrarlos de acuerdo a la nueva fecha. En caso se de decida, podrían actualizarse las contraseñas de los medios.
+
+### Extra: Tiempo usado
+
+Para crear el formulario en Google Forms demoré menos de diez minutos. El proceso de muestreo de la tabla con valor semilla fue practicamente instantáneo. 
+
+En el siguiente bloque uso código R para demostrar que se tarda mucho menos de un segundo crear una gran cantidad de contraseñas para medios de comunicación.
+
+```{r benchmark, comment=""}
+# Creando conjunto de caracteres alfanumericos con
+# minúsculas, mayúsculas y números
+alfanumericos <- c(letters, LETTERS, 0:9)
+
+# Creando función para replicar 
+# creación de contraseña
+crear_contraseñas <- function(conjunto, numero) {
+  
+  replicate(numero, 
+            paste0(sample(x = conjunto, 
+                          size = 16, 
+                          replace = TRUE), 
+                   collapse = "")
+            )
+}
+
+# Cantidad de milisegundos requeridos 
+# para crear n contraseñas
+microbenchmark::microbenchmark(
+  `300` = {crear_contraseñas(alfanumericos, 300)},
+  `500` = {crear_contraseñas(alfanumericos, 500)},
+  `1000`= {crear_contraseñas(alfanumericos, 1000)}
+    )
+
+```
+
+Viendo el cruce de la fila "1000" con la columna "mean", vemos que en promedio requiere poquísimos milisegundos crear 1000 contraseñas diferentes. Usando 16 caracteres alfanuméricos, es posible obtener hasta $62^{16}$ contraseñas únicas (equivalente a $4.76*10^{28}$). 
+
+
+[^1]: Utilizo en un bloque oculto `flextable::flextable()` para imprimir la tabla con el formato adecuado. 
