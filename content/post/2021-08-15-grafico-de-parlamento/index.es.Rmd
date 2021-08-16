@@ -1,7 +1,7 @@
 ---
 title: '¿Cómo hacer un gráfico de parlamento en R?'
 author: 'Samuel Calderon'
-date: '2021-08-15'
+date: '2020-01-29'
 slug: 'grafico-de-parlamento'
 categories:
   - R
