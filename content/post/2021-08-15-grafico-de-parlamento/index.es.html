@@ -1,0 +1,92 @@
+---
+title: '¿Cómo hacer un gráfico de parlamento en R?'
+author: 'Samuel Calderon'
+date: '2021-08-15'
+slug: 'grafico-de-parlamento'
+categories:
+  - R
+tags:
+  - tutorial
+  - ggplot2
+subtitle: ''
+summary: ''
+authors: []
+lastmod: '2021-08-15T21:38:38-05:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+---
+
+<script src="{{< blogdown/postref >}}index.es_files/header-attrs/header-attrs.js"></script>
+
+
+<p>Para esta tarea vamos a hacer de uso dos paquetes principalmente: el viejo conocido <code>tidyverse</code> y también de <code>ggpol</code>, una extensión de ggplot2 desarrollada especialmente para este tipo de gráficos. <code>ggforce</code> nos servirá al final sólo para una mejora estética.</p>
+<pre class="r"><code>library(tidyverse)
+library(ggpol)
+library(ggforce)</code></pre>
+<p>Como en todo gráfico que se realiza con ggplot2, necesitamos primero contar con un <em>data.frame</em> o <em>tibble</em> que contenga la información necesaria para construirlo. La fuente primaria de estos datos es la web de la <a href="https://resultados.eleccionescongresales2020.pe/PRECE2020/">ONPE</a>, de donde se puede obtener el detalle de la votación por varios niveles de desagregación. Debido a que no es propósito de este post mostrar cómo hacer el <em>scrapping</em> de la información, ni el cálculo de las curules, voy a preferir un resumen que ya ha trabajado otra persona para graficar en base a ello.</p>
+<p>En la web de <a href="http://www.joseincio.com/post/resultados-congreso-extraordinario-2020/">José Incio</a> podemos encontrar un cuadro de la distribución de escaños del nuevo congreso peruano. Debido a que esa información aún está actualizándose según el conteo de los votos que ONPE sigue realizando, quiero hacer uso de <code>Sys.time()</code> para mostrar la hora en que estoy escribiendo este post.</p>
+<pre class="r"><code>Sys.time()</code></pre>
+<pre><code>## [1] &quot;2021-08-15 21:42:29 -05&quot;</code></pre>
+<p>Haciendo uso del add-in <em>Paste as tribble</em> que el paquete <code>datapasta</code> incluye en RStudio, puedo obtenr el <em>tibble</em> <code>congreso</code>, que no es más que un copy/paste de la tabla elaborada por José Incio disponible a esta hora.</p>
+<pre class="r"><code>votos &lt;- tibble::tribble(
+                                          ~Partido, ~Escaños,
+                                  &quot;ACCION POPULAR&quot;,      25L,
+                        &quot;ALIANZA PARA EL PROGRESO&quot;,      22L,
+   &quot;FRENTE POPULAR AGRICOLA FIA DEL PERU - FREPAP&quot;,      15L,
+                                  &quot;FUERZA POPULAR&quot;,      15L,
+                               &quot;UNION POR EL PERU&quot;,      13L,
+                  &quot;PARTIDO DEMOCRATICO SOMOS PERU&quot;,      11L,
+                                    &quot;PODEMOS PERU&quot;,      11L,
+  &quot;EL FRENTE AMPLIO POR JUSTICIA, VIDA Y LIBERTAD&quot;,       9L,
+                                  &quot;PARTIDO MORADO&quot;,       9L
+  )</code></pre>
+<p>El siguiente paso es mejorar el <em>tibble</em> de tal modo que nos permita realizar el gráfico deseado. Empezamos por agregarle un color a cada uno de los partidos presentes en el gráfico. Podemos guiarnos de una <a href="http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf">hoja de referencia</a> para escoger los colores, tomando en cuenta los colores partidarios. Podemos unir los colores a los partidos haciendo uso de <code>bind_cols()</code></p>
+<pre class="r"><code>congreso &lt;- tibble(
+  colores = c(
+  &quot;darkred&quot;,
+  &quot;dodgerblue4&quot;,
+  &quot;deepskyblue3&quot;,
+  &quot;darkorange2&quot;,
+  &quot;gold2&quot;,
+  &quot;brown3&quot;,
+  &quot;royalblue3&quot;,
+  &quot;forestgreen&quot;,
+  &quot;mediumpurple4&quot;
+)) %&gt;% 
+  bind_cols(votos)</code></pre>
+<p>Ahora que contamos con los datos, simplemente realizamos el gráfico. Hacemos uso de <code>geom_parliament()</code> del paquete <code>ggpol</code>. Tan sólo necesitamos mapear dos argumentos:</p>
+<ol style="list-style-type: decimal">
+<li><code>seats</code>: la cantidad de escaños o <em>asientos</em> obtenidos</li>
+<li><code>fill</code>: el nombre de los partidos</li>
+</ol>
+<p>Además de eso, usaremos <code>scale_fill_manual()</code> para utilizar nuestros colores personalizados y el nombre de los partidos en la leyenda del gráfico. Luego, <code>coord_fixed()</code> nos ayuda a preservar el ratio de aspecto del gráfico.</p>
+<pre class="r"><code>grafico &lt;- ggplot(congreso)+
+  geom_parliament(
+    aes(
+      seats = Escaños, 
+      fill = Partido), 
+    color = &quot;white&quot;) +
+  scale_fill_manual(
+    values = congreso$colores, 
+    labels = congreso$Partido) +
+  coord_fixed()
+
+print(grafico)</code></pre>
+<p><img src="{{< blogdown/postref >}}index.es_files/figure-html/grafico-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>Vemos que hemos obtenido el gráfico y los partidos aparecen pintados con los colores que hemos asignado. Sin embargo, aún es posible hacerle unas mejoras estéticas. Usamos <code>theme_no_axes()</code> del paquete <code>ggforce</code> para eliminar las líneas guía de nuestro plano cartesiano y quedarnos sólo con un marco negro. También usamos <code>labs()</code> para agregarle un título a nuestro gráfico y <code>theme()</code> para cambiar el tamaño de los elementos de nuestra leyenda.</p>
+<pre class="r"><code>grafico +
+  theme_no_axes() +
+  labs(
+    title = &quot;DISTRIBUCIÓN DE ESCAÑOS&quot;) +
+  theme(
+    legend.text = element_text(
+      size=5),
+    legend.key.size = unit(
+      x = 3, 
+      units = &quot;mm&quot;))</code></pre>
+<p><img src="{{< blogdown/postref >}}index.es_files/figure-html/final-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>Ya tenemos un gráfico más presentable y sencillo de replicar.</p>

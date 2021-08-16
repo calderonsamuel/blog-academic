@@ -60,7 +60,7 @@ contact_links:
 
 main_menu:
   enable: true
-  align: l
+  align: r
   show_logo: true
   show_language: false
   show_day_night: true
@@ -80,7 +80,7 @@ highlight_languages:
   - r
   - python
   - latex
-math: false
+math: true
 diagram: false
 privacy_pack: false
 edit_page:
@@ -92,11 +92,11 @@ edit_page:
     post: false
     book: false
 show_related:
-  book: true
+  book: false
   page: false
   post: true
-  project: true
-  publication: true
+  project: false
+  publication: false
   event: true
 reading_time: true
 section_pager: false
