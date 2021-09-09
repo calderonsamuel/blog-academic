@@ -1,9 +1,14 @@
+="======"
 ~%2FR%2Fblog-academic%2FR%2Fbuild.R="FF6FA906"
 ~%2FR%2Fblog-academic%2FR%2Fbuild2.R="A4066F28"
+<<<<<<< HEAD
 ~%2FR%2Fblog-academic%2FREADME.Rmd="3B9641F3"
+=======
+~%2FR%2Fblog-academic%2FREADME.Rmd="1EEF47A4"
+>>>>>>> main
 ~%2FR%2Fblog-academic%2Fconfig%2F_default%2Flanguages.yaml="CF54801C"
 ~%2FR%2Fblog-academic%2Fconfig%2F_default%2Fmenus.yaml="180C14F1"
-~%2FR%2Fblog-academic%2Fconfig%2F_default%2Fparams.yaml="94AD0490"
+~%2FR%2Fblog-academic%2Fconfig%2F_default%2Fparams.yaml="250E7705"
 ~%2FR%2Fblog-academic%2Fconfig.yaml="C4522182"
 ~%2FR%2Fblog-academic%2Fcontent%2Fadmin%2Findex.md="7DC48792"
 ~%2FR%2Fblog-academic%2Fcontent%2Fauthors%2F%C3%95%C3%89%E2%94%82%C2%B5%C3%BC%C2%AE%C3%9A%C3%BC%C3%B6%2F_index.md="C17D5728"
@@ -34,5 +39,6 @@
 ~%2FR%2Fblog-academic%2Fnetlify.toml="37BAF7FE"
 ~%2FR%2Fblog-academic%2Fthemes%2Fgithub.com%2Fwowchemy%2Fwowchemy-hugo-modules%2Fwowchemy%2Fv5%2Fdata%2Fthemes%2Fearth.toml="722F49B0"
 ~%2FR%2Fblog-academic%2Fthemes%2Fgithub.com%2Fwowchemy%2Fwowchemy-hugo-modules%2Fwowchemy%2Fv5%2Fdata%2Fthemes%2Fminimal.toml="6012D9C7"
+~%2FR%2Fblog-academic%2Fthemes%2Fgithub.com%2Fwowchemy%2Fwowchemy-hugo-modules%2Fwowchemy%2Fv5%2Fdata%2Fthemes%2Fmy_theme.toml="AB4C39DE"
 ~%2FR%2Fblog-academic%2Fthemes%2Fgithub.com%2Fwowchemy%2Fwowchemy-hugo-modules%2Fwowchemy%2Fv5%2Fdata%2Fthemes%2Focean.toml="3C6C4C5D"
 ~%2FR%2Fblog-academic%2Fthemes%2Fgithub.com%2Fwowchemy%2Fwowchemy-hugo-modules%2Fwowchemy%2Fv5%2Fi18n%2Fen.yaml="E39B10AD"
