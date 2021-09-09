@@ -5,7 +5,7 @@
 
 # Appearance
 
-theme: minimal
+theme: my_theme
 day_night: true
 font: ''
 font_size: L
@@ -20,46 +20,47 @@ twitter: ''
 
 # Contact (edit or remove options as required)
 
-email: test@example.org
-phone: 888 888 88 88
+phone: ''
+email: samuel.calderon@uarm.pe
 address:
-  street: 450 Serra Mall
-  city: Stanford
-  region: CA
-  postcode: '94305'
-  country: United States
-  country_code: US
+  street: ''
+  city: ''
+  region: ''
+  postcode: ''
+  country: ''
+  country_code: ''
 coordinates:
-  latitude: '37.4275'
-  longitude: '-122.1697'
-directions: Enter Building 1 and take the stairs to Office 200 on Floor 2
+  latitude: 
+  longitude: ''
+directions: ''
 office_hours:
-  - 'Monday 10:00 to 13:00'
-  - 'Wednesday 09:00 to 10:00'
-appointment_url: 'https://calendly.com'
+  - 'Lunes 19:00 a 20:00'
+  - 'Miércoles 19:00 a 20:00'
+  - 'Viernes 19:00 a 20:00'
+appointment_url: 'https://calendly.com/samuelcalderon/short'
 contact_links:
   - icon: twitter
     icon_pack: fab
     name: DM Me
-    link: 'https://twitter.com/Twitter'
-  - icon: skype
-    icon_pack: fab
-    name: Skype Me
-    link: 'skype:echo123?call'
-  - icon: keybase
-    icon_pack: fab
-    name: Chat on Keybase
-    link: 'https://keybase.io/'
-  - icon: comments
-    icon_pack: fas
-    name: Discuss on Forum
-    link: 'https://discourse.gohugo.io'
+    link: 'https://twitter.com/samuel__case'
+  # - icon: skype
+  #   icon_pack: fab
+  #   name: Skype Me
+  #   link: 'skype:echo123?call'
+  # - icon: keybase
+  #   icon_pack: fab
+  #   name: Chat on Keybase
+  #   link: 'https://keybase.io/'
+  # - icon: comments
+  #   icon_pack: fas
+  #   name: Discuss on Forum
+  #   link: 'https://discourse.gohugo.io'
 
 # Site header
 
 main_menu:
   enable: true
-  align: l
+  align: r
   show_logo: true
   show_language: false
   show_day_night: true
@@ -79,7 +80,7 @@ highlight_languages:
   - r
   - python
   - latex
-math: false
+math: true
 diagram: false
 privacy_pack: false
 edit_page:
@@ -91,11 +92,11 @@ edit_page:
     post: false
     book: false
 show_related:
-  book: true
+  book: false
   page: false
   post: true
-  project: true
-  publication: true
+  project: false
+  publication: false
   event: true
 reading_time: true
 section_pager: false
@@ -147,7 +148,7 @@ map:
   api_key: ''
   zoom: 15
 marketing:
-  google_analytics: ''
+  google_analytics: 'UA-157291344-1'
   google_tag_manager: ''
   google_site_verification: ''
   baidu_site_verification: ''

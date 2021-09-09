@@ -1,0 +1,51 @@
+---
+title: Inicios
+author: 'Samuel Calderon'
+date: '2020-01-13'
+slug: inicios
+categories:
+  - R
+tags:
+  - R Markdown
+subtitle: ''
+summary: ''
+authors: []
+lastmod: '2021-08-15T19:58:03-05:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+---
+
+## ¿Para qué un blog?
+Este blog se hace con la intención de compartir diferentes tipos de trabajo. Desde el año pasado emprendí la tarea de aprender el lenguaje R por mi cuenta, para ello me valí de varias plataformas en las que a través de artículos, videos, tutoriales y otros, he podido alcanzar un nivel más o menos avanzado en la comprensión del lenguaje. 
+
+## La importancia de RStudio
+Quiero resaltar que ha sido particularmente beneficioso que la comunidad que utiliza R es, además, especialmente activa en lo que respecta a enseñar a otros a utilizar dicha herramienta. Entre ellos destaco el trabajo que hace el equipo de [RStudio](https://rstudio.com/), quienes además de desarrollar el IDE más utilizado actualmente para trabajar con R, han desarrollado una serie de paquetes que facilitan el acceso al mundo del famoso "Data Science" bajo la filosofía del [tidyverse](https://www.tidyverse.org/). Hago una mención honrosa al paquete *blogdown*, que me permite desarrollar esta web de una manera bastante sencilla.
+
+## Pequeña reseña
+Debo decir que este no es mi primer intento de tener un espacio virtual. El año 2013, cuando estaba en mi tercer año universitario, junto a un grupo de la carrera desarrollamos en Wordpress un blog llamado *Polinóptico* que tenía la intención de ser un espacio en el que estudiantes de la carrera de Ciencia Política de la Universidad Antonio Ruiz de Montoya pudieran compartir sus trabajos y ser leídos por quien quisiera. Lamentablemente ese entusiasmo no llegó a la masa de estudiantes de la carrera, y el blog murió, no sin antes haber tenido varios intentos de ser revivido. 
+
+Ese mismo año llevé una clase de estadística dictada por [José Incio](http://www.joseincio.com/) en la que me fue bien. En esa clase conocí por primera vez el lenguaje R. Incio nos enseñaba conceptos de estadística descriptiva e inferencial ayudándose de scripts de R que tenía guardados, en algunas ocasiones editándolos en vivo para algún tipo de personalización, especialmente cuando se trataba de gráficos. A pesar de que trató de enseñarnos los beneficios de usar R, al final preferí prestar más atención al aprendizaje de SPSS en las clases de práctica porque resultaba más intuitivo y cercano a lo que ya conocía, Excel.
+
+En los años siguientes, no tuve necesidad de usar ni Excel, ni SPSS, ni R para **ningún** trabajo de la universidad (no exagero), ni para ningún trabajo pagado eventual. La única excepción a esto fue la clase de Análisis de Regresión dictada por la gran Heidi Sada durante mi intercambio en la Ibero, Ciudad de México.
+
+El 2014 alguien que no recuerdo ahora me presentó la plataforma Coursera en la que se podían llevar cursos MOOC de buena calidad y gratuitos. Después de llevar algunos por curiosidad, en setiembre del 2017 decidí llevar la "Data Science Specialization" de la Universidad de John Hopkins, que hacía uso intensivo de R en sus explicaciones. Fue mi segundo acercamiento al lenguaje y el primero al IDE RStudio. No terminé la especialización en Coursera porque los últimos módulos se me complicaron demasiado, y además ya tenía otro proyecto en mente.
+
+Todo este interludio sobre mi llegada a R es para decir que en el verano 2018 decidí tener un blog propio en Wordpress en el que haría tutoriales sobre R. Un plan bastante ambicioso para alguien que apenas había empezado a conocer lo más básico del lenguaje. Logré hacer dos entradas, la primera sobre cómo instalar R y la segunda sobre cómo instalar RStudio. La idea era ir aprendiendo R e ir haciendo tutoriales de lo que acababa de aprender. Nunca hice público el blog porque ahí murió. Nunca le agregué más contenido.
+
+Lo que sí hice ese año fue estudiar estadística aplicada y SPSS en la escuela del [INEI](https://www.inei.gob.pe/enei/). Aunque aprendí bastante en estos cursos, el mayor uso que le encontré fue convencerme de que R era superior.
+
+Fue recién en enero del 2019 que se juntaron varias cosas que me permitieron aprender realmente el lenguaje:
+
+1. No tenía trabajo, por lo tanto tampoco tenía dinero para matricularme en cursos. 
+2. Mi enamorada se fue de viaje por varios meses y yo sentía que necesitaba tener el tiempo y la cabeza ocupados en algo productivo.
+3. Esta es más de ñoño. No me gusta salir en verano porque hace mucho calor en la calle y el sol es horrible, así que me la pasaba todo el tiempo en mi casa.
+
+Así fue que terminé en tiempo récord el programa de estudios *Data Scientist with R* de la plataforma [Datacamp](https://www.datacamp.com/) e hice una shiny [app](https://samuelcalderon.shinyapps.io/ver1-0/) para no olvidar lo que estaba aprendiendo.
+
+Durante el resto del año hice todo lo posible para usar R con cualquier excusa. En esto fue de gran ayuda conocer la existencia de [RStudio.cloud](https://rstudio.cloud/) porque me permitió usar R en el trabajo sin necesidad de pedir permiso a la oficina de tecnologías de la información para instalarlo.
+
+Creé este blog en setiembre 2019 para mantener activo mi conocimiento de las funciones de los paquetes `blogdown` y `Rmarkdown`. Este es el tercer intento de blog, y para asegurarme de que funcione, esta vez lo hago público el mismo día en que me compro el dominio. Si cuento con lectores estaré muy agradecido de que me hagan llegar sugerencias de temas a tratar en el futuro. No soy un politólogo que bloguea sobre R, sino un politólogo que usa R para bloguear.
