@@ -10,9 +10,9 @@ main:
   - name: Blog
     url: '/post/'
     weight: 20
-  # - name: Proyectos
-  #   url: '/project/'
-  #   weight: 30
+  - name: Proyectos
+    url: '/project/'
+    weight: 30
   # - name: Presentaciones
   #   url: '#talks'
   #   weight: 40
