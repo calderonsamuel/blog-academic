@@ -23,13 +23,13 @@ projects: []
 
 
 <p>Por cuestiones de trabajo, en los últimos meses tuve necesidad de dibujar mapas y usar las cifras del <a href="https://www.inei.gob.pe/media/MenuRecursivo/publicaciones_digitales/Est/Lib1718/Libro.pdf">Mapa de Pobreza 2018</a> del INEI. En ambos casos, conseguir que la data se encuentre en un formato ordenado que permita trabajar de manera sencilla no fue fácil de lograr.</p>
-<p>Para que otras personas no tengan que pasar por ese mismo <em>entretenimiento</em>, desarrollé dos paquetes que contienen la data lista para usar. De paso, creé la sección de <a href="/project">proyectos</a> en mi web, donde alojaré nuevos paquetes o apps que cree en el futuro.</p>
+<p>Para que otras personas no tengan que pasar por ese mismo <em>entretenimiento</em>, desarrollé dos paquetes que contienen la data lista para usar. De paso, creé la sección de <a href="/project">proyectos</a> en mi web, donde alojaré nuevos paquetes o apps que cree en el futuro. Cada paquete tiene su propia web y repositorio en Github.</p>
 <p>Con <code>{perumapas}</code> se puede obtener las geometrías necesarias para dibujar los mapas y con <code>{perupobreza2018}</code> se puede usar las cifras del mapa de pobreza, incluyendo una columna calculada de cifra de pobreza monetaria.</p>
 <p>A continuación, un ejemplo para ver cómo trabajan en conjunto.</p>
 <pre class="r"><code>library(perupobreza2018)
 library(perumapas)
 library(sf) # obligatorio para perumapas
-library(tidyverse) # opcional</code></pre>
+library(tidyverse) # para transformación y gráficos</code></pre>
 <p>Con <code>{perumapas}</code> es sencillo realizar mapas a nivel regional, provincial y distrital. Por ejemplo, el mapa de las regiones del Perú.</p>
 <pre class="r"><code>mapa_regional %&gt;% 
     ggplot() +
