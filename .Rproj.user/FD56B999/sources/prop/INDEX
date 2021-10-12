@@ -1,4 +1,5 @@
 ="======"
+~%2FR%2Fblog-academic%2F.gitignore="07AF1E7A"
 ~%2FR%2Fblog-academic%2FR%2Fbuild.R="FF6FA906"
 ~%2FR%2Fblog-academic%2FR%2Fbuild2.R="A4066F28"
 ~%2FR%2Fblog-academic%2FREADME.Rmd="1EEF47A4"
@@ -21,6 +22,7 @@
 ~%2FR%2Fblog-academic%2Fcontent%2Fhome%2Fhero.md="3CA986F5"
 ~%2FR%2Fblog-academic%2Fcontent%2Fhome%2Findex.md="9DE8D4D5"
 ~%2FR%2Fblog-academic%2Fcontent%2Fhome%2Fposts.md="69C16C46"
+~%2FR%2Fblog-academic%2Fcontent%2Fhome%2Fprojects.md="8EC2665E"
 ~%2FR%2Fblog-academic%2Fcontent%2Fhome%2Fpublications.md="FCEFA08A"
 ~%2FR%2Fblog-academic%2Fcontent%2Fhome%2Fskills.md="933A8500"
 ~%2FR%2Fblog-academic%2Fcontent%2Fhome%2Ftags.md="EF22BA09"
