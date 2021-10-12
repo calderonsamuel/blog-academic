@@ -1,4 +1,7 @@
 C:/Users/Samuel/Documents/R/blog-academic/.Rprofile="BCF024E2"
+C:/Users/Samuel/Documents/R/blog-academic/.Rproj.user/FD56B999/sources/prop/3CA986F5="BD41B5FB"
+C:/Users/Samuel/Documents/R/blog-academic/.Rproj.user/FD56B999/sources/prop/INDEX="E27AAE86"
+C:/Users/Samuel/Documents/R/blog-academic/.gitignore="E828612E"
 C:/Users/Samuel/Documents/R/blog-academic/R/build.R="30BA942E"
 C:/Users/Samuel/Documents/R/blog-academic/R/build2.R="941D63C1"
 C:/Users/Samuel/Documents/R/blog-academic/README.Rmd="4DBF76A8"
@@ -26,6 +29,8 @@ C:/Users/Samuel/Documents/R/blog-academic/content/home/publications.md="541C74E0
 C:/Users/Samuel/Documents/R/blog-academic/content/home/skills.md="FC0362F9"
 C:/Users/Samuel/Documents/R/blog-academic/content/home/tags.md="01F959A0"
 C:/Users/Samuel/Documents/R/blog-academic/content/home/talks.md="DAEEEA32"
+C:/Users/Samuel/Documents/R/blog-academic/content/paquetes/perumapas/index.md="7E143185"
+C:/Users/Samuel/Documents/R/blog-academic/content/paquetes/perupobreza2018/index.md="3EDDFFE8"
 C:/Users/Samuel/Documents/R/blog-academic/content/post/2020-01-13-inicios/index.es.Rmd="CAE68A8A"
 C:/Users/Samuel/Documents/R/blog-academic/content/post/2020-01-15-cedula-2020-ggplot2-parte-1/index.es.Rmd="8D328E84"
 C:/Users/Samuel/Documents/R/blog-academic/content/post/2020-01-15-cedula-2020-ggplot2-parte-1/index.es.html="C5C1402B"
@@ -37,7 +42,7 @@ C:/Users/Samuel/Documents/R/blog-academic/content/post/2021-01-24-cedula-2020-gg
 C:/Users/Samuel/Documents/R/blog-academic/content/post/2021-08-15-grafico-de-parlamento/index.es.Rmd="E147A9AC"
 C:/Users/Samuel/Documents/R/blog-academic/content/post/_index.md="87C4C667"
 C:/Users/Samuel/Documents/R/blog-academic/content/privacy.md="A982EB85"
-C:/Users/Samuel/Documents/R/blog-academic/content/project/internal-project/index.md="C333D5E6"
+C:/Users/Samuel/Documents/R/blog-academic/content/project/calculadora-renacyt/index.md="563ACF39"
 C:/Users/Samuel/Documents/R/blog-academic/content/slides/example/index.md="52B34156"
 C:/Users/Samuel/Documents/R/blog-academic/content/terms.md="9429EA12"
 C:/Users/Samuel/Documents/R/blog-academic/index.Rmd="92B76973"
@@ -56,10 +61,7 @@ C:/Users/Samuel/Documents/R/blog-academic/themes/github.com/wowchemy/wowchemy-hu
 C:/Users/Samuel/Documents/R/blog-academic/themes/github.com/wowchemy/wowchemy-hugo-modules/wowchemy/v5/data/themes/earth.toml="BF82C428"
 C:/Users/Samuel/Documents/R/blog-academic/themes/github.com/wowchemy/wowchemy-hugo-modules/wowchemy/v5/data/themes/minimal.toml="C0EF3E92"
 C:/Users/Samuel/Documents/R/blog-academic/themes/github.com/wowchemy/wowchemy-hugo-modules/wowchemy/v5/data/themes/mr_robot.toml="2FA4668A"
-<<<<<<< HEAD
-=======
 C:/Users/Samuel/Documents/R/blog-academic/themes/github.com/wowchemy/wowchemy-hugo-modules/wowchemy/v5/data/themes/my_theme.toml="0AA0243B"
->>>>>>> main
 C:/Users/Samuel/Documents/R/blog-academic/themes/github.com/wowchemy/wowchemy-hugo-modules/wowchemy/v5/data/themes/ocean.toml="5AF2C4C7"
 C:/Users/Samuel/Documents/R/blog-academic/themes/github.com/wowchemy/wowchemy-hugo-modules/wowchemy/v5/data/themes/rose.toml="0187135A"
 C:/Users/Samuel/Documents/R/blog-academic/themes/github.com/wowchemy/wowchemy-hugo-modules/wowchemy/v5/data/themes/strawberry.toml="73912CEF"
