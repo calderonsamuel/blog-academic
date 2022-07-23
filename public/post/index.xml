@@ -1,0 +1,807 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts | Samuel Enrique</title>
+    <link>https://academic-demo.netlify.app/post/</link>
+      <atom:link href="https://academic-demo.netlify.app/post/index.xml" rel="self" type="application/rss+xml" />
+    <description>Posts</description>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>es-pe</language><lastBuildDate>Tue, 12 Oct 2021 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>https://academic-demo.netlify.app/media/logo_hu1da6768c2a734c01a8ccbdd7b5277e1b_24707_300x300_fit_lanczos_3.png</url>
+      <title>Posts</title>
+      <link>https://academic-demo.netlify.app/post/</link>
+    </image>
+    
+    <item>
+      <title>Dos paquetes para mapas peruanos</title>
+      <link>https://academic-demo.netlify.app/post/dos-paquetes-para-mapas-peruanos/</link>
+      <pubDate>Tue, 12 Oct 2021 00:00:00 +0000</pubDate>
+      <guid>https://academic-demo.netlify.app/post/dos-paquetes-para-mapas-peruanos/</guid>
+      <description>
+&lt;script src=&#34;https://academic-demo.netlify.app/post/dos-paquetes-para-mapas-peruanos/index.es_files/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
+
+
+&lt;p&gt;Por cuestiones de trabajo, en los últimos meses tuve necesidad de dibujar mapas y usar las cifras del &lt;a href=&#34;https://www.inei.gob.pe/media/MenuRecursivo/publicaciones_digitales/Est/Lib1718/Libro.pdf&#34;&gt;Mapa de Pobreza 2018&lt;/a&gt; del INEI. En ambos casos, conseguir que la data se encuentre en un formato ordenado que permita trabajar de manera sencilla no fue fácil de lograr.&lt;/p&gt;
+&lt;p&gt;Para que otras personas no tengan que pasar por ese mismo &lt;em&gt;entretenimiento&lt;/em&gt;, desarrollé dos paquetes que contienen la data lista para usar. De paso, creé la sección de &lt;a href=&#34;https://academic-demo.netlify.app/project&#34;&gt;proyectos&lt;/a&gt; en mi web, donde alojaré nuevos paquetes o apps que cree en el futuro. Cada paquete tiene su propia web y repositorio en Github.&lt;/p&gt;
+&lt;p&gt;Con &lt;code&gt;{perumapas}&lt;/code&gt; se puede obtener las geometrías necesarias para dibujar los mapas y con &lt;code&gt;{perupobreza2018}&lt;/code&gt; se puede usar las cifras del mapa de pobreza, incluyendo una columna calculada de cifra de pobreza monetaria.&lt;/p&gt;
+&lt;p&gt;A continuación, un ejemplo para ver cómo trabajan en conjunto.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(perupobreza2018)
+library(perumapas)
+library(sf) # obligatorio para perumapas
+library(tidyverse) # para transformación y gráficos&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Con &lt;code&gt;{perumapas}&lt;/code&gt; es sencillo realizar mapas a nivel regional, provincial y distrital. Por ejemplo, el mapa de las regiones del Perú.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;mapa_regional %&amp;gt;% 
+    ggplot() +
+    geom_sf()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://academic-demo.netlify.app/post/dos-paquetes-para-mapas-peruanos/index.es_files/figure-html/unnamed-chunk-2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;El mapa de los distritos de la provincia de Lima:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;mapa_distrital %&amp;gt;% 
+    filter(departamento == &amp;quot;LIMA&amp;quot;, provincia == &amp;quot;LIMA&amp;quot;) %&amp;gt;% 
+    ggplot() +
+    geom_sf()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://academic-demo.netlify.app/post/dos-paquetes-para-mapas-peruanos/index.es_files/figure-html/unnamed-chunk-3-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Con &lt;code&gt;{perupobreza2018}&lt;/code&gt; podemos añadirle una capa de información a cualquier mapa distrital. Para ello, primero se hace un join/merge entre los datos.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;pobreza_lima &amp;lt;- mapa_distrital %&amp;gt;% 
+    filter(departamento == &amp;quot;LIMA&amp;quot;, provincia == &amp;quot;LIMA&amp;quot;) %&amp;gt;% 
+    left_join(pobreza2018, by = &amp;quot;ubigeo&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Con este cruce, podemos colorear cada distrito según su cifra de pobreza monetaria.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;pobreza_lima %&amp;gt;% 
+    ggplot() +
+    geom_sf(aes(fill = pobreza_monetaria))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://academic-demo.netlify.app/post/dos-paquetes-para-mapas-peruanos/index.es_files/figure-html/unnamed-chunk-5-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Evidentemente, también es posible usar los paquetes de manera independiente. El nivel de personalización de los mapas generados dependerá del conocimiento en R y el paquete &lt;code&gt;{ggplot2}&lt;/code&gt; .&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Código noob de JS</title>
+      <link>https://academic-demo.netlify.app/post/codigo-noob-de-js/</link>
+      <pubDate>Sat, 25 Apr 2020 00:00:00 +0000</pubDate>
+      <guid>https://academic-demo.netlify.app/post/codigo-noob-de-js/</guid>
+      <description>
+&lt;script src=&#34;https://academic-demo.netlify.app/post/codigo-noob-de-js/index.es_files/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
+
+
+&lt;p&gt;Este es sólo un recordatorio de un código escrito en JavaScript mientras aprendía, para recordarle a mi yo futuro que ya debería conocer una mejor forma de hacerlo.&lt;/p&gt;
+&lt;div id=&#34;basic-algorithm-scripting-mutations&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Basic Algorithm Scripting: Mutations&lt;/h2&gt;
+&lt;p&gt;Return true if the string in the first element of the array contains all of the letters of the string in the second element of the array.&lt;/p&gt;
+&lt;p&gt;For example, [“hello”, “Hello”], should return true because all of the letters in the second string are present in the first, ignoring case.&lt;/p&gt;
+&lt;p&gt;The arguments [“hello”, “hey”] should return false because the string “hello” does not contain a “y”.&lt;/p&gt;
+&lt;p&gt;Lastly, [“Alien”, “line”], should return true because all of the letters in “line” are present in “Alien”.&lt;/p&gt;
+&lt;pre class=&#34;js&#34;&gt;&lt;code&gt;function mutation(arr) {
+  // a minusculas las dos palabras
+  let arr2 = arr.map(el =&amp;gt; el.toLowerCase());
+  // segunda palabra a array
+  let word2 = arr2[1].split(&amp;quot;&amp;quot;);
+  // indice de aparicion de letra de palabra 2 en palabra 1
+  let indices = word2.map(el =&amp;gt; arr2[0].search(el));
+  // test logico para ver si existe un &amp;#39;-1&amp;#39; en indices
+  let bool = indices.map(el =&amp;gt; el &amp;gt;= 0);
+  // se ordena el array bool y se obtiene el primer elemento
+  // si hay &amp;#39;false&amp;#39; siempre estará delante
+  return bool.sort()[0];
+}
+
+let res = mutation([&amp;quot;Hello&amp;quot;, &amp;quot;hey&amp;quot;]);
+//let res2 = [true, false, true, false];
+console.log(res);
+
+
+&amp;gt;false&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Propuesta para elegir preguntas en conferencia de prensa</title>
+      <link>https://academic-demo.netlify.app/post/propuesta-para-elegir-preguntas-en-conferencia-de-prensa/</link>
+      <pubDate>Sat, 18 Apr 2020 00:00:00 +0000</pubDate>
+      <guid>https://academic-demo.netlify.app/post/propuesta-para-elegir-preguntas-en-conferencia-de-prensa/</guid>
+      <description>
+&lt;script src=&#34;https://academic-demo.netlify.app/post/propuesta-para-elegir-preguntas-en-conferencia-de-prensa/index.es_files/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
+&lt;link href=&#34;https://academic-demo.netlify.app/post/propuesta-para-elegir-preguntas-en-conferencia-de-prensa/index.es_files/tabwid/tabwid.css&#34; rel=&#34;stylesheet&#34; /&gt;
+
+
+&lt;div id=&#34;el-motivo&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;El motivo&lt;/h2&gt;
+&lt;p&gt;Casi todos los días vemos las conferencias de prensa que el presidente brinda. En ellas nos da las nuevas cifras importantes acerca del avance del covid19, nuevas medidas del gobierno y respuestas a preguntas de la prensa. Respecto a este último punto, no se conoce de fuentes oficiales la metodología a través de la cuál se realiza la elección de preguntas de la prensa. No me ha parecido que se hayan estado escogiendo preguntas malas, pero me quedé con la duda.&lt;/p&gt;
+&lt;p&gt;Decidí consultarle a internet. El único medio que reportó algo acerca del tema fue &lt;a href=&#34;https://libero.pe/ocio/1553598-coronavirus-peru-preguntas-presidente-martin-vizcarra-covid-19-whatsapp&#34;&gt;Líbero&lt;/a&gt; (muy para mi sorpresa), y en realidad se trató de un artículo acerca de un hilo en twitter realizado por Eloy Marchán.&lt;/p&gt;
+&lt;blockquote class=&#34;twitter-tweet&#34; data-lang=&#34;es&#34;&gt;
+&lt;p lang=&#34;es&#34; dir=&#34;ltr&#34;&gt;
+(1/4) ¿Cómo salen las preguntas que el presidente &lt;a href=&#34;https://twitter.com/MartinVizcarraC?ref_src=twsrc%5Etfw&#34;&gt;&lt;span class=&#34;citation&#34;&gt;@MartinVizcarraC&lt;/span&gt;&lt;/a&gt; responde en las “conferencias de prensa” que da cada día?&lt;br&gt;-Hay un chat de Whatsapp llamado “Actividades Palacio”, lo administran los funcionarios Gabriela Carrillo y Juan Francisco Celis y tiene 172 integrantes. &lt;a href=&#34;https://t.co/Fc43JZRj3n&#34;&gt;pic.twitter.com/Fc43JZRj3n&lt;/a&gt;
+&lt;/p&gt;
+— Eloy Marchán (&lt;span class=&#34;citation&#34;&gt;@eloymarchan&lt;/span&gt;) &lt;a href=&#34;https://twitter.com/eloymarchan/status/1250922549120315392?ref_src=twsrc%5Etfw&#34;&gt;16 de abril de 2020&lt;/a&gt;
+&lt;/blockquote&gt;
+&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+&lt;p&gt;En pocas palabras, según su explicación, existe un grupo de Whatsapp integrado por funcionarios y periodistas de varios medios de comunicación a través del cual se les comunica qué medios podrán enviar sus preguntas, que luego son respondidas en la conferencia de prensa. Los medios son escogidos a través de un sorteo.&lt;/p&gt;
+&lt;p&gt;El asunto es que, según Marchán, no se sabe en qué consiste ese sorteo. Yo creo que es una duda razonable, e innecesaria de mantener porque podría tener una solución muy simple.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;la-propuesta&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;La propuesta&lt;/h2&gt;
+&lt;p&gt;Esta propuesta se basa en el supuesto de que es mejor hacer un sorteo de preguntas y no uno de medios de comunicación.&lt;/p&gt;
+&lt;div id=&#34;paso-1-recolectar-las-preguntas&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Paso 1: Recolectar las preguntas&lt;/h3&gt;
+&lt;p&gt;Para esto se puede usar un servicio de recolección de formularios/encuestas, como el de Google Forms. Basta con tener dos campos de llenado en el formulario: uno de identificación y uno en el que se brinde el detalle de la pregunta.&lt;/p&gt;
+&lt;p&gt;El campo de identificación necesitaría que los medios ingresen una contraseña que previamente los funcionarios les hayan brindado. La contraseña es única por medio de comunicación y, para mayor seguridad, puede ser actualizada diariamente.&lt;/p&gt;
+&lt;p&gt;En el segundo campo de llenado los medios de comunicación ingresan sus preguntas. Se podría poner un límite de caracteres para asegurar que la pregunta no sea más larga que la respuesta que se brindará.&lt;/p&gt;
+&lt;p&gt;Aquí debajo pongo un formulario de ejemplo en el que sólo se puede llenar el campo de pregunta si se ingresa primero una contraseña adecuada. La contraseña de este formulario consiste de 16 caracteres alfanuméricos aleatorios.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Contraseña: sEcVwNCLpKqf8oH3&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;iframe src=&#34;https://docs.google.com/forms/d/e/1FAIpQLSfL_zYqFoWp7t0spC-fQ86Oe3TNZ8pttDaglfkGK_bvE75eyw/viewform?embedded=true&#34; width=&#34;100%&#34; height=&#34;333&#34; frameborder=&#34;0&#34; marginheight=&#34;0&#34; marginwidth=&#34;0&#34;&gt;
+Cargando…
+&lt;/iframe&gt;
+&lt;p&gt;Después de llenar algunas preguntas en el formulario, obtuve la siguiente tabla. Esta tabla se irá actualizando conforme le lleguen nuevas preguntas.&lt;/p&gt;
+&lt;iframe width=&#34;100%&#34; height=&#34;350px&#34; src=&#34;https://docs.google.com/spreadsheets/d/e/2PACX-1vQkF8DydOAYAGXVHuUi8oLBUZX1nBqKUBb9JUbVAT4EnZ9GVmhYEINYZNQ8pNC1Gax2ZXZCcd01kS7W/pubhtml?gid=1524799486&amp;amp;single=true&amp;amp;widget=true&amp;amp;headers=false&#34;&gt;
+&lt;/iframe&gt;
+&lt;p&gt;Para trabajar el ejemplo, tomaré las cuatro (4) observaciones que yo ingresé. Con un cambio en los encabezados y un nuevo formato la tabla se ve así.&lt;/p&gt;
+&lt;template id=&#34;d902e201-318d-48b8-bfef-eb52ee552f33&#34;&gt;&lt;style&gt;
+.tabwid table{
+  border-collapse:collapse;
+  line-height:1;
+  margin-left:auto;
+  margin-right:auto;
+  border-width: 0;
+  display: table;
+  margin-top: 1.275em;
+  margin-bottom: 1.275em;
+  border-spacing: 0;
+  border-color: transparent;
+}
+.tabwid_left table{
+  margin-left:0;
+}
+.tabwid_right table{
+  margin-right:0;
+}
+.tabwid td {
+    padding: 0;
+}
+.tabwid a {
+  text-decoration: none;
+}
+.tabwid thead {
+    background-color: transparent;
+}
+.tabwid tfoot {
+    background-color: transparent;
+}
+.tabwid table tr {
+background-color: transparent;
+}
+&lt;/style&gt;&lt;div class=&#34;tabwid&#34;&gt;&lt;style&gt;.cl-a1411490{border-collapse:collapse;}.cl-a1286058{font-family:&#39;Arial&#39;;font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-a128ae6e{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-a12971be{width:122.7pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a12971bf{width:975.1pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a12971c0{width:125.1pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a12971c1{width:975.1pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a12971c2{width:122.7pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a12971c3{width:125.1pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a12971c4{width:125.1pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a12971c5{width:122.7pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a12971c6{width:975.1pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a12971c7{width:125.1pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a12971c8{width:122.7pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a12998c4{width:975.1pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}&lt;/style&gt;&lt;table class=&#39;cl-a1411490&#39;&gt;
+&lt;thead&gt;&lt;tr style=&#34;overflow-wrap:break-word;&#34;&gt;&lt;td class=&#34;cl-a12971c8&#34;&gt;&lt;p class=&#34;cl-a128ae6e&#34;&gt;&lt;span class=&#34;cl-a1286058&#34;&gt;Hora&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class=&#34;cl-a12971c7&#34;&gt;&lt;p class=&#34;cl-a128ae6e&#34;&gt;&lt;span class=&#34;cl-a1286058&#34;&gt;Contraseña&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class=&#34;cl-a12998c4&#34;&gt;&lt;p class=&#34;cl-a128ae6e&#34;&gt;&lt;span class=&#34;cl-a1286058&#34;&gt;Pregunta&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr style=&#34;overflow-wrap:break-word;&#34;&gt;&lt;td class=&#34;cl-a12971be&#34;&gt;&lt;p class=&#34;cl-a128ae6e&#34;&gt;&lt;span class=&#34;cl-a1286058&#34;&gt;2020-04-17 22:34:32&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class=&#34;cl-a12971c0&#34;&gt;&lt;p class=&#34;cl-a128ae6e&#34;&gt;&lt;span class=&#34;cl-a1286058&#34;&gt;sEcVwNCLpKqf8oH3&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class=&#34;cl-a12971bf&#34;&gt;&lt;p class=&#34;cl-a128ae6e&#34;&gt;&lt;span class=&#34;cl-a1286058&#34;&gt;En vista de las observaciones emitidas por los especialistas Fulano, Mengana y Sotana acerca de la medida X, ¿cuál será la nueva estrategia del gobierno?&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;overflow-wrap:break-word;&#34;&gt;&lt;td class=&#34;cl-a12971c2&#34;&gt;&lt;p class=&#34;cl-a128ae6e&#34;&gt;&lt;span class=&#34;cl-a1286058&#34;&gt;2020-04-17 22:38:38&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class=&#34;cl-a12971c3&#34;&gt;&lt;p class=&#34;cl-a128ae6e&#34;&gt;&lt;span class=&#34;cl-a1286058&#34;&gt;sEcVwNCLpKqf8oH3&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class=&#34;cl-a12971c1&#34;&gt;&lt;p class=&#34;cl-a128ae6e&#34;&gt;&lt;span class=&#34;cl-a1286058&#34;&gt;Las periodistas Fulana y Mengana denunciaron los hechos 1 y 2 ocurridos en las regiones X y Z. ¿Qué medidas está tomando el ministerio A para prevenir que vuelvan a ocurrir?&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;overflow-wrap:break-word;&#34;&gt;&lt;td class=&#34;cl-a12971be&#34;&gt;&lt;p class=&#34;cl-a128ae6e&#34;&gt;&lt;span class=&#34;cl-a1286058&#34;&gt;2020-04-17 22:40:27&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class=&#34;cl-a12971c0&#34;&gt;&lt;p class=&#34;cl-a128ae6e&#34;&gt;&lt;span class=&#34;cl-a1286058&#34;&gt;sEcVwNCLpKqf8oH3&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class=&#34;cl-a12971bf&#34;&gt;&lt;p class=&#34;cl-a128ae6e&#34;&gt;&lt;span class=&#34;cl-a1286058&#34;&gt;Los médicos de la provincia A de la región X denunciaron la falta de material en el hospital regional. ¿Desde cuándo se tenía conocimiento de este hecho y por qué no se logró enfrentar a tiempo?&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;overflow-wrap:break-word;&#34;&gt;&lt;td class=&#34;cl-a12971c5&#34;&gt;&lt;p class=&#34;cl-a128ae6e&#34;&gt;&lt;span class=&#34;cl-a1286058&#34;&gt;2020-04-17 22:42:12&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class=&#34;cl-a12971c4&#34;&gt;&lt;p class=&#34;cl-a128ae6e&#34;&gt;&lt;span class=&#34;cl-a1286058&#34;&gt;sEcVwNCLpKqf8oH3&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class=&#34;cl-a12971c6&#34;&gt;&lt;p class=&#34;cl-a128ae6e&#34;&gt;&lt;span class=&#34;cl-a1286058&#34;&gt;El funcionario Fulano ha declarado X en el medio A. ¿Es esta la postura oficial del gobierno?&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;&lt;/template&gt;
+&lt;div class=&#34;flextable-shadow-host&#34; id=&#34;1989d084-b39a-4ed7-8efe-2b393c5b3069&#34;&gt;&lt;/div&gt;
+&lt;script&gt;
+var dest = document.getElementById(&#34;1989d084-b39a-4ed7-8efe-2b393c5b3069&#34;);
+var template = document.getElementById(&#34;d902e201-318d-48b8-bfef-eb52ee552f33&#34;);
+var caption = template.content.querySelector(&#34;caption&#34;);
+if(caption) {
+  caption.style.cssText = &#34;display:block;text-align:center;&#34;;
+  var newcapt = document.createElement(&#34;p&#34;);
+  newcapt.appendChild(caption)
+  dest.parentNode.insertBefore(newcapt, dest.previousSibling);
+}
+var fantome = dest.attachShadow({mode: &#39;open&#39;});
+var templateContent = template.content;
+fantome.appendChild(templateContent);
+&lt;/script&gt;
+
+&lt;p&gt;La columna &lt;strong&gt;Hora&lt;/strong&gt; se genera de manera automática en Google Forms e indica la hora y fecha en que fue ingresada la pregunta. Cuando cada medio tenga su contraseña, la columna &lt;strong&gt;Contraseña&lt;/strong&gt; tendría contraseñas diferentes en cada fila.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;paso-2-sortear-las-preguntas&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Paso 2: Sortear las preguntas&lt;/h3&gt;
+&lt;p&gt;Una vez obtenida la tabla de preguntas se debe realizar el sorteo y aquí viene el aporte principal de este artículo: el sorteo debe ser aleatorio y reproducible. Esto se puede lograr usando un valor &lt;em&gt;semilla&lt;/em&gt; al momento de realizar el muestreo. En el siguiente bloque de código de R uso como valor semilla la fecha de hoy para obtener una muestra de dos observaciones de mi tabla de &lt;code&gt;preguntas&lt;/code&gt;&lt;a href=&#34;#fn1&#34; class=&#34;footnote-ref&#34; id=&#34;fnref1&#34;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/a&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;set.seed(18042020)
+muestra &amp;lt;- dplyr::sample_n(preguntas, size = 2)
+print(muestra)&lt;/code&gt;&lt;/pre&gt;
+&lt;template id=&#34;c18c8219-ce90-473b-830c-88c46c4a165c&#34;&gt;&lt;style&gt;
+.tabwid table{
+  border-collapse:collapse;
+  line-height:1;
+  margin-left:auto;
+  margin-right:auto;
+  border-width: 0;
+  display: table;
+  margin-top: 1.275em;
+  margin-bottom: 1.275em;
+  border-spacing: 0;
+  border-color: transparent;
+}
+.tabwid_left table{
+  margin-left:0;
+}
+.tabwid_right table{
+  margin-right:0;
+}
+.tabwid td {
+    padding: 0;
+}
+.tabwid a {
+  text-decoration: none;
+}
+.tabwid thead {
+    background-color: transparent;
+}
+.tabwid tfoot {
+    background-color: transparent;
+}
+.tabwid table tr {
+background-color: transparent;
+}
+&lt;/style&gt;&lt;div class=&#34;tabwid&#34;&gt;&lt;style&gt;.cl-a1a3e584{border-collapse:collapse;}.cl-a18dc8ee{font-family:&#39;Arial&#39;;font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-a18deff4{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-a18e651a{width:125.1pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a18e651b{width:889.4pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a18e651c{width:122.7pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a18e651d{width:122.7pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a18e651e{width:125.1pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a18e651f{width:889.4pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a18e6520{width:125.1pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a18e6521{width:122.7pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a18e6522{width:889.4pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}&lt;/style&gt;&lt;table class=&#39;cl-a1a3e584&#39;&gt;
+&lt;thead&gt;&lt;tr style=&#34;overflow-wrap:break-word;&#34;&gt;&lt;td class=&#34;cl-a18e6521&#34;&gt;&lt;p class=&#34;cl-a18deff4&#34;&gt;&lt;span class=&#34;cl-a18dc8ee&#34;&gt;Hora&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class=&#34;cl-a18e6520&#34;&gt;&lt;p class=&#34;cl-a18deff4&#34;&gt;&lt;span class=&#34;cl-a18dc8ee&#34;&gt;Contraseña&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class=&#34;cl-a18e6522&#34;&gt;&lt;p class=&#34;cl-a18deff4&#34;&gt;&lt;span class=&#34;cl-a18dc8ee&#34;&gt;Pregunta&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr style=&#34;overflow-wrap:break-word;&#34;&gt;&lt;td class=&#34;cl-a18e651c&#34;&gt;&lt;p class=&#34;cl-a18deff4&#34;&gt;&lt;span class=&#34;cl-a18dc8ee&#34;&gt;2020-04-17 22:42:12&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class=&#34;cl-a18e651a&#34;&gt;&lt;p class=&#34;cl-a18deff4&#34;&gt;&lt;span class=&#34;cl-a18dc8ee&#34;&gt;sEcVwNCLpKqf8oH3&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class=&#34;cl-a18e651b&#34;&gt;&lt;p class=&#34;cl-a18deff4&#34;&gt;&lt;span class=&#34;cl-a18dc8ee&#34;&gt;El funcionario Fulano ha declarado X en el medio A. ¿Es esta la postura oficial del gobierno?&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;overflow-wrap:break-word;&#34;&gt;&lt;td class=&#34;cl-a18e651d&#34;&gt;&lt;p class=&#34;cl-a18deff4&#34;&gt;&lt;span class=&#34;cl-a18dc8ee&#34;&gt;2020-04-17 22:38:38&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class=&#34;cl-a18e651e&#34;&gt;&lt;p class=&#34;cl-a18deff4&#34;&gt;&lt;span class=&#34;cl-a18dc8ee&#34;&gt;sEcVwNCLpKqf8oH3&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class=&#34;cl-a18e651f&#34;&gt;&lt;p class=&#34;cl-a18deff4&#34;&gt;&lt;span class=&#34;cl-a18dc8ee&#34;&gt;Las periodistas Fulana y Mengana denunciaron los hechos 1 y 2 ocurridos en las regiones X y Z. ¿Qué medidas está tomando el ministerio A para prevenir que vuelvan a ocurrir?&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;&lt;/template&gt;
+&lt;div class=&#34;flextable-shadow-host&#34; id=&#34;d4b323e0-dffa-487e-b066-5f3328b5f218&#34;&gt;&lt;/div&gt;
+&lt;script&gt;
+var dest = document.getElementById(&#34;d4b323e0-dffa-487e-b066-5f3328b5f218&#34;);
+var template = document.getElementById(&#34;c18c8219-ce90-473b-830c-88c46c4a165c&#34;);
+var caption = template.content.querySelector(&#34;caption&#34;);
+if(caption) {
+  caption.style.cssText = &#34;display:block;text-align:center;&#34;;
+  var newcapt = document.createElement(&#34;p&#34;);
+  newcapt.appendChild(caption)
+  dest.parentNode.insertBefore(newcapt, dest.previousSibling);
+}
+var fantome = dest.attachShadow({mode: &#39;open&#39;});
+var templateContent = template.content;
+fantome.appendChild(templateContent);
+&lt;/script&gt;
+
+&lt;p&gt;Ahora, cualquier persona que tenga acceso a la tabla de preguntas puede reproducir el resultado de mi “elección” aleatoria usando el valor &lt;em&gt;semilla&lt;/em&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;paso-3-comunicar-los-resultados&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Paso 3: Comunicar los resultados&lt;/h3&gt;
+&lt;p&gt;Además de contestar las preguntas que fueron escogidas, es necesario que se hagan públicos la tabla de preguntas y el valor semilla utilizado para el muestreo (compartir el código utilizado sería incluso más útil). Esto puede servir de oportunidad para compartirse de manera conjunta con un resumen indicando las preguntas escogidas y sus respectivas respuestas.&lt;/p&gt;
+&lt;p&gt;La “elección” de preguntas tendría que hacerse con el tiempo prudente para preparar respuestas satisfactorias y descartar preguntas repetidas o inútiles (riesgos latentes). En este artículo no se propone que se haga esta elección en medio de la conferencia de prensa.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;paso-4-repetir&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Paso 4: Repetir&lt;/h3&gt;
+&lt;p&gt;Para la siguiente conferencia de prensa basta con limpiar los registros anteriores o filtrarlos de acuerdo a la nueva fecha. En caso se de decida, podrían actualizarse las contraseñas de los medios.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;extra-tiempo-usado&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Extra: Tiempo usado&lt;/h3&gt;
+&lt;p&gt;Para crear el formulario en Google Forms demoré menos de diez minutos. El proceso de muestreo de la tabla con valor semilla fue practicamente instantáneo.&lt;/p&gt;
+&lt;p&gt;En el siguiente bloque uso código R para demostrar que se tarda mucho menos de un segundo crear una gran cantidad de contraseñas para medios de comunicación.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Creando conjunto de caracteres alfanumericos con
+# minúsculas, mayúsculas y números
+alfanumericos &amp;lt;- c(letters, LETTERS, 0:9)
+
+# Creando función para replicar 
+# creación de contraseña
+crear_contraseñas &amp;lt;- function(conjunto, numero) {
+  
+  replicate(numero, 
+            paste0(sample(x = conjunto, 
+                          size = 16, 
+                          replace = TRUE), 
+                   collapse = &amp;quot;&amp;quot;)
+            )
+}
+
+# Cantidad de milisegundos requeridos 
+# para crear n contraseñas
+microbenchmark::microbenchmark(
+  `300` = {crear_contraseñas(alfanumericos, 300)},
+  `500` = {crear_contraseñas(alfanumericos, 500)},
+  `1000`= {crear_contraseñas(alfanumericos, 1000)}
+    )&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;Unit: milliseconds
+ expr     min      lq      mean   median       uq     max neval
+  300  7.6895  8.1701  9.844819  8.69960  9.91030 29.2662   100
+  500 12.8628 13.9524 15.392223 14.77955 16.15895 36.1332   100
+ 1000 25.5151 27.8763 30.894246 29.24725 31.29325 51.4888   100&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Viendo el cruce de la fila “1000” con la columna “mean”, vemos que en promedio requiere poquísimos milisegundos crear 1000 contraseñas diferentes. Usando 16 caracteres alfanuméricos, es posible obtener hasta &lt;span class=&#34;math inline&#34;&gt;\(62^{16}\)&lt;/span&gt; contraseñas únicas (equivalente a &lt;span class=&#34;math inline&#34;&gt;\(4.76*10^{28}\)&lt;/span&gt;).&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;footnotes&#34;&gt;
+&lt;hr /&gt;
+&lt;ol&gt;
+&lt;li id=&#34;fn1&#34;&gt;&lt;p&gt;Utilizo en un bloque oculto &lt;code&gt;flextable::flextable()&lt;/code&gt; para imprimir la tabla con el formato adecuado.&lt;a href=&#34;#fnref1&#34; class=&#34;footnote-back&#34;&gt;↩︎&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>¿Por qué debo dejar que usen mi trabajo?</title>
+      <link>https://academic-demo.netlify.app/post/por-que-debo-dejar-que-usen-mi-trabajo/</link>
+      <pubDate>Tue, 10 Mar 2020 00:00:00 +0000</pubDate>
+      <guid>https://academic-demo.netlify.app/post/por-que-debo-dejar-que-usen-mi-trabajo/</guid>
+      <description>
+&lt;script src=&#34;https://academic-demo.netlify.app/post/por-que-debo-dejar-que-usen-mi-trabajo/index.es_files/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
+
+
+&lt;p&gt;El día de hoy ingresé, como ya se me está haciendo costumbre, a &lt;a href=&#34;https://es.stackoverflow.com/&#34;&gt;StackOverflow&lt;/a&gt; a ver si podía hacer algo para aumentar mis puntos de reputación. Como suele ocurrir en internet, uno empieza viendo una cosa y termina en un sitio bien diferente.&lt;/p&gt;
+&lt;p&gt;Llegué a &lt;a href=&#34;https://academia.stackexchange.com/&#34;&gt;StackExchange Academia&lt;/a&gt; y vi una &lt;a href=&#34;https://academia.stackexchange.com/questions/145212/advisor-professor-asking-me-for-the-source-code-of-my-dissertation-in-order-to-b&#34;&gt;pregunta&lt;/a&gt;, que me pareció muy interesante. Una persona cuenta que trabajó mucho para realizar un trabajo de investigación para su tesis de postgrado, y que ahora su asesor le está pidiendo el código utilizado en su trabajo para que otra persona lo utilice. Me pareció interesante además que una de las etiquetas con las que esta persona marcó su pregunta fuera la de &lt;em&gt;Propiedad intelectual&lt;/em&gt;.&lt;/p&gt;
+&lt;div id=&#34;ser-autor-de-mi-trabajo-está-bien&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Ser autor de mi trabajo está bien&lt;/h2&gt;
+&lt;p&gt;No cuesta mucho entender por qué. Si me pasé meses (o años) de duro trabajo para encontrar o construir los datos o procedimientos de análisis que me permitieron validar o refutar una hipótesis mía o de la comunidad científica, si le dediqué tanto tiempo, esfuerzo y rigurosidad a que mi trabajo sea de una calidad que me permita obtener una gran nota en mi presentación, si tuve que gastar mis escasos recursos y tiempo para obtener mi trabajo, es lógico que todo lo que se derive de ello sea &lt;strong&gt;mío&lt;/strong&gt;. Yo no creo que pensar de esta manera sea egoísta.&lt;/p&gt;
+&lt;p&gt;La mayoría de instituciones que le dedican recursos a la investigación terminan publicando los resultados en algún tipo de reporte, libro, mapa, dashboard, medio de comunicación, redes sociales, etc. Nos llegamos a enterar de los resultados de las investigaciones a través de resúmenes ejecutivos o abstracts. Pero, ¿qué pasa si queremos verificar que la investigación siguió cierto estándar de calidad? Esto en general se refiere a los datos utilizados, desde su recolección hasta la metodología de análisis empleada. También me interesa averiguar si la persona que investigó obtuvo las conclusiones adecuadas respecto a los resultados de sus tests. Mientras más cercanas a la academia, las instituciones van aumentando su nivel de rigurosidad, y son mandatorios los marcos teóricos, capítulos de metodología, resultados y conclusiones. En el caso de las entidades públicas (y en general), se va haciendo cada vez más común que los conjuntos de datos utilizados en los análisis sean compartidos de manera pública. En el Perú, el &lt;a href=&#34;www.inei.gob.pe&#34;&gt;INEI&lt;/a&gt; realiza esto a través de su portal de Microdatos y el Poder Ejecutivo muestra avances con su portal de &lt;a href=&#34;https://www.datosabiertos.gob.pe/&#34;&gt;Datos Abiertos&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Sin embargo, quiero atreverme a decir que esto no es suficiente. Cuando una persona se involucra en el análisis de datos, está realizando investigación, lo que significa que se encuentra una pregunta que quiere responder, se plantea una hipótesis al respecto y decide un método a través del cuál validará o rechazará su hipótesis. No hay investigación sin pregunta de investigación, ni hipótesis, ni metodología. Eso lo conocemos desde que asistimos a la primaria, porque es el método científico. En lo que nos quedamos cortos es en la &lt;em&gt;reproducibilidad&lt;/em&gt; y la &lt;em&gt;replicabilidad&lt;/em&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;replicable-o-reproducible&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;¿Replicable o reproducible?&lt;/h2&gt;
+&lt;p&gt;Según el diccionario de Oxford, lo reproducible es algo que:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Puede ser producido o hecho nuevamente de la misma manera&lt;a href=&#34;#fn1&#34; class=&#34;footnote-ref&#34; id=&#34;fnref1&#34;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;En el caso de una investigación, nos referimos a que &lt;em&gt;con el mismo conjunto de datos&lt;/em&gt; del análisis, realizando el mismo procedimiento, podemos obtener el mismo resultado. Esto hace que la calidad de la investigación tenga mayor facilidad de ser verificado por pares. Esta es una práctica bastante común en entornos que usan investigación estadística o a través de código.&lt;/p&gt;
+&lt;p&gt;Por otro lado, lo replicable es algo que:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Puede ser copiado exactamente&lt;a href=&#34;#fn2&#34; class=&#34;footnote-ref&#34; id=&#34;fnref2&#34;&gt;&lt;sup&gt;2&lt;/sup&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Roger D. Peng nos da un ejemplo de lo que esto significa en un contexto científico:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Si dices que X causa Y, o que la Vitamina C agudiza una enfermedad, o que algo causa un problema, sucede que otros científicos, independientes de ti, tratarán de investigar la misma pregunta y ver si obtienen un resultado similar. Si muchas otras personas obtienen el mismo resultado y replican el hallazgo original, entonces tendemos a pensar que el hallazgo original probablemente fue verdadero, y que se trata de una relación o hallazgo real.&lt;a href=&#34;#fn3&#34; class=&#34;footnote-ref&#34; id=&#34;fnref3&#34;&gt;&lt;sup&gt;3&lt;/sup&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;En otras palabras, un estudio es replicado cuando al usar el mismo método de análisis &lt;em&gt;en un nuevo conjunto de datos&lt;/em&gt; generados por el mismo diseño experimental, los resultados son similares.&lt;/p&gt;
+&lt;p&gt;La replicabilidad en sí no tiene nada de malo, es uno de los pilares del método científico y, en teoría, es aspirable. Sin embargo, es costosa. Recordemos que los resultados de los &lt;a href=&#34;http://censo2017.inei.gob.pe/&#34;&gt;Censos 2017&lt;/a&gt; en Perú fueron cuestionados desde el mismo día de la recolección de datos, por la gran cantidad de personas que reportaron no haber sido visitados por el personal de INEI. Pero, ¿quién podría replicar un censo?. Fuera de los límites legales, ¿qué persona o institución privada querría disponer &lt;a href=&#34;https://elcomercio.pe/peru/censo-2017-invertira-proceso-noticia-463178-noticia/&#34;&gt;173.8 millones de soles&lt;/a&gt; en verificar que los resultados obtenidos sean los mismos que los del INEI?&lt;/p&gt;
+&lt;p&gt;Evidentemente, un censo es un caso extremo. Pero podríamos cuestionar también la replicabilidad de encuestas de hogares, estudios económicos, tests de tratamientos experimentales, y un largo etcétera que incluye las encuestas de opinión que tanto aparecen en los medios de comunicación. A medida que aumenta nuestra necesidad (y capacidad) de obtener información, la replicabilidad se vuelve cada vez más difícil.&lt;/p&gt;
+&lt;p&gt;Es por ello que la reproducibilidad se convierte en una alternativa viable. Esto no quiere decir que la replicabilidad deje de ser deseada. Si volvemos al caso de la pregunta que encontré en Stack Exchange, esta persona fue cuestionada por su asesor acerca de que otra persona pueda usar su &lt;em&gt;código&lt;/em&gt; para su trabajo de investigación, en otras palabras, esta nueva persona estaba buscando &lt;em&gt;replicar&lt;/em&gt; el trabajo, cosa que debería ser aceptada y promovida, porque es la mejor manera de hacer que la ciencia avance.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;footnotes&#34;&gt;
+&lt;hr /&gt;
+&lt;ol&gt;
+&lt;li id=&#34;fn1&#34;&gt;&lt;p&gt;Traducción propia de &lt;a href=&#34;https://www.oxfordlearnersdictionaries.com/us/definition/english/reproducible?q=reproducible&#34; class=&#34;uri&#34;&gt;https://www.oxfordlearnersdictionaries.com/us/definition/english/reproducible?q=reproducible&lt;/a&gt;&lt;a href=&#34;#fnref1&#34; class=&#34;footnote-back&#34;&gt;↩︎&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li id=&#34;fn2&#34;&gt;&lt;p&gt;Traducción propia de &lt;a href=&#34;https://www.oxfordlearnersdictionaries.com/definition/english/replicable?q=replicable&#34; class=&#34;uri&#34;&gt;https://www.oxfordlearnersdictionaries.com/definition/english/replicable?q=replicable&lt;/a&gt;&lt;a href=&#34;#fnref2&#34; class=&#34;footnote-back&#34;&gt;↩︎&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li id=&#34;fn3&#34;&gt;&lt;p&gt;Traducción propia de Peng, R. (2019) &lt;em&gt;Report writing for Data Science in R&lt;/em&gt;. pg. 1. LeanPub.&lt;a href=&#34;#fnref3&#34; class=&#34;footnote-back&#34;&gt;↩︎&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>¿Cómo hacer un gráfico de parlamento en R?</title>
+      <link>https://academic-demo.netlify.app/post/grafico-de-parlamento/</link>
+      <pubDate>Wed, 29 Jan 2020 00:00:00 +0000</pubDate>
+      <guid>https://academic-demo.netlify.app/post/grafico-de-parlamento/</guid>
+      <description>
+&lt;script src=&#34;https://academic-demo.netlify.app/post/grafico-de-parlamento/index.es_files/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
+
+
+&lt;p&gt;Para esta tarea vamos a hacer de uso dos paquetes principalmente: el viejo conocido &lt;code&gt;tidyverse&lt;/code&gt; y también de &lt;code&gt;ggpol&lt;/code&gt;, una extensión de ggplot2 desarrollada especialmente para este tipo de gráficos. &lt;code&gt;ggforce&lt;/code&gt; nos servirá al final sólo para una mejora estética.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(tidyverse)
+library(ggpol)
+library(ggforce)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Como en todo gráfico que se realiza con ggplot2, necesitamos primero contar con un &lt;em&gt;data.frame&lt;/em&gt; o &lt;em&gt;tibble&lt;/em&gt; que contenga la información necesaria para construirlo. La fuente primaria de estos datos es la web de la &lt;a href=&#34;https://resultados.eleccionescongresales2020.pe/PRECE2020/&#34;&gt;ONPE&lt;/a&gt;, de donde se puede obtener el detalle de la votación por varios niveles de desagregación. Debido a que no es propósito de este post mostrar cómo hacer el &lt;em&gt;scrapping&lt;/em&gt; de la información, ni el cálculo de las curules, voy a preferir un resumen que ya ha trabajado otra persona para graficar en base a ello.&lt;/p&gt;
+&lt;p&gt;En la web de &lt;a href=&#34;http://www.joseincio.com/post/resultados-congreso-extraordinario-2020/&#34;&gt;José Incio&lt;/a&gt; podemos encontrar un cuadro de la distribución de escaños del nuevo congreso peruano. Debido a que esa información aún está actualizándose según el conteo de los votos que ONPE sigue realizando, quiero hacer uso de &lt;code&gt;Sys.time()&lt;/code&gt; para mostrar la hora en que estoy escribiendo este post.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;Sys.time()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;2021-08-15 22:30:14 -05&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Haciendo uso del add-in &lt;em&gt;Paste as tribble&lt;/em&gt; que el paquete &lt;code&gt;datapasta&lt;/code&gt; incluye en RStudio, puedo obtenr el &lt;em&gt;tibble&lt;/em&gt; &lt;code&gt;congreso&lt;/code&gt;, que no es más que un copy/paste de la tabla elaborada por José Incio disponible a esta hora.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;votos &amp;lt;- tibble::tribble(
+                                          ~Partido, ~Escaños,
+                                  &amp;quot;ACCION POPULAR&amp;quot;,      25L,
+                        &amp;quot;ALIANZA PARA EL PROGRESO&amp;quot;,      22L,
+   &amp;quot;FRENTE POPULAR AGRICOLA FIA DEL PERU - FREPAP&amp;quot;,      15L,
+                                  &amp;quot;FUERZA POPULAR&amp;quot;,      15L,
+                               &amp;quot;UNION POR EL PERU&amp;quot;,      13L,
+                  &amp;quot;PARTIDO DEMOCRATICO SOMOS PERU&amp;quot;,      11L,
+                                    &amp;quot;PODEMOS PERU&amp;quot;,      11L,
+  &amp;quot;EL FRENTE AMPLIO POR JUSTICIA, VIDA Y LIBERTAD&amp;quot;,       9L,
+                                  &amp;quot;PARTIDO MORADO&amp;quot;,       9L
+  )&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;El siguiente paso es mejorar el &lt;em&gt;tibble&lt;/em&gt; de tal modo que nos permita realizar el gráfico deseado. Empezamos por agregarle un color a cada uno de los partidos presentes en el gráfico. Podemos guiarnos de una &lt;a href=&#34;http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf&#34;&gt;hoja de referencia&lt;/a&gt; para escoger los colores, tomando en cuenta los colores partidarios. Podemos unir los colores a los partidos haciendo uso de &lt;code&gt;bind_cols()&lt;/code&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;congreso &amp;lt;- tibble(
+  colores = c(
+  &amp;quot;darkred&amp;quot;,
+  &amp;quot;dodgerblue4&amp;quot;,
+  &amp;quot;deepskyblue3&amp;quot;,
+  &amp;quot;darkorange2&amp;quot;,
+  &amp;quot;gold2&amp;quot;,
+  &amp;quot;brown3&amp;quot;,
+  &amp;quot;royalblue3&amp;quot;,
+  &amp;quot;forestgreen&amp;quot;,
+  &amp;quot;mediumpurple4&amp;quot;
+)) %&amp;gt;% 
+  bind_cols(votos)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Ahora que contamos con los datos, simplemente realizamos el gráfico. Hacemos uso de &lt;code&gt;geom_parliament()&lt;/code&gt; del paquete &lt;code&gt;ggpol&lt;/code&gt;. Tan sólo necesitamos mapear dos argumentos:&lt;/p&gt;
+&lt;ol style=&#34;list-style-type: decimal&#34;&gt;
+&lt;li&gt;&lt;code&gt;seats&lt;/code&gt;: la cantidad de escaños o &lt;em&gt;asientos&lt;/em&gt; obtenidos&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;fill&lt;/code&gt;: el nombre de los partidos&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Además de eso, usaremos &lt;code&gt;scale_fill_manual()&lt;/code&gt; para utilizar nuestros colores personalizados y el nombre de los partidos en la leyenda del gráfico. Luego, &lt;code&gt;coord_fixed()&lt;/code&gt; nos ayuda a preservar el ratio de aspecto del gráfico.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;grafico &amp;lt;- ggplot(congreso)+
+  geom_parliament(
+    aes(
+      seats = Escaños, 
+      fill = Partido), 
+    color = &amp;quot;white&amp;quot;) +
+  scale_fill_manual(
+    values = congreso$colores, 
+    labels = congreso$Partido) +
+  coord_fixed()
+
+print(grafico)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://academic-demo.netlify.app/post/grafico-de-parlamento/index.es_files/figure-html/grafico-1.png&#34; width=&#34;480&#34; style=&#34;display: block; margin: auto;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Vemos que hemos obtenido el gráfico y los partidos aparecen pintados con los colores que hemos asignado. Sin embargo, aún es posible hacerle unas mejoras estéticas. Usamos &lt;code&gt;theme_no_axes()&lt;/code&gt; del paquete &lt;code&gt;ggforce&lt;/code&gt; para eliminar las líneas guía de nuestro plano cartesiano y quedarnos sólo con un marco negro. También usamos &lt;code&gt;labs()&lt;/code&gt; para agregarle un título a nuestro gráfico y &lt;code&gt;theme()&lt;/code&gt; para cambiar el tamaño de los elementos de nuestra leyenda.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;grafico +
+  theme_no_axes() +
+  labs(
+    title = &amp;quot;DISTRIBUCIÓN DE ESCAÑOS&amp;quot;) +
+  theme(
+    legend.text = element_text(
+      size=5),
+    legend.key.size = unit(
+      x = 3, 
+      units = &amp;quot;mm&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://academic-demo.netlify.app/post/grafico-de-parlamento/index.es_files/figure-html/final-1.png&#34; width=&#34;480&#34; style=&#34;display: block; margin: auto;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Ya tenemos un gráfico más presentable y sencillo de replicar.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Cédula Elecciones 2020 usando ggplot2 (parte 3)</title>
+      <link>https://academic-demo.netlify.app/post/cedula-2020-ggplot2-parte-3/</link>
+      <pubDate>Fri, 24 Jan 2020 00:00:00 +0000</pubDate>
+      <guid>https://academic-demo.netlify.app/post/cedula-2020-ggplot2-parte-3/</guid>
+      <description>
+&lt;script src=&#34;https://academic-demo.netlify.app/post/cedula-2020-ggplot2-parte-3/index.es_files/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
+
+
+&lt;p&gt;En el &lt;a href=&#34;https://academic-demo.netlify.app/blog/cedula-2020-ggplot2-parte-2/&#34;&gt;post anterior&lt;/a&gt; logramos agregarle texto al esqueleto de nuestra cédula. Ahora debemos aprender a agregarle imágenes. Iniciamos, como siempre, haciendo uso de nuestros paquetes predilectos.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(tidyverse)&lt;/code&gt;&lt;/pre&gt;
+&lt;div id=&#34;lo-básico&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Lo básico&lt;/h3&gt;
+&lt;p&gt;Para poder entender cómo se logra insertar los logos de los partidos políticos hace falta primero entender cómo insertar imágenes a un gráfico de ggplot2. Hasta la fecha, la forma más conveniente que he encontrado es haciendo uso de &lt;code&gt;annotation_custom()&lt;/code&gt;. Esta función toma como primer argumento un &lt;code&gt;grob&lt;/code&gt;, un objeto que sirve como bloque básico de construcción de todos los gráficos de ggplot2. Para lo que buscamos hacer, colocar los logos de los partidos dentro del gráfico, necesitamos convertir nuestras imágenes en &lt;code&gt;grob&lt;/code&gt;s.&lt;/p&gt;
+&lt;p&gt;Para que R interprete nuestras imágenes, hacemos uso de la función &lt;code&gt;load.image()&lt;/code&gt; del paquete &lt;code&gt;imager&lt;/code&gt;. Con el objeto obtenido hacemos uso de la función &lt;code&gt;rasterGrob()&lt;/code&gt; del paquete &lt;code&gt;grid&lt;/code&gt;, para obtener el &lt;code&gt;grob&lt;/code&gt; necesario. Finalmente, &lt;code&gt;annotation_custom()&lt;/code&gt; nos permite colocar el &lt;code&gt;grob&lt;/code&gt; usando una sintaxis muy similar a la que hemos usado anteriormente con &lt;code&gt;geom_rect()&lt;/code&gt;. Con el siguiente ejemplo, que usa el logo de esta página, debería quedar más claro.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;url_ejemplo &amp;lt;- &amp;quot;https://www.samuelenrique.com/images/240px.png&amp;quot;
+imagen_ejemplo &amp;lt;- imager::load.image(url_ejemplo)
+grob_ejemplo &amp;lt;- grid::rasterGrob(imagen_ejemplo)
+
+ggplot()+
+  xlim(c(0,10))+
+  ylim(c(0,10))+
+  annotation_custom(grob = grob_ejemplo,
+                    xmin = 0, xmax = 10,
+                    ymin = 0, ymax = 10)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://academic-demo.netlify.app/post/cedula-2020-ggplot2-parte-3/index.es_files/figure-html/unnamed-chunk-1-1.png&#34; width=&#34;288&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;lo-real&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Lo real&lt;/h3&gt;
+&lt;p&gt;Ahora que hemos entendido cómo funciona el procedimiento de agregar las imágenes, estamos listos para agregar los logos a nuestra cédula. Podríamos repetir el procedimiento anterior por cada partido en contienda, sin embargo, aprovechemos las ventajas de usar R para hacerlo más rápido (no necesariamente más sencillo).&lt;/p&gt;
+&lt;p&gt;Lo primero será tener los enlaces a todos los logos de los partidos. Esto es posible debido a que el portal &lt;a href=&#34;https://votoinformado.jne.gob.pe/voto&#34;&gt;Voto Informado&lt;/a&gt; cuenta con todos ellos. El vector &lt;code&gt;logo_url&lt;/code&gt; fue creado manualmente para contener todos los logos, a excepción del de &lt;strong&gt;Todos por el Perú&lt;/strong&gt; debido a que fue eliminado de la contienda por el JNE. En nuestro vector aparece como un &lt;code&gt;NA&lt;/code&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;logo_url &amp;lt;- c(
+  &amp;quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/2160.JPG&amp;quot;,
+  &amp;quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/1366.JPG&amp;quot;,
+  &amp;quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/1264.JPG&amp;quot;,
+  &amp;quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/55.JPG&amp;quot;,
+  NA,
+  &amp;quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/1257.JPG&amp;quot;,
+  &amp;quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/2840.JPG&amp;quot;,
+  &amp;quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/4.JPG&amp;quot;,
+  &amp;quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/2173.JPG&amp;quot;,
+  &amp;quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/5.JPG&amp;quot;,
+  &amp;quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/2731.JPG&amp;quot;,
+  &amp;quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/47.JPG&amp;quot;,
+  &amp;quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/14.JPG&amp;quot;,
+  &amp;quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/2191.JPG&amp;quot;,
+  &amp;quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/32.JPG&amp;quot;,
+  &amp;quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/2649.JPG&amp;quot;,
+  &amp;quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/2646.JPG&amp;quot;,
+  &amp;quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/2235.JPG&amp;quot;,
+  &amp;quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/2218.JPG&amp;quot;,
+  &amp;quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/2190.JPG&amp;quot;,
+  &amp;quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/22.JPG&amp;quot;,
+  &amp;quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/15.JPG&amp;quot;
+)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Ahora que contamos con los enlaces, creamos una función que nos permita repetir el proceso de crear los &lt;code&gt;grob&lt;/code&gt;s, de tal modo que podamos usarla sistemáticamente. La función que estamos creando, &lt;code&gt;grob_url()&lt;/code&gt;, devuelve los valores &lt;code&gt;NA&lt;/code&gt;. El argumento &lt;code&gt;interpolate = TRUE&lt;/code&gt; dentro de &lt;code&gt;grid::rasterGrob()&lt;/code&gt; ayuda a mejorar la calidad de la imagen.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;grob_url &amp;lt;- function(fileurl){
+  if(is.na(fileurl)) return(NA)
+  img &amp;lt;- imager::load.image(fileurl)
+  grob &amp;lt;- grid::rasterGrob(
+    img, 
+    interpolate=TRUE)
+  
+  grob
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Ahora que contamos con una función que cumple nuestros objetivos, la aplicamos a todos los enlaces contenidos en &lt;code&gt;logo_url&lt;/code&gt;. Para ello hacemos uso de la función &lt;code&gt;map()&lt;/code&gt; del paquete &lt;code&gt;purrr&lt;/code&gt;. Debido a que &lt;code&gt;map()&lt;/code&gt; siempre nos devuelve una lista, usamos la función &lt;code&gt;tibble()&lt;/code&gt; para crear un objeto &lt;em&gt;tibble&lt;/em&gt; con una sola columna (grob), que contiene cada uno de nuestros &lt;code&gt;grob&lt;/code&gt;s. Es el mismo nombre que el primer argumento de &lt;code&gt;annotation_custom()&lt;/code&gt;, y tiene un motivo que descubriremos más adelante. El objeto &lt;code&gt;grob&lt;/code&gt; ahora es una tabla que contiene listas en su única columna, pero nos permite trabajar con ella como si fuera cualquier &lt;em&gt;data.frame&lt;/em&gt; normal.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;grob &amp;lt;- map(logo_url, grob_url) %&amp;gt;% 
+  tibble(grob = .)
+
+head(grob)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;# A tibble: 6 x 1
+  grob      
+  &amp;lt;list&amp;gt;    
+1 &amp;lt;rastrgrb&amp;gt;
+2 &amp;lt;rastrgrb&amp;gt;
+3 &amp;lt;rastrgrb&amp;gt;
+4 &amp;lt;rastrgrb&amp;gt;
+5 &amp;lt;lgl [1]&amp;gt; 
+6 &amp;lt;rastrgrb&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Ahora podemos hacer uso de &lt;code&gt;annotation_custom()&lt;/code&gt; en cada uno de nuestros &lt;code&gt;grob&lt;/code&gt;s. Recordemos los argumentos que esta función necesita:&lt;/p&gt;
+&lt;ol style=&#34;list-style-type: decimal&#34;&gt;
+&lt;li&gt;&lt;code&gt;grob&lt;/code&gt;: Es el &lt;em&gt;grob&lt;/em&gt; que será dibujado en el gráfico.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;xmin&lt;/code&gt;: El primer valor del eje X, o posición de la esquina izquierda de la imagen.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;xmax&lt;/code&gt;: El segundo valor del eje X, o posición de la esquina derecha de la imagen.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ymin&lt;/code&gt;: El primer valor del eje Y, o posición de la esquina inferior de la imagen.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ymax&lt;/code&gt;: El segundo valor del eje Y, o posición de la esquina superior de la imagen.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Ya tenemos nuestros &lt;em&gt;grobs&lt;/em&gt; mapeados en el tibble &lt;code&gt;grob&lt;/code&gt;, ahora necesitamos los otros cuatro argumentos. Sin embargo, estos ya los teníamos desde hace muchísimo antes. Están contenidos en el tibble &lt;code&gt;preferencial&lt;/code&gt; que creamos en la &lt;a href=&#34;https://academic-demo.netlify.app/blog/cedula-2020-ggplot2-parte-2/&#34;&gt;primera parte&lt;/a&gt; cuando usamos &lt;code&gt;geom_rect()&lt;/code&gt; para dibujar los cuadros para voto preferencial.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;head(preferencial)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;# A tibble: 6 x 4
+   xmin  xmax  ymin  ymax
+  &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt;
+1  10.8  11.8  27.3  28.3
+2  10.8  11.8  26.1  27.1
+3  10.8  11.8  24.9  25.9
+4  10.8  11.8  23.7  24.7
+5  10.8  11.8  22.5  23.5
+6  10.8  11.8  21.3  22.3&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Entonces, lo que necesitamos hacer ahora es unir ambos tibbles con &lt;code&gt;bind_cols()&lt;/code&gt; del paquete &lt;code&gt;dplyr()&lt;/code&gt;. Luego usamos &lt;code&gt;filter()&lt;/code&gt; para librarnos del valor &lt;code&gt;NA&lt;/code&gt; porque ya no es útil (de hecho, si lo dejamos ocasionaremos un bug que me costó más tiempo del debido identificar). Finalmente, utilizamos &lt;code&gt;pmap()&lt;/code&gt; del paquete &lt;code&gt;purrr&lt;/code&gt; para usar cada fila de nuestri tibble como lista de argumentos de &lt;code&gt;annotation_custom()&lt;/code&gt;. Con esto, hemos conseguido la lista &lt;code&gt;annotations&lt;/code&gt; con la que podemos graficar todos los logos.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;annotations &amp;lt;- grob %&amp;gt;% 
+  bind_cols(preferencial) %&amp;gt;% 
+  filter(!is.na(grob)) %&amp;gt;% 
+  pmap(annotation_custom)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Sin embargo, unir todos los &lt;em&gt;annotations&lt;/em&gt; no es tan sencillo como hacer &lt;code&gt;cedula + annotations&lt;/code&gt; debido a que &lt;code&gt;annotation_custom()&lt;/code&gt; no se comporta como un &lt;code&gt;geom_*&lt;/code&gt;. Será necesario crear una función que nos permita hacer una suma recursiva de todos los elementos: &lt;code&gt;rec_ggadd()&lt;/code&gt; toma un objeto de &lt;code&gt;ggplot2&lt;/code&gt; y una lista para añadir recursivamente sus elementos al objeto. El tercer argumento es un iterador que permite la recursividad, y no necesita ser identificado por quien use la función.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;rec_ggadd &amp;lt;- function(ggobj, lista, i = length(lista)){
+  if(i == 1){
+    ggobj + lista[[i]]
+  } else {
+    ggobj &amp;lt;- ggobj + lista[[i]]
+    rec_ggadd(ggobj, lista, i = i-1)
+  }
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Ahora sí, sólo queda aplicar la función a nuestra &lt;code&gt;cedula&lt;/code&gt; y habremos conseguido lo que tanto deseábamos.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;cedula &amp;lt;- rec_ggadd(cedula, annotations)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Imprimimos &lt;code&gt;cedula&lt;/code&gt; para ver que todo salió bien.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;cedula&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;cedula.png&#34; width=&#34;288&#34; height=&#34;615&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Cédula Elecciones 2020 usando ggplot2 (parte 2)</title>
+      <link>https://academic-demo.netlify.app/post/cedula-2020-ggplot2-parte-2/</link>
+      <pubDate>Sat, 18 Jan 2020 00:00:00 +0000</pubDate>
+      <guid>https://academic-demo.netlify.app/post/cedula-2020-ggplot2-parte-2/</guid>
+      <description>
+&lt;script src=&#34;https://academic-demo.netlify.app/post/cedula-2020-ggplot2-parte-2/index.es_files/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
+
+
+&lt;p&gt;En el &lt;a href=&#34;https://academic-demo.netlify.app/blog/cedula-2020-ggplot2-parte-1/&#34;&gt;post anterior&lt;/a&gt; mostramos cómo crear el “esqueleto” de la cédula. En este, en cambio, incluiremos el texto y los logos de los partidos. Primero lo primero, habilitamos los paquetes del tidyverse.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(tidyverse)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Nos aseguramos de contar con los objetos creados en el paso anterior. Especialmente el objeto &lt;code&gt;cedula&lt;/code&gt;, que contiene las instrucciones de nuestro “esqueleto”.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ls()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;[1] &amp;quot;cedula&amp;quot;        &amp;quot;instrucciones&amp;quot; &amp;quot;preferencial&amp;quot;  &amp;quot;rectangulos&amp;quot;  &lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Comenzaremos por crear un vector que contenga los nombres de los partidos políticos en contienda, basados en el orden que obtuvieron en el &lt;a href=&#34;https://www.onpe.gob.pe/sala-prensa/notas-prensa/elecciones-congresales-2020-onpe-sorteo-ubicacion-de-organizaciones-politicas-en-cedulas-sufragio/&#34;&gt;sorteo&lt;/a&gt; realizado por la ONPE para determinar la posición en la cédula. Lo llamamos &lt;code&gt;partidos&lt;/code&gt;.
+.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;partidos &amp;lt;- c(
+  &amp;quot;EL FRENTE AMPLIO POR JUSTICIA, VIDA Y LIBERTAD&amp;quot;,
+  &amp;quot;FUERZA POPULAR&amp;quot;,
+  &amp;quot;JUNTOS POR EL PERU&amp;quot;,
+  &amp;quot;PERU PATRIA SEGURA&amp;quot;,
+  &amp;quot;TODOS POR EL PERU&amp;quot;,
+  &amp;quot;ALIANZA PARA EL PROGRESO&amp;quot;,
+  &amp;quot;PARTIDO MORADO&amp;quot;,
+  &amp;quot;ACCION POPULAR&amp;quot;,
+  &amp;quot;AVANZA PAIS – PARTIDO DE INTEGRACION SOCIAL&amp;quot;,
+  &amp;quot;RENACIMIENTO UNIDO NACIONAL&amp;quot;,
+  &amp;quot;PODEMOS PERU&amp;quot;,
+  &amp;quot;UNION POR EL PERU&amp;quot;,
+  &amp;quot;PARTIDO DEMOCRATICO SOMOS PERU&amp;quot;,
+  &amp;quot;DEMOCRACIA DIRECTA&amp;quot;,
+  &amp;quot;PARTIDO APRISTA PERUANO&amp;quot;,
+  &amp;quot;PERU NACION&amp;quot;,
+  &amp;quot;FRENTE POPULAR AGRICOLA FIA DEL PERU- FREPAP&amp;quot;,
+  &amp;quot;PARTIDO POLITICO CONTIGO&amp;quot;,
+  &amp;quot;PARTIDO POLITICO NACIONAL PERU LIBRE&amp;quot;,
+  &amp;quot;VAMOS PERU&amp;quot;,
+  &amp;quot;SOLIDARIDAD NACIONAL&amp;quot;,
+  &amp;quot;PARTIDO POPULAR CRISTIANO - PPC&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Del mismo modo que utilizamos una secuencia para generar el objeto &lt;code&gt;preferencial&lt;/code&gt; en la primera parte, generamos una secuencia para la ubicación de los nombres de los partidos. Esta vez, la generamos directamente dentro de &lt;code&gt;geom_text()&lt;/code&gt;, la función que nos permite colocar texto en un gráfico de &lt;code&gt;ggplot&lt;/code&gt;. Tengamos en cuenta que el argumento &lt;code&gt;size&lt;/code&gt; cambiará según el tamaño en pixeles que le hayamos asignado al gráfico&lt;a href=&#34;#fn1&#34; class=&#34;footnote-ref&#34; id=&#34;fnref1&#34;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/a&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;cedula &amp;lt;- cedula +
+  geom_text(
+    aes(x = 0.8, 
+        y = seq(
+          from = 27.8, 
+          to = 2.6, 
+          by = -1.2), 
+        label = partidos),
+      fontface = &amp;quot;bold&amp;quot;,
+      size = 1.5,
+      hjust = 0)
+cedula&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://academic-demo.netlify.app/post/cedula-2020-ggplot2-parte-2/index.es_files/figure-html/unnamed-chunk-2-1.png&#34; width=&#34;288&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Lo siguiente es incluir el título de la cédula. Para esto utilizamos nuevamente &lt;code&gt;geom_text()&lt;/code&gt;. Esta vez será necesario utilizar un &lt;em&gt;linebreak&lt;/em&gt; (&lt;code&gt;\n&lt;/code&gt;) para tener el texto en dos líneas.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;cedula &amp;lt;- cedula +
+  geom_text(
+    aes(x = 7.5, 
+        y = 30.6, 
+        label = &amp;quot;ELECCIONES CONGRESALES\nEXTRAORDINARIAS 2020&amp;quot;), 
+    fontface = &amp;quot;bold&amp;quot;,
+    size = 2.1,
+    lineheight = 0.8)
+cedula&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://academic-demo.netlify.app/post/cedula-2020-ggplot2-parte-2/index.es_files/figure-html/unnamed-chunk-3-1.png&#34; width=&#34;288&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Incluyamos ahora las instrucciones que indican cómo votar. Nuevamente, &lt;code&gt;geom_text()&lt;/code&gt; nos servirá para lograrlo. En esta ocasión incluiremos más de un &lt;em&gt;linebreak&lt;/em&gt; en algunos casos.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;cedula &amp;lt;- cedula +
+  geom_text(
+    aes(x = 6.3, 
+        y = 29.6, 
+        label = &amp;quot;ORGANIZACIÓN POLÍTICA&amp;quot;),
+    fontface = &amp;quot;bold&amp;quot;,
+    size = 1.2)+
+  geom_text(
+    aes(x = 6.3,
+        y = 28.9,
+        label = &amp;quot;MARQUE CON UNA CRUZ  +   O UN ASPA   X  DENTRO DEL RECUADRO DEL SÍMBOLO\nDE SU PREFERENCIA&amp;quot;),
+    size = 0.9) +
+  geom_text(
+    aes(x = 13.25,
+        y = 29.5,
+        label = &amp;quot;VOTO\nPREFERENCIAL&amp;quot;),
+    fontface = &amp;quot;bold&amp;quot;,
+    size = 1.05,
+    lineheight = 0.8) +
+  geom_text(
+    aes(x = 13.25,
+        y = 28.9,
+        label = &amp;quot;SI DESEA COLOQUE DENTRO\nDE LOS RECUADROS UNO O DOS\nNÚMEROS DE LOS CANDIDATOS\nDE SU PREFERENCIA&amp;quot;),
+    size = 0.54,
+    lineheight = 0.9)
+
+cedula&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://academic-demo.netlify.app/post/cedula-2020-ggplot2-parte-2/index.es_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;288&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;¡Cada vez estamos más cerca! El siguiente paso es incluir los logos de las agrupaciones políticas.&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34;&gt;
+&lt;hr /&gt;
+&lt;ol&gt;
+&lt;li id=&#34;fn1&#34;&gt;&lt;p&gt;En esta ocasión, el tamaño del gráfico es de 3 x 6.4 pulgadas, manteniendo la proporción del tamaño oficial.&lt;a href=&#34;#fnref1&#34; class=&#34;footnote-back&#34;&gt;↩︎&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Cédula Elecciones 2020 usando ggplot2 (parte 1)</title>
+      <link>https://academic-demo.netlify.app/post/cedula-2020-ggplot2-parte-1/</link>
+      <pubDate>Wed, 15 Jan 2020 00:00:00 +0000</pubDate>
+      <guid>https://academic-demo.netlify.app/post/cedula-2020-ggplot2-parte-1/</guid>
+      <description>
+&lt;script src=&#34;https://academic-demo.netlify.app/post/cedula-2020-ggplot2-parte-1/index.es_files/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
+
+
+&lt;p&gt;No tengo conocimiento sobre el software que ha utilizado ONPE para diseñar la cédula que se utilizará en nuestras elecciones congresales, pero es posible intentar replicarla en R, usando funciones de la colección de paquetes del &lt;code&gt;tidyverse&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Para ello, primero cargamos los paquetes. Omitiré aquí los mensajes y warnings que aparecerán en una sesión normal. Además, en general utilizaré una línea por cada parámetro en las funciones que utilice, de modo que sea fácil de visualizar el código en teléfonos móviles.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(tidyverse)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;El siguiente paso será crear una superficie en la que irá el gráfico. Usaremos las funciones de &lt;code&gt;ggplot2&lt;/code&gt; para esto y para todas las futuras personalizaciones. Utilizaremos un ancho de 15 unidades (eje x) y un alto de 32 unidades (eje y) para mantener las proporciones definidas por la ONPE en la &lt;a href=&#34;https://busquedas.elperuano.pe/normaslegales/aprueban-modelos-definitivos-de-cedulas-de-sufragio-para-vot-resolucion-jefatural-n-000263-2019-jnonpe-1835783-1/&#34;&gt;RESOLUCIÓN JEFATURAL Nº 000263-2019-JN/ONPE&lt;/a&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;cedula &amp;lt;- ggplot()+
+  # límites del plano
+  xlim(c(0, 15))+
+  ylim(c(0, 32))
+
+cedula&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://academic-demo.netlify.app/post/cedula-2020-ggplot2-parte-1/index.es_files/figure-html/limites-1.png&#34; width=&#34;288&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Debido a que las líneas divisorias y el fondo no nos ayudan para nuestros propósitos, nos vamos a deshacer de ellos usando &lt;code&gt;theme_void()&lt;/code&gt;. Para mantener la referencia de los límites del gráfico, crearemos un marco con borde negro utilizando &lt;code&gt;geom_rect()&lt;/code&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;cedula &amp;lt;- cedula +
+  theme_void() +
+    # marco rectangular con borde negro
+    geom_rect(aes(xmin = 0, 
+                  xmax = 15, 
+                  ymin = 0, 
+                  ymax = 32), 
+              color = &amp;quot;black&amp;quot;, 
+              alpha = 0)
+
+cedula&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://academic-demo.netlify.app/post/cedula-2020-ggplot2-parte-1/index.es_files/figure-html/marco-1.png&#34; width=&#34;288&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Lo siguiente es establecer el espacio que ocuparán los elementos de la cédula. En este caso, podemos llamar &lt;code&gt;instrucciones&lt;/code&gt; a los marcos de texto que contienen las instrucciones de cómo votar. Los nombres de las columnas del &lt;em&gt;tibble&lt;/em&gt; &lt;code&gt;instrucciones&lt;/code&gt; nos permitirán identificarlos con los parámetros de &lt;code&gt;geom_rect()&lt;/code&gt; cuando lo agreguemos al gráfico.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;instrucciones &amp;lt;- tribble(
+  ~xmin, ~xmax, ~ymin, ~ymax,
+  0.6,  11.8,  28.4,  29.9,
+  12.1,  14.4,  28.4,  29.9)
+
+cedula &amp;lt;- cedula +
+    # contenedores debajo del título con instruciones
+    geom_rect(data = instrucciones, 
+              aes(xmin = xmin, 
+                  xmax = xmax,
+                  ymin = ymin, 
+                  ymax = ymax), 
+              alpha = 0.25)
+cedula&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://academic-demo.netlify.app/post/cedula-2020-ggplot2-parte-1/index.es_files/figure-html/instrucciones-1.png&#34; width=&#34;288&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Llamaremos&lt;code&gt;rectangulos&lt;/code&gt; a los marcos en los que van contenidos los nombres de las agrupaciones políticas. Debido a que son varios contenedores y la distancia entre ellos es uniforme, crearemos los valores del eje Y usando un generador de secuencias. Los valores del eje X, en cambio, son constantes.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;rectangulos &amp;lt;- tibble(xmin = 0.6, 
+                      xmax = 11.8, 
+                      ymin= seq(
+                        from = 27.3, 
+                        to = 2.1, 
+                        by = -1.2), 
+                      ymax = ymin + 1)
+
+cedula &amp;lt;- cedula +
+# rectángulos para nombres de partidos
+    geom_rect(data = rectangulos, 
+              aes(xmin = xmin, 
+                  xmax = xmax,
+                  ymin = ymin, 
+                  ymax = ymax), 
+              alpha = 0.15)
+
+cedula&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://academic-demo.netlify.app/post/cedula-2020-ggplot2-parte-1/index.es_files/figure-html/rectangulos-1.png&#34; width=&#34;288&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;El &lt;em&gt;tibble&lt;/em&gt; &lt;code&gt;preferencial&lt;/code&gt; contiene los cuadrados en los que el votante puede marcar el logo de la agrupación política de su preferencia. Modificando un poco su ubicación el eje X en dos ocasiones, permitirá tener también los cuadrados de voto preferencial.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;preferencial &amp;lt;- tibble(
+  xmin = 10.8, 
+  xmax = 11.8, 
+  ymin= seq(
+    from = 27.3, 
+    to = 2.1, 
+    by = -1.2), 
+  ymax = ymin + 1)
+
+cedula &amp;lt;- cedula +
+  # cuadrados para logo 
+  geom_rect(data = preferencial, 
+            aes(xmin = xmin, 
+                xmax = xmax,
+                ymin = ymin, 
+                ymax = ymax), 
+            color = &amp;quot;black&amp;quot;, 
+            fill = &amp;quot;white&amp;quot;) +
+  # cuadrado para voto preferencial 1
+  geom_rect(data = preferencial, 
+            aes(xmin = xmin + 1.3, 
+                xmax = xmax + 1.3,
+                ymin = ymin, 
+                ymax = ymax), 
+            color = &amp;quot;black&amp;quot;, 
+            fill = &amp;quot;white&amp;quot;) +
+  # cuadrado para voto preferencial 1
+  geom_rect(data = preferencial, 
+            aes(xmin = xmin + 2.6, 
+                xmax = xmax + 2.6,
+                ymin = ymin, 
+                ymax = ymax), 
+            color = &amp;quot;black&amp;quot;, 
+            fill = &amp;quot;white&amp;quot;)
+
+cedula&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://academic-demo.netlify.app/post/cedula-2020-ggplot2-parte-1/index.es_files/figure-html/preferencial-1.png&#34; width=&#34;288&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;En la segunda parte del post explicaré cómo agregar el texto, tanto de los nombres de los partidos políticos como de las instrucciones para votar.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Inicios</title>
+      <link>https://academic-demo.netlify.app/post/inicios/</link>
+      <pubDate>Mon, 13 Jan 2020 00:00:00 +0000</pubDate>
+      <guid>https://academic-demo.netlify.app/post/inicios/</guid>
+      <description>
+&lt;script src=&#34;https://academic-demo.netlify.app/post/inicios/index.es_files/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
+
+
+&lt;div id=&#34;para-qué-un-blog&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;¿Para qué un blog?&lt;/h2&gt;
+&lt;p&gt;Este blog se hace con la intención de compartir diferentes tipos de trabajo. Desde el año pasado emprendí la tarea de aprender el lenguaje R por mi cuenta, para ello me valí de varias plataformas en las que a través de artículos, videos, tutoriales y otros, he podido alcanzar un nivel más o menos avanzado en la comprensión del lenguaje.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;la-importancia-de-rstudio&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;La importancia de RStudio&lt;/h2&gt;
+&lt;p&gt;Quiero resaltar que ha sido particularmente beneficioso que la comunidad que utiliza R es, además, especialmente activa en lo que respecta a enseñar a otros a utilizar dicha herramienta. Entre ellos destaco el trabajo que hace el equipo de &lt;a href=&#34;https://rstudio.com/&#34;&gt;RStudio&lt;/a&gt;, quienes además de desarrollar el IDE más utilizado actualmente para trabajar con R, han desarrollado una serie de paquetes que facilitan el acceso al mundo del famoso “Data Science” bajo la filosofía del &lt;a href=&#34;https://www.tidyverse.org/&#34;&gt;tidyverse&lt;/a&gt;. Hago una mención honrosa al paquete &lt;em&gt;blogdown&lt;/em&gt;, que me permite desarrollar esta web de una manera bastante sencilla.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;pequeña-reseña&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Pequeña reseña&lt;/h2&gt;
+&lt;p&gt;Debo decir que este no es mi primer intento de tener un espacio virtual. El año 2013, cuando estaba en mi tercer año universitario, junto a un grupo de la carrera desarrollamos en Wordpress un blog llamado &lt;em&gt;Polinóptico&lt;/em&gt; que tenía la intención de ser un espacio en el que estudiantes de la carrera de Ciencia Política de la Universidad Antonio Ruiz de Montoya pudieran compartir sus trabajos y ser leídos por quien quisiera. Lamentablemente ese entusiasmo no llegó a la masa de estudiantes de la carrera, y el blog murió, no sin antes haber tenido varios intentos de ser revivido.&lt;/p&gt;
+&lt;p&gt;Ese mismo año llevé una clase de estadística dictada por &lt;a href=&#34;http://www.joseincio.com/&#34;&gt;José Incio&lt;/a&gt; en la que me fue bien. En esa clase conocí por primera vez el lenguaje R. Incio nos enseñaba conceptos de estadística descriptiva e inferencial ayudándose de scripts de R que tenía guardados, en algunas ocasiones editándolos en vivo para algún tipo de personalización, especialmente cuando se trataba de gráficos. A pesar de que trató de enseñarnos los beneficios de usar R, al final preferí prestar más atención al aprendizaje de SPSS en las clases de práctica porque resultaba más intuitivo y cercano a lo que ya conocía, Excel.&lt;/p&gt;
+&lt;p&gt;En los años siguientes, no tuve necesidad de usar ni Excel, ni SPSS, ni R para &lt;strong&gt;ningún&lt;/strong&gt; trabajo de la universidad (no exagero), ni para ningún trabajo pagado eventual. La única excepción a esto fue la clase de Análisis de Regresión dictada por la gran Heidi Sada durante mi intercambio en la Ibero, Ciudad de México.&lt;/p&gt;
+&lt;p&gt;El 2014 alguien que no recuerdo ahora me presentó la plataforma Coursera en la que se podían llevar cursos MOOC de buena calidad y gratuitos. Después de llevar algunos por curiosidad, en setiembre del 2017 decidí llevar la “Data Science Specialization” de la Universidad de John Hopkins, que hacía uso intensivo de R en sus explicaciones. Fue mi segundo acercamiento al lenguaje y el primero al IDE RStudio. No terminé la especialización en Coursera porque los últimos módulos se me complicaron demasiado, y además ya tenía otro proyecto en mente.&lt;/p&gt;
+&lt;p&gt;Todo este interludio sobre mi llegada a R es para decir que en el verano 2018 decidí tener un blog propio en Wordpress en el que haría tutoriales sobre R. Un plan bastante ambicioso para alguien que apenas había empezado a conocer lo más básico del lenguaje. Logré hacer dos entradas, la primera sobre cómo instalar R y la segunda sobre cómo instalar RStudio. La idea era ir aprendiendo R e ir haciendo tutoriales de lo que acababa de aprender. Nunca hice público el blog porque ahí murió. Nunca le agregué más contenido.&lt;/p&gt;
+&lt;p&gt;Lo que sí hice ese año fue estudiar estadística aplicada y SPSS en la escuela del &lt;a href=&#34;https://www.inei.gob.pe/enei/&#34;&gt;INEI&lt;/a&gt;. Aunque aprendí bastante en estos cursos, el mayor uso que le encontré fue convencerme de que R era superior.&lt;/p&gt;
+&lt;p&gt;Fue recién en enero del 2019 que se juntaron varias cosas que me permitieron aprender realmente el lenguaje:&lt;/p&gt;
+&lt;ol style=&#34;list-style-type: decimal&#34;&gt;
+&lt;li&gt;No tenía trabajo, por lo tanto tampoco tenía dinero para matricularme en cursos.&lt;/li&gt;
+&lt;li&gt;Mi enamorada se fue de viaje por varios meses y yo sentía que necesitaba tener el tiempo y la cabeza ocupados en algo productivo.&lt;/li&gt;
+&lt;li&gt;Esta es más de ñoño. No me gusta salir en verano porque hace mucho calor en la calle y el sol es horrible, así que me la pasaba todo el tiempo en mi casa.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Así fue que terminé en tiempo récord el programa de estudios &lt;em&gt;Data Scientist with R&lt;/em&gt; de la plataforma &lt;a href=&#34;https://www.datacamp.com/&#34;&gt;Datacamp&lt;/a&gt; e hice una shiny &lt;a href=&#34;https://samuelcalderon.shinyapps.io/ver1-0/&#34;&gt;app&lt;/a&gt; para no olvidar lo que estaba aprendiendo.&lt;/p&gt;
+&lt;p&gt;Durante el resto del año hice todo lo posible para usar R con cualquier excusa. En esto fue de gran ayuda conocer la existencia de &lt;a href=&#34;https://rstudio.cloud/&#34;&gt;RStudio.cloud&lt;/a&gt; porque me permitió usar R en el trabajo sin necesidad de pedir permiso a la oficina de tecnologías de la información para instalarlo.&lt;/p&gt;
+&lt;p&gt;Creé este blog en setiembre 2019 para mantener activo mi conocimiento de las funciones de los paquetes &lt;code&gt;blogdown&lt;/code&gt; y &lt;code&gt;Rmarkdown&lt;/code&gt;. Este es el tercer intento de blog, y para asegurarme de que funcione, esta vez lo hago público el mismo día en que me compro el dominio. Si cuento con lectores estaré muy agradecido de que me hagan llegar sugerencias de temas a tratar en el futuro. No soy un politólogo que bloguea sobre R, sino un politólogo que usa R para bloguear.&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

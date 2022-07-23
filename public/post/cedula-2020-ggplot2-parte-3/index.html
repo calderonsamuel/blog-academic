@@ -1,0 +1,1347 @@
+<!DOCTYPE html><html lang="es-pe" >
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  
+  
+  
+    <meta name="generator" content="Wowchemy 5.3.0 for Hugo" />
+  
+
+  
+
+  
+  
+  
+  
+  
+    
+    
+    
+  
+  
+
+  <meta name="author" content="Samuel Calderon Serrano" />
+
+  
+  
+  
+    
+  
+  <meta name="description" content="En el post anterior logramos agregarle texto al esqueleto de nuestra cédula. Ahora debemos aprender a agregarle imágenes. Iniciamos, como siempre, haciendo uso de nuestros paquetes predilectos.
+library(tidyverse)Lo básicoPara poder entender cómo se logra insertar los logos de los partidos políticos hace falta primero entender cómo insertar imágenes a un gráfico de ggplot2." />
+
+  
+  <link rel="alternate" hreflang="es-pe" href="https://academic-demo.netlify.app/post/cedula-2020-ggplot2-parte-3/" />
+
+  
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  
+
+  
+  
+  
+    <meta name="theme-color" content="#707070" />
+  
+
+  
+  
+    
+    <script src="/js/mathjax-config.js"></script>
+  
+
+  
+  
+  
+  
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha256-FMvZuGapsJLjouA6k7Eo2lusoAX9i0ShlWFG6qt7SLc=" crossorigin="anonymous" media="print" onload="this.media='all'">
+
+    
+    
+    
+    
+      
+      
+    
+    
+    
+
+    
+    
+    
+      
+    
+    
+      
+      
+        
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/styles/github.min.css" crossorigin="anonymous" title="hl-light" media="print" onload="this.media='all'">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/styles/dracula.min.css" crossorigin="anonymous" title="hl-dark" media="print" onload="this.media='all'" disabled>
+        
+      
+    
+
+    
+    
+    
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.min.css" integrity="sha512-1xoFisiGdy9nvho8EgXuXvnpR5GAMSjFwp40gSRE3NwdUdIMIKuPa7bqoUhLD0O/5tPNhteAsE5XyyMi5reQVA==" crossorigin="anonymous" media="print" onload="this.media='all'">
+    
+
+    
+
+    
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" integrity="" crossorigin="anonymous" async></script>
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+  
+
+  
+  
+  
+    
+      
+      <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cutive+Mono&family=Lora:wght@400;700&family=Roboto:wght@400;700&display=swap&display=swap">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cutive+Mono&family=Lora:wght@400;700&family=Roboto:wght@400;700&display=swap&display=swap" media="print" onload="this.media='all'">
+    
+  
+
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="/css/wowchemy.63fb3b0311bed08654b7d3b5863082d9.css" />
+
+  
+
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1YGT1Y5480"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+
+  function gtag() {
+      dataLayer.push(arguments);
+  }
+
+  function trackOutboundLink(url, target) {
+    gtag('event', 'click', {
+         'event_category': 'outbound',
+         'event_label': url,
+         'transport_type': 'beacon',
+         'event_callback': function () {
+           if (target !== '_blank') {
+             document.location = url;
+           }
+         }
+    });
+    console.debug("Outbound link clicked: " + url);
+  }
+
+  function onClickCallback(event) {
+    if ((event.target.tagName !== 'A') || (event.target.host === window.location.host)) {
+      return;
+    }
+    trackOutboundLink(event.target, event.target.getAttribute('target'));  
+  }
+
+  gtag('js', new Date());
+  gtag('config', 'G-1YGT1Y5480', {});
+  gtag('set', {'cookie_flags': 'SameSite=None;Secure'});
+
+  
+  document.addEventListener('click', onClickCallback, false);
+</script>
+
+
+  
+
+  
+
+  
+
+
+
+
+  
+  
+  
+
+  
+
+  
+    <link rel="manifest" href="/manifest.webmanifest" />
+  
+
+  <link rel="icon" type="image/png" href="/media/icon_hudc2d73b0c59810dfdf204c48ffabf147_23909_32x32_fill_lanczos_center_3.png" />
+  <link rel="apple-touch-icon" type="image/png" href="/media/icon_hudc2d73b0c59810dfdf204c48ffabf147_23909_180x180_fill_lanczos_center_3.png" />
+
+  <link rel="canonical" href="https://academic-demo.netlify.app/post/cedula-2020-ggplot2-parte-3/" />
+
+  
+  
+  
+  
+  
+  
+  
+  
+    
+    
+  
+  
+  <meta property="twitter:card" content="summary" />
+  
+  <meta property="og:site_name" content="Samuel Enrique" />
+  <meta property="og:url" content="https://academic-demo.netlify.app/post/cedula-2020-ggplot2-parte-3/" />
+  <meta property="og:title" content="Cédula Elecciones 2020 usando ggplot2 (parte 3) | Samuel Enrique" />
+  <meta property="og:description" content="En el post anterior logramos agregarle texto al esqueleto de nuestra cédula. Ahora debemos aprender a agregarle imágenes. Iniciamos, como siempre, haciendo uso de nuestros paquetes predilectos.
+library(tidyverse)Lo básicoPara poder entender cómo se logra insertar los logos de los partidos políticos hace falta primero entender cómo insertar imágenes a un gráfico de ggplot2." /><meta property="og:image" content="https://academic-demo.netlify.app/media/logo_hu1da6768c2a734c01a8ccbdd7b5277e1b_24707_300x300_fit_lanczos_3.png" />
+    <meta property="twitter:image" content="https://academic-demo.netlify.app/media/logo_hu1da6768c2a734c01a8ccbdd7b5277e1b_24707_300x300_fit_lanczos_3.png" /><meta property="og:locale" content="es-pe" />
+  
+    
+      <meta
+        property="article:published_time"
+        content="2020-01-24T00:00:00&#43;00:00"
+      />
+    
+    <meta property="article:modified_time" content="2021-08-15T20:36:42-05:00">
+  
+
+  
+
+
+    
+
+
+
+
+
+
+  
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://academic-demo.netlify.app/post/cedula-2020-ggplot2-parte-3/"
+  },
+  "headline": "Cédula Elecciones 2020 usando ggplot2 (parte 3)",
+  
+  "datePublished": "2020-01-24T00:00:00Z",
+  "dateModified": "2021-08-15T20:36:42-05:00",
+  
+  "author": {
+    "@type": "Person",
+    "name": "Samuel Calderon Serrano"
+  },
+  
+  "publisher": {
+    "@type": "Organization",
+    "name": "Samuel Enrique",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://academic-demo.netlify.app/media/logo_hu1da6768c2a734c01a8ccbdd7b5277e1b_24707_192x192_fit_lanczos_3.png"
+    }
+  },
+  "description": "En el post anterior logramos agregarle texto al esqueleto de nuestra cédula. Ahora debemos aprender a agregarle imágenes. Iniciamos, como siempre, haciendo uso de nuestros paquetes predilectos.\nlibrary(tidyverse)\rLo básico\rPara poder entender cómo se logra insertar los logos de los partidos políticos hace falta primero entender cómo insertar imágenes a un gráfico de ggplot2."
+}
+</script>
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+  <title>Cédula Elecciones 2020 usando ggplot2 (parte 3) | Samuel Enrique</title>
+</head>
+
+
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" class="page-wrapper   " data-wc-page-id="340dfe0d983f1b143807cdfac6da6e2c" >
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <script src="/js/wowchemy-init.min.8988fb2a4bba758785868cfcb5244555.js"></script>
+
+  
+
+
+<aside class="search-modal" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Buscar</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#" aria-label="Cerrar"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        <input name="q" id="search-query" placeholder="Buscar..." autocapitalize="off"
+        autocomplete="off" autocorrect="off" spellcheck="false" type="search" class="form-control"
+        aria-label="Buscar...">
+        
+      </div>
+
+      
+      
+
+      
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+
+  <div class="page-header">
+    
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id="navbar-main">
+  <div class="container-xl">
+
+    
+    <div class="d-none d-lg-inline-flex">
+      <a class="navbar-brand" href="/"><img src="/media/logo_hu1da6768c2a734c01a8ccbdd7b5277e1b_24707_0x70_resize_lanczos_3.png" alt="Samuel Enrique"></a>
+    </div>
+    
+
+    
+    <button type="button" class="navbar-toggler" data-toggle="collapse"
+            data-target="#navbar-content" aria-controls="navbar-content" aria-expanded="false" aria-label="Barra de navegación">
+    <span><i class="fas fa-bars"></i></span>
+    </button>
+    
+
+    
+    <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
+      <a class="navbar-brand" href="/"><img src="/media/logo_hu1da6768c2a734c01a8ccbdd7b5277e1b_24707_0x70_resize_lanczos_3.png" alt="Samuel Enrique"></a>
+    </div>
+    
+
+    
+    
+    <div class="navbar-collapse main-menu-item collapse justify-content-end" id="navbar-content">
+
+      
+      <ul class="navbar-nav d-md-inline-flex">
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+            
+            
+            
+              
+            
+            
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#about"><span>Acerca de mí</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link  active" href="/post/"><span>Blog</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/project/"><span>Proyectos</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+            
+            
+            
+              
+            
+            
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#contact"><span>Contacto</span></a>
+        </li>
+
+        
+        
+
+      
+
+        
+      </ul>
+    </div>
+
+    <ul class="nav-icons navbar-nav flex-row ml-auto d-flex pl-md-2">
+
+      
+      
+        
+          
+          <li class="nav-item d-none d-lg-inline-flex">
+            <a class="nav-link" href="https://twitter.com/samuel__case" data-toggle="tooltip" data-placement="bottom" title="Sígueme en Twitter" target="_blank" rel="noopener" aria-label="Sígueme en Twitter">
+              <i class="fab fa-twitter" aria-hidden="true"></i>
+            </a>
+          </li>
+        
+      
+
+      
+      
+      <li class="nav-item">
+        <a class="nav-link js-search" href="#" aria-label="Buscar"><i class="fas fa-search" aria-hidden="true"></i></a>
+      </li>
+      
+
+      
+      
+      <li class="nav-item dropdown theme-dropdown">
+        <a href="#" class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-label="Mostrar preferencias">
+          <i class="fas fa-moon" aria-hidden="true"></i>
+        </a>
+        <div class="dropdown-menu">
+          <a href="#" class="dropdown-item js-set-theme-light">
+            <span>Claro</span>
+          </a>
+          <a href="#" class="dropdown-item js-set-theme-dark">
+            <span>Oscuro</span>
+          </a>
+          <a href="#" class="dropdown-item js-set-theme-auto">
+            <span>Automático</span>
+          </a>
+        </div>
+      </li>
+      
+
+      
+      
+
+    </ul>
+
+  </div>
+</nav>
+
+
+  </div>
+
+  <div class="page-body">
+    <article class="article">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+  
+  
+<div class="article-container pt-3">
+  <h1>Cédula Elecciones 2020 usando ggplot2 (parte 3)</h1>
+
+  
+
+  
+    
+
+
+<div class="article-metadata">
+
+  
+  
+
+  
+  <span class="article-date">
+    
+    
+      
+          Última actualización el
+      
+    
+    Aug 15, 2021
+  </span>
+  
+
+  
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    5 min de lectura
+  </span>
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fas fa-folder mr-1"></i><a href="/category/r/">R</a></span>
+  
+
+</div>
+
+    
+
+
+
+
+
+  
+</div>
+
+
+
+  <div class="article-container">
+
+    <div class="article-style">
+      
+<script src="https://academic-demo.netlify.app/post/cedula-2020-ggplot2-parte-3/index.es_files/header-attrs/header-attrs.js"></script>
+
+
+<p>En el <a href="/blog/cedula-2020-ggplot2-parte-2/">post anterior</a> logramos agregarle texto al esqueleto de nuestra cédula. Ahora debemos aprender a agregarle imágenes. Iniciamos, como siempre, haciendo uso de nuestros paquetes predilectos.</p>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<div id="lo-básico" class="section level3">
+<h3>Lo básico</h3>
+<p>Para poder entender cómo se logra insertar los logos de los partidos políticos hace falta primero entender cómo insertar imágenes a un gráfico de ggplot2. Hasta la fecha, la forma más conveniente que he encontrado es haciendo uso de <code>annotation_custom()</code>. Esta función toma como primer argumento un <code>grob</code>, un objeto que sirve como bloque básico de construcción de todos los gráficos de ggplot2. Para lo que buscamos hacer, colocar los logos de los partidos dentro del gráfico, necesitamos convertir nuestras imágenes en <code>grob</code>s.</p>
+<p>Para que R interprete nuestras imágenes, hacemos uso de la función <code>load.image()</code> del paquete <code>imager</code>. Con el objeto obtenido hacemos uso de la función <code>rasterGrob()</code> del paquete <code>grid</code>, para obtener el <code>grob</code> necesario. Finalmente, <code>annotation_custom()</code> nos permite colocar el <code>grob</code> usando una sintaxis muy similar a la que hemos usado anteriormente con <code>geom_rect()</code>. Con el siguiente ejemplo, que usa el logo de esta página, debería quedar más claro.</p>
+<pre class="r"><code>url_ejemplo &lt;- &quot;https://www.samuelenrique.com/images/240px.png&quot;
+imagen_ejemplo &lt;- imager::load.image(url_ejemplo)
+grob_ejemplo &lt;- grid::rasterGrob(imagen_ejemplo)
+
+ggplot()+
+  xlim(c(0,10))+
+  ylim(c(0,10))+
+  annotation_custom(grob = grob_ejemplo,
+                    xmin = 0, xmax = 10,
+                    ymin = 0, ymax = 10)</code></pre>
+<p><img src="https://academic-demo.netlify.app/post/cedula-2020-ggplot2-parte-3/index.es_files/figure-html/unnamed-chunk-1-1.png" width="288" /></p>
+</div>
+<div id="lo-real" class="section level3">
+<h3>Lo real</h3>
+<p>Ahora que hemos entendido cómo funciona el procedimiento de agregar las imágenes, estamos listos para agregar los logos a nuestra cédula. Podríamos repetir el procedimiento anterior por cada partido en contienda, sin embargo, aprovechemos las ventajas de usar R para hacerlo más rápido (no necesariamente más sencillo).</p>
+<p>Lo primero será tener los enlaces a todos los logos de los partidos. Esto es posible debido a que el portal <a href="https://votoinformado.jne.gob.pe/voto">Voto Informado</a> cuenta con todos ellos. El vector <code>logo_url</code> fue creado manualmente para contener todos los logos, a excepción del de <strong>Todos por el Perú</strong> debido a que fue eliminado de la contienda por el JNE. En nuestro vector aparece como un <code>NA</code>.</p>
+<pre class="r"><code>logo_url &lt;- c(
+  &quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/2160.JPG&quot;,
+  &quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/1366.JPG&quot;,
+  &quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/1264.JPG&quot;,
+  &quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/55.JPG&quot;,
+  NA,
+  &quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/1257.JPG&quot;,
+  &quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/2840.JPG&quot;,
+  &quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/4.JPG&quot;,
+  &quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/2173.JPG&quot;,
+  &quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/5.JPG&quot;,
+  &quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/2731.JPG&quot;,
+  &quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/47.JPG&quot;,
+  &quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/14.JPG&quot;,
+  &quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/2191.JPG&quot;,
+  &quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/32.JPG&quot;,
+  &quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/2649.JPG&quot;,
+  &quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/2646.JPG&quot;,
+  &quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/2235.JPG&quot;,
+  &quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/2218.JPG&quot;,
+  &quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/2190.JPG&quot;,
+  &quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/22.JPG&quot;,
+  &quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/15.JPG&quot;
+)</code></pre>
+<p>Ahora que contamos con los enlaces, creamos una función que nos permita repetir el proceso de crear los <code>grob</code>s, de tal modo que podamos usarla sistemáticamente. La función que estamos creando, <code>grob_url()</code>, devuelve los valores <code>NA</code>. El argumento <code>interpolate = TRUE</code> dentro de <code>grid::rasterGrob()</code> ayuda a mejorar la calidad de la imagen.</p>
+<pre class="r"><code>grob_url &lt;- function(fileurl){
+  if(is.na(fileurl)) return(NA)
+  img &lt;- imager::load.image(fileurl)
+  grob &lt;- grid::rasterGrob(
+    img, 
+    interpolate=TRUE)
+  
+  grob
+}</code></pre>
+<p>Ahora que contamos con una función que cumple nuestros objetivos, la aplicamos a todos los enlaces contenidos en <code>logo_url</code>. Para ello hacemos uso de la función <code>map()</code> del paquete <code>purrr</code>. Debido a que <code>map()</code> siempre nos devuelve una lista, usamos la función <code>tibble()</code> para crear un objeto <em>tibble</em> con una sola columna (grob), que contiene cada uno de nuestros <code>grob</code>s. Es el mismo nombre que el primer argumento de <code>annotation_custom()</code>, y tiene un motivo que descubriremos más adelante. El objeto <code>grob</code> ahora es una tabla que contiene listas en su única columna, pero nos permite trabajar con ella como si fuera cualquier <em>data.frame</em> normal.</p>
+<pre class="r"><code>grob &lt;- map(logo_url, grob_url) %&gt;% 
+  tibble(grob = .)
+
+head(grob)</code></pre>
+<pre><code># A tibble: 6 x 1
+  grob      
+  &lt;list&gt;    
+1 &lt;rastrgrb&gt;
+2 &lt;rastrgrb&gt;
+3 &lt;rastrgrb&gt;
+4 &lt;rastrgrb&gt;
+5 &lt;lgl [1]&gt; 
+6 &lt;rastrgrb&gt;</code></pre>
+<p>Ahora podemos hacer uso de <code>annotation_custom()</code> en cada uno de nuestros <code>grob</code>s. Recordemos los argumentos que esta función necesita:</p>
+<ol style="list-style-type: decimal">
+<li><code>grob</code>: Es el <em>grob</em> que será dibujado en el gráfico.</li>
+<li><code>xmin</code>: El primer valor del eje X, o posición de la esquina izquierda de la imagen.</li>
+<li><code>xmax</code>: El segundo valor del eje X, o posición de la esquina derecha de la imagen.</li>
+<li><code>ymin</code>: El primer valor del eje Y, o posición de la esquina inferior de la imagen.</li>
+<li><code>ymax</code>: El segundo valor del eje Y, o posición de la esquina superior de la imagen.</li>
+</ol>
+<p>Ya tenemos nuestros <em>grobs</em> mapeados en el tibble <code>grob</code>, ahora necesitamos los otros cuatro argumentos. Sin embargo, estos ya los teníamos desde hace muchísimo antes. Están contenidos en el tibble <code>preferencial</code> que creamos en la <a href="/blog/cedula-2020-ggplot2-parte-2/">primera parte</a> cuando usamos <code>geom_rect()</code> para dibujar los cuadros para voto preferencial.</p>
+<pre class="r"><code>head(preferencial)</code></pre>
+<pre><code># A tibble: 6 x 4
+   xmin  xmax  ymin  ymax
+  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1  10.8  11.8  27.3  28.3
+2  10.8  11.8  26.1  27.1
+3  10.8  11.8  24.9  25.9
+4  10.8  11.8  23.7  24.7
+5  10.8  11.8  22.5  23.5
+6  10.8  11.8  21.3  22.3</code></pre>
+<p>Entonces, lo que necesitamos hacer ahora es unir ambos tibbles con <code>bind_cols()</code> del paquete <code>dplyr()</code>. Luego usamos <code>filter()</code> para librarnos del valor <code>NA</code> porque ya no es útil (de hecho, si lo dejamos ocasionaremos un bug que me costó más tiempo del debido identificar). Finalmente, utilizamos <code>pmap()</code> del paquete <code>purrr</code> para usar cada fila de nuestri tibble como lista de argumentos de <code>annotation_custom()</code>. Con esto, hemos conseguido la lista <code>annotations</code> con la que podemos graficar todos los logos.</p>
+<pre class="r"><code>annotations &lt;- grob %&gt;% 
+  bind_cols(preferencial) %&gt;% 
+  filter(!is.na(grob)) %&gt;% 
+  pmap(annotation_custom)</code></pre>
+<p>Sin embargo, unir todos los <em>annotations</em> no es tan sencillo como hacer <code>cedula + annotations</code> debido a que <code>annotation_custom()</code> no se comporta como un <code>geom_*</code>. Será necesario crear una función que nos permita hacer una suma recursiva de todos los elementos: <code>rec_ggadd()</code> toma un objeto de <code>ggplot2</code> y una lista para añadir recursivamente sus elementos al objeto. El tercer argumento es un iterador que permite la recursividad, y no necesita ser identificado por quien use la función.</p>
+<pre class="r"><code>rec_ggadd &lt;- function(ggobj, lista, i = length(lista)){
+  if(i == 1){
+    ggobj + lista[[i]]
+  } else {
+    ggobj &lt;- ggobj + lista[[i]]
+    rec_ggadd(ggobj, lista, i = i-1)
+  }
+}</code></pre>
+<p>Ahora sí, sólo queda aplicar la función a nuestra <code>cedula</code> y habremos conseguido lo que tanto deseábamos.</p>
+<pre class="r"><code>cedula &lt;- rec_ggadd(cedula, annotations)</code></pre>
+<p>Imprimimos <code>cedula</code> para ver que todo salió bien.</p>
+<pre class="r"><code>cedula</code></pre>
+<p><img src="cedula.png" width="288" height="615" /></p>
+</div>
+
+    </div>
+
+    
+
+
+
+
+
+
+<div class="article-tags">
+  
+  <a class="badge badge-light" href="/tag/cedula/">cedula</a>
+  
+  <a class="badge badge-light" href="/tag/ggplot2/">ggplot2</a>
+  
+</div>
+
+
+
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://twitter.com/intent/tweet?url=https://academic-demo.netlify.app/post/cedula-2020-ggplot2-parte-3/&amp;text=C%c3%a9dula%20Elecciones%202020%20usando%20ggplot2%20%28parte%203%29" target="_blank" rel="noopener" class="share-btn-twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.facebook.com/sharer.php?u=https://academic-demo.netlify.app/post/cedula-2020-ggplot2-parte-3/&amp;t=C%c3%a9dula%20Elecciones%202020%20usando%20ggplot2%20%28parte%203%29" target="_blank" rel="noopener" class="share-btn-facebook">
+          <i class="fab fa-facebook"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="mailto:?subject=C%c3%a9dula%20Elecciones%202020%20usando%20ggplot2%20%28parte%203%29&amp;body=https://academic-demo.netlify.app/post/cedula-2020-ggplot2-parte-3/" target="_blank" rel="noopener" class="share-btn-email">
+          <i class="fas fa-envelope"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.linkedin.com/shareArticle?url=https://academic-demo.netlify.app/post/cedula-2020-ggplot2-parte-3/&amp;title=C%c3%a9dula%20Elecciones%202020%20usando%20ggplot2%20%28parte%203%29" target="_blank" rel="noopener" class="share-btn-linkedin">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="whatsapp://send?text=C%c3%a9dula%20Elecciones%202020%20usando%20ggplot2%20%28parte%203%29%20https://academic-demo.netlify.app/post/cedula-2020-ggplot2-parte-3/" target="_blank" rel="noopener" class="share-btn-whatsapp">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://service.weibo.com/share/share.php?url=https://academic-demo.netlify.app/post/cedula-2020-ggplot2-parte-3/&amp;title=C%c3%a9dula%20Elecciones%202020%20usando%20ggplot2%20%28parte%203%29" target="_blank" rel="noopener" class="share-btn-weibo">
+          <i class="fab fa-weibo"></i>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+  
+  
+    
+  
+  
+  
+  <div class="media author-card content-widget-hr">
+    
+      
+      <a href="https://academic-demo.netlify.app/"><img class="avatar mr-3 avatar-circle" src="/author/samuel-calderon-serrano/avatar_hub487044f85bdcc4ef4242a9f554decc8_113020_270x270_fill_q75_lanczos_center.jpg" alt="Samuel Calderon Serrano"></a>
+    
+
+    <div class="media-body">
+      <h5 class="card-title"><a href="https://academic-demo.netlify.app/">Samuel Calderon Serrano</a></h5>
+      <h6 class="card-subtitle">Integrante del Equipo Técnico Normativo de la Dirección de Licenciamiento</h6>
+      <p class="card-text">Me interesan los temas de datos abiertos, educación superior y enseñanza de uso de herramientas para análisis de datos.</p>
+      <ul class="network-icon" aria-hidden="true">
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="/#contact" >
+        <i class="fas fa-envelope"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://twitter.com/samuel__case" target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://github.com/calderonsamuel" target="_blank" rel="noopener">
+        <i class="fab fa-github"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://www.linkedin.com/in/samuelcalderon/" target="_blank" rel="noopener">
+        <i class="fab fa-linkedin"></i>
+      </a>
+    </li>
+  
+</ul>
+
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <div class="article-widget content-widget-hr">
+    <h3>Relacionado</h3>
+    <ul>
+      
+      <li><a href="/post/cedula-2020-ggplot2-parte-2/">Cédula Elecciones 2020 usando ggplot2 (parte 2)</a></li>
+      
+      <li><a href="/post/cedula-2020-ggplot2-parte-1/">Cédula Elecciones 2020 usando ggplot2 (parte 1)</a></li>
+      
+      <li><a href="/post/grafico-de-parlamento/">¿Cómo hacer un gráfico de parlamento en R?</a></li>
+      
+    </ul>
+  </div>
+  
+
+
+
+
+
+  </div>
+</article>
+  </div>
+
+  <div class="page-footer">
+    
+    
+    <div class="container">
+      <footer class="site-footer">
+
+  
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+
+
+
+
+
+  <p class="powered-by">
+    
+    
+    
+      
+      
+      
+      
+      
+      
+      Published with <a href="https://wowchemy.com/?utm_campaign=poweredby" target="_blank" rel="noopener">Wowchemy</a> — the free, <a href="https://github.com/wowchemy/wowchemy-hugo-modules" target="_blank" rel="noopener">open source</a> website builder that empowers creators.
+    
+  </p>
+</footer>
+
+    </div>
+    
+  </div>
+
+  
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Citar</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><code class="tex hljs"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copiar
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Descargar
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+      
+
+    
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/instant.page/5.1.0/instantpage.min.js" integrity="sha512-1+qUtKoh9XZW7j+6LhRMAyOrgSQKenQ4mluTR+cvxXjP1Z54RxZuzstR/H9kgPXQsVB8IW7DMDFUJpzLjvhGSQ==" crossorigin="anonymous"></script>
+
+      
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js" integrity="sha256-lqvxZrPLtfffUl2G/e7szqSvPBILGbwmsGE1MKlOi0Q=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js" integrity="sha256-CBrpuqrMhXwcLLUd5tvQ4euBHCdh7wGlDfNz8vbu/iI=" crossorigin="anonymous"></script>
+      
+
+      
+      
+
+      
+
+      
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/highlight.min.js" integrity="sha512-TDKKr+IvoqZnPzc3l35hdjpHD0m+b2EC2SrLEgKDRWpxf2rFCxemkgvJ5kfU48ip+Y+m2XVKyOCD85ybtlZDmw==" crossorigin="anonymous"></script>
+        
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/languages/r.min.js" crossorigin="anonymous"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/languages/python.min.js" crossorigin="anonymous"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/languages/latex.min.js" crossorigin="anonymous"></script>
+        
+      
+
+    
+
+    
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.min.js" integrity="sha512-SeiQaaDh73yrb56sTW/RgVdi/mMqNeM2oBwubFHagc5BkixSpP1fvqF47mKzPGWYSSy4RwbBunrJBQ4Co8fRWA==" crossorigin="anonymous"></script>
+    
+
+    
+    
+
+    
+    
+    
+      
+      <script id="search-hit-fuse-template" type="text/x-template">
+        <div class="search-hit" id="summary-{{key}}">
+          <div class="search-hit-content">
+            <div class="search-hit-name">
+              <a href="{{relpermalink}}">{{title}}</a>
+              <div class="article-metadata search-hit-type">{{type}}</div>
+              <p class="search-hit-description">{{snippet}}</p>
+            </div>
+          </div>
+        </div>
+      </script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.2.1/fuse.min.js" integrity="sha256-VzgmKYmhsGNNN4Ph1kMW+BjoYJM2jV5i4IlFoeZA9XI=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+      
+    
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    <script src="/js/bootstrap.bundle.min.6aed84840afc03ab4d5750157f69c120.js"></script>
+
+    
+    
+      
+      
+      
+      
+      
+      
+      
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+      
+      
+    
+    
+    <script src="/es/js/wowchemy.min.82b398ff03225825117e1d7207584740.js"></script>
+
+    
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,32 @@
+---
+title: Bug arreglado en Calculadora Renacyt
+author: Samuel Calderon
+date: '2022-07-23'
+slug: bug-arreglado-en-calculadora-renacyt
+categories: []
+tags:
+  - Open source
+  - r
+subtitle: ''
+summary: ''
+authors: []
+lastmod: '2022-07-23T12:35:24-05:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+---
+
+Este breve post describe un problema que se había encontrado en la Calculadora Renacyt. 
+
+En el mes de mayo de este año hice cambios en el repositorio para poder usar [shiny modules](https://shiny.rstudio.com/articles/modules.html), con la esperanza de que así fuera más solucionar  cualquier problema en la aplicación.
+
+Lamentablemente, esto introdujo un bug en la aplicación debido a un desafortunado error de tipeo que ocasionaba que la suma del puntaje total ignore el puntaje en formación académica y sume dos veces el puntaje en producción científica. Gracias a los reportes de [Rolando Montenegro](https://twitter.com/74Rolo) y Mg. Vitelio Asencios Tarazona pude localizar el problema y corregirlo. ¡Esa es la magia del código abierto!
+
+También quiero aprovechar para anunciar que la app estará siendo alojada en un nuevo servidor que no tiene límites de uso: <https://apps.samuelenrique.com/calculadora-renacyt> . La sección de proyectos de esta web ahora dirigirá a este enlace.
+
+En el raro caso de que ese enlace falle, se puede seguir usando el anterior: <https://samuelcalderon.shinyapps.io/caluladora-renacyt/>
+
+Si alguien encuentra errores o es necesario actualizar la app, la manera más directa de encontrarme pos vía Twitter: <https://twitter.com/samuel__case>

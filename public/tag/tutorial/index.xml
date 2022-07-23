@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>tutorial | Samuel Enrique</title>
+    <link>https://academic-demo.netlify.app/tag/tutorial/</link>
+      <atom:link href="https://academic-demo.netlify.app/tag/tutorial/index.xml" rel="self" type="application/rss+xml" />
+    <description>tutorial</description>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>es-pe</language><lastBuildDate>Wed, 29 Jan 2020 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>https://academic-demo.netlify.app/media/logo_hu1da6768c2a734c01a8ccbdd7b5277e1b_24707_300x300_fit_lanczos_3.png</url>
+      <title>tutorial</title>
+      <link>https://academic-demo.netlify.app/tag/tutorial/</link>
+    </image>
+    
+    <item>
+      <title>¿Cómo hacer un gráfico de parlamento en R?</title>
+      <link>https://academic-demo.netlify.app/post/grafico-de-parlamento/</link>
+      <pubDate>Wed, 29 Jan 2020 00:00:00 +0000</pubDate>
+      <guid>https://academic-demo.netlify.app/post/grafico-de-parlamento/</guid>
+      <description>
+&lt;script src=&#34;https://academic-demo.netlify.app/post/grafico-de-parlamento/index.es_files/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
+
+
+&lt;p&gt;Para esta tarea vamos a hacer de uso dos paquetes principalmente: el viejo conocido &lt;code&gt;tidyverse&lt;/code&gt; y también de &lt;code&gt;ggpol&lt;/code&gt;, una extensión de ggplot2 desarrollada especialmente para este tipo de gráficos. &lt;code&gt;ggforce&lt;/code&gt; nos servirá al final sólo para una mejora estética.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(tidyverse)
+library(ggpol)
+library(ggforce)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Como en todo gráfico que se realiza con ggplot2, necesitamos primero contar con un &lt;em&gt;data.frame&lt;/em&gt; o &lt;em&gt;tibble&lt;/em&gt; que contenga la información necesaria para construirlo. La fuente primaria de estos datos es la web de la &lt;a href=&#34;https://resultados.eleccionescongresales2020.pe/PRECE2020/&#34;&gt;ONPE&lt;/a&gt;, de donde se puede obtener el detalle de la votación por varios niveles de desagregación. Debido a que no es propósito de este post mostrar cómo hacer el &lt;em&gt;scrapping&lt;/em&gt; de la información, ni el cálculo de las curules, voy a preferir un resumen que ya ha trabajado otra persona para graficar en base a ello.&lt;/p&gt;
+&lt;p&gt;En la web de &lt;a href=&#34;http://www.joseincio.com/post/resultados-congreso-extraordinario-2020/&#34;&gt;José Incio&lt;/a&gt; podemos encontrar un cuadro de la distribución de escaños del nuevo congreso peruano. Debido a que esa información aún está actualizándose según el conteo de los votos que ONPE sigue realizando, quiero hacer uso de &lt;code&gt;Sys.time()&lt;/code&gt; para mostrar la hora en que estoy escribiendo este post.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;Sys.time()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;2021-08-15 22:30:14 -05&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Haciendo uso del add-in &lt;em&gt;Paste as tribble&lt;/em&gt; que el paquete &lt;code&gt;datapasta&lt;/code&gt; incluye en RStudio, puedo obtenr el &lt;em&gt;tibble&lt;/em&gt; &lt;code&gt;congreso&lt;/code&gt;, que no es más que un copy/paste de la tabla elaborada por José Incio disponible a esta hora.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;votos &amp;lt;- tibble::tribble(
+                                          ~Partido, ~Escaños,
+                                  &amp;quot;ACCION POPULAR&amp;quot;,      25L,
+                        &amp;quot;ALIANZA PARA EL PROGRESO&amp;quot;,      22L,
+   &amp;quot;FRENTE POPULAR AGRICOLA FIA DEL PERU - FREPAP&amp;quot;,      15L,
+                                  &amp;quot;FUERZA POPULAR&amp;quot;,      15L,
+                               &amp;quot;UNION POR EL PERU&amp;quot;,      13L,
+                  &amp;quot;PARTIDO DEMOCRATICO SOMOS PERU&amp;quot;,      11L,
+                                    &amp;quot;PODEMOS PERU&amp;quot;,      11L,
+  &amp;quot;EL FRENTE AMPLIO POR JUSTICIA, VIDA Y LIBERTAD&amp;quot;,       9L,
+                                  &amp;quot;PARTIDO MORADO&amp;quot;,       9L
+  )&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;El siguiente paso es mejorar el &lt;em&gt;tibble&lt;/em&gt; de tal modo que nos permita realizar el gráfico deseado. Empezamos por agregarle un color a cada uno de los partidos presentes en el gráfico. Podemos guiarnos de una &lt;a href=&#34;http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf&#34;&gt;hoja de referencia&lt;/a&gt; para escoger los colores, tomando en cuenta los colores partidarios. Podemos unir los colores a los partidos haciendo uso de &lt;code&gt;bind_cols()&lt;/code&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;congreso &amp;lt;- tibble(
+  colores = c(
+  &amp;quot;darkred&amp;quot;,
+  &amp;quot;dodgerblue4&amp;quot;,
+  &amp;quot;deepskyblue3&amp;quot;,
+  &amp;quot;darkorange2&amp;quot;,
+  &amp;quot;gold2&amp;quot;,
+  &amp;quot;brown3&amp;quot;,
+  &amp;quot;royalblue3&amp;quot;,
+  &amp;quot;forestgreen&amp;quot;,
+  &amp;quot;mediumpurple4&amp;quot;
+)) %&amp;gt;% 
+  bind_cols(votos)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Ahora que contamos con los datos, simplemente realizamos el gráfico. Hacemos uso de &lt;code&gt;geom_parliament()&lt;/code&gt; del paquete &lt;code&gt;ggpol&lt;/code&gt;. Tan sólo necesitamos mapear dos argumentos:&lt;/p&gt;
+&lt;ol style=&#34;list-style-type: decimal&#34;&gt;
+&lt;li&gt;&lt;code&gt;seats&lt;/code&gt;: la cantidad de escaños o &lt;em&gt;asientos&lt;/em&gt; obtenidos&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;fill&lt;/code&gt;: el nombre de los partidos&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Además de eso, usaremos &lt;code&gt;scale_fill_manual()&lt;/code&gt; para utilizar nuestros colores personalizados y el nombre de los partidos en la leyenda del gráfico. Luego, &lt;code&gt;coord_fixed()&lt;/code&gt; nos ayuda a preservar el ratio de aspecto del gráfico.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;grafico &amp;lt;- ggplot(congreso)+
+  geom_parliament(
+    aes(
+      seats = Escaños, 
+      fill = Partido), 
+    color = &amp;quot;white&amp;quot;) +
+  scale_fill_manual(
+    values = congreso$colores, 
+    labels = congreso$Partido) +
+  coord_fixed()
+
+print(grafico)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://academic-demo.netlify.app/post/grafico-de-parlamento/index.es_files/figure-html/grafico-1.png&#34; width=&#34;480&#34; style=&#34;display: block; margin: auto;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Vemos que hemos obtenido el gráfico y los partidos aparecen pintados con los colores que hemos asignado. Sin embargo, aún es posible hacerle unas mejoras estéticas. Usamos &lt;code&gt;theme_no_axes()&lt;/code&gt; del paquete &lt;code&gt;ggforce&lt;/code&gt; para eliminar las líneas guía de nuestro plano cartesiano y quedarnos sólo con un marco negro. También usamos &lt;code&gt;labs()&lt;/code&gt; para agregarle un título a nuestro gráfico y &lt;code&gt;theme()&lt;/code&gt; para cambiar el tamaño de los elementos de nuestra leyenda.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;grafico +
+  theme_no_axes() +
+  labs(
+    title = &amp;quot;DISTRIBUCIÓN DE ESCAÑOS&amp;quot;) +
+  theme(
+    legend.text = element_text(
+      size=5),
+    legend.key.size = unit(
+      x = 3, 
+      units = &amp;quot;mm&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://academic-demo.netlify.app/post/grafico-de-parlamento/index.es_files/figure-html/final-1.png&#34; width=&#34;480&#34; style=&#34;display: block; margin: auto;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Ya tenemos un gráfico más presentable y sencillo de replicar.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>R Markdown | Samuel Enrique</title>
+    <link>https://academic-demo.netlify.app/tag/r-markdown/</link>
+      <atom:link href="https://academic-demo.netlify.app/tag/r-markdown/index.xml" rel="self" type="application/rss+xml" />
+    <description>R Markdown</description>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>es-pe</language><lastBuildDate>Mon, 13 Jan 2020 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>https://academic-demo.netlify.app/media/logo_hu1da6768c2a734c01a8ccbdd7b5277e1b_24707_300x300_fit_lanczos_3.png</url>
+      <title>R Markdown</title>
+      <link>https://academic-demo.netlify.app/tag/r-markdown/</link>
+    </image>
+    
+    <item>
+      <title>Inicios</title>
+      <link>https://academic-demo.netlify.app/post/inicios/</link>
+      <pubDate>Mon, 13 Jan 2020 00:00:00 +0000</pubDate>
+      <guid>https://academic-demo.netlify.app/post/inicios/</guid>
+      <description>
+&lt;script src=&#34;https://academic-demo.netlify.app/post/inicios/index.es_files/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
+
+
+&lt;div id=&#34;para-qué-un-blog&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;¿Para qué un blog?&lt;/h2&gt;
+&lt;p&gt;Este blog se hace con la intención de compartir diferentes tipos de trabajo. Desde el año pasado emprendí la tarea de aprender el lenguaje R por mi cuenta, para ello me valí de varias plataformas en las que a través de artículos, videos, tutoriales y otros, he podido alcanzar un nivel más o menos avanzado en la comprensión del lenguaje.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;la-importancia-de-rstudio&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;La importancia de RStudio&lt;/h2&gt;
+&lt;p&gt;Quiero resaltar que ha sido particularmente beneficioso que la comunidad que utiliza R es, además, especialmente activa en lo que respecta a enseñar a otros a utilizar dicha herramienta. Entre ellos destaco el trabajo que hace el equipo de &lt;a href=&#34;https://rstudio.com/&#34;&gt;RStudio&lt;/a&gt;, quienes además de desarrollar el IDE más utilizado actualmente para trabajar con R, han desarrollado una serie de paquetes que facilitan el acceso al mundo del famoso “Data Science” bajo la filosofía del &lt;a href=&#34;https://www.tidyverse.org/&#34;&gt;tidyverse&lt;/a&gt;. Hago una mención honrosa al paquete &lt;em&gt;blogdown&lt;/em&gt;, que me permite desarrollar esta web de una manera bastante sencilla.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;pequeña-reseña&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Pequeña reseña&lt;/h2&gt;
+&lt;p&gt;Debo decir que este no es mi primer intento de tener un espacio virtual. El año 2013, cuando estaba en mi tercer año universitario, junto a un grupo de la carrera desarrollamos en Wordpress un blog llamado &lt;em&gt;Polinóptico&lt;/em&gt; que tenía la intención de ser un espacio en el que estudiantes de la carrera de Ciencia Política de la Universidad Antonio Ruiz de Montoya pudieran compartir sus trabajos y ser leídos por quien quisiera. Lamentablemente ese entusiasmo no llegó a la masa de estudiantes de la carrera, y el blog murió, no sin antes haber tenido varios intentos de ser revivido.&lt;/p&gt;
+&lt;p&gt;Ese mismo año llevé una clase de estadística dictada por &lt;a href=&#34;http://www.joseincio.com/&#34;&gt;José Incio&lt;/a&gt; en la que me fue bien. En esa clase conocí por primera vez el lenguaje R. Incio nos enseñaba conceptos de estadística descriptiva e inferencial ayudándose de scripts de R que tenía guardados, en algunas ocasiones editándolos en vivo para algún tipo de personalización, especialmente cuando se trataba de gráficos. A pesar de que trató de enseñarnos los beneficios de usar R, al final preferí prestar más atención al aprendizaje de SPSS en las clases de práctica porque resultaba más intuitivo y cercano a lo que ya conocía, Excel.&lt;/p&gt;
+&lt;p&gt;En los años siguientes, no tuve necesidad de usar ni Excel, ni SPSS, ni R para &lt;strong&gt;ningún&lt;/strong&gt; trabajo de la universidad (no exagero), ni para ningún trabajo pagado eventual. La única excepción a esto fue la clase de Análisis de Regresión dictada por la gran Heidi Sada durante mi intercambio en la Ibero, Ciudad de México.&lt;/p&gt;
+&lt;p&gt;El 2014 alguien que no recuerdo ahora me presentó la plataforma Coursera en la que se podían llevar cursos MOOC de buena calidad y gratuitos. Después de llevar algunos por curiosidad, en setiembre del 2017 decidí llevar la “Data Science Specialization” de la Universidad de John Hopkins, que hacía uso intensivo de R en sus explicaciones. Fue mi segundo acercamiento al lenguaje y el primero al IDE RStudio. No terminé la especialización en Coursera porque los últimos módulos se me complicaron demasiado, y además ya tenía otro proyecto en mente.&lt;/p&gt;
+&lt;p&gt;Todo este interludio sobre mi llegada a R es para decir que en el verano 2018 decidí tener un blog propio en Wordpress en el que haría tutoriales sobre R. Un plan bastante ambicioso para alguien que apenas había empezado a conocer lo más básico del lenguaje. Logré hacer dos entradas, la primera sobre cómo instalar R y la segunda sobre cómo instalar RStudio. La idea era ir aprendiendo R e ir haciendo tutoriales de lo que acababa de aprender. Nunca hice público el blog porque ahí murió. Nunca le agregué más contenido.&lt;/p&gt;
+&lt;p&gt;Lo que sí hice ese año fue estudiar estadística aplicada y SPSS en la escuela del &lt;a href=&#34;https://www.inei.gob.pe/enei/&#34;&gt;INEI&lt;/a&gt;. Aunque aprendí bastante en estos cursos, el mayor uso que le encontré fue convencerme de que R era superior.&lt;/p&gt;
+&lt;p&gt;Fue recién en enero del 2019 que se juntaron varias cosas que me permitieron aprender realmente el lenguaje:&lt;/p&gt;
+&lt;ol style=&#34;list-style-type: decimal&#34;&gt;
+&lt;li&gt;No tenía trabajo, por lo tanto tampoco tenía dinero para matricularme en cursos.&lt;/li&gt;
+&lt;li&gt;Mi enamorada se fue de viaje por varios meses y yo sentía que necesitaba tener el tiempo y la cabeza ocupados en algo productivo.&lt;/li&gt;
+&lt;li&gt;Esta es más de ñoño. No me gusta salir en verano porque hace mucho calor en la calle y el sol es horrible, así que me la pasaba todo el tiempo en mi casa.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Así fue que terminé en tiempo récord el programa de estudios &lt;em&gt;Data Scientist with R&lt;/em&gt; de la plataforma &lt;a href=&#34;https://www.datacamp.com/&#34;&gt;Datacamp&lt;/a&gt; e hice una shiny &lt;a href=&#34;https://samuelcalderon.shinyapps.io/ver1-0/&#34;&gt;app&lt;/a&gt; para no olvidar lo que estaba aprendiendo.&lt;/p&gt;
+&lt;p&gt;Durante el resto del año hice todo lo posible para usar R con cualquier excusa. En esto fue de gran ayuda conocer la existencia de &lt;a href=&#34;https://rstudio.cloud/&#34;&gt;RStudio.cloud&lt;/a&gt; porque me permitió usar R en el trabajo sin necesidad de pedir permiso a la oficina de tecnologías de la información para instalarlo.&lt;/p&gt;
+&lt;p&gt;Creé este blog en setiembre 2019 para mantener activo mi conocimiento de las funciones de los paquetes &lt;code&gt;blogdown&lt;/code&gt; y &lt;code&gt;Rmarkdown&lt;/code&gt;. Este es el tercer intento de blog, y para asegurarme de que funcione, esta vez lo hago público el mismo día en que me compro el dominio. Si cuento con lectores estaré muy agradecido de que me hagan llegar sugerencias de temas a tratar en el futuro. No soy un politólogo que bloguea sobre R, sino un politólogo que usa R para bloguear.&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

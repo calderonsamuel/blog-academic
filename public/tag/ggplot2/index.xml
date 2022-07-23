@@ -1,0 +1,430 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ggplot2 | Samuel Enrique</title>
+    <link>https://academic-demo.netlify.app/tag/ggplot2/</link>
+      <atom:link href="https://academic-demo.netlify.app/tag/ggplot2/index.xml" rel="self" type="application/rss+xml" />
+    <description>ggplot2</description>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>es-pe</language><lastBuildDate>Wed, 29 Jan 2020 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>https://academic-demo.netlify.app/media/logo_hu1da6768c2a734c01a8ccbdd7b5277e1b_24707_300x300_fit_lanczos_3.png</url>
+      <title>ggplot2</title>
+      <link>https://academic-demo.netlify.app/tag/ggplot2/</link>
+    </image>
+    
+    <item>
+      <title>¿Cómo hacer un gráfico de parlamento en R?</title>
+      <link>https://academic-demo.netlify.app/post/grafico-de-parlamento/</link>
+      <pubDate>Wed, 29 Jan 2020 00:00:00 +0000</pubDate>
+      <guid>https://academic-demo.netlify.app/post/grafico-de-parlamento/</guid>
+      <description>
+&lt;script src=&#34;https://academic-demo.netlify.app/post/grafico-de-parlamento/index.es_files/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
+
+
+&lt;p&gt;Para esta tarea vamos a hacer de uso dos paquetes principalmente: el viejo conocido &lt;code&gt;tidyverse&lt;/code&gt; y también de &lt;code&gt;ggpol&lt;/code&gt;, una extensión de ggplot2 desarrollada especialmente para este tipo de gráficos. &lt;code&gt;ggforce&lt;/code&gt; nos servirá al final sólo para una mejora estética.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(tidyverse)
+library(ggpol)
+library(ggforce)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Como en todo gráfico que se realiza con ggplot2, necesitamos primero contar con un &lt;em&gt;data.frame&lt;/em&gt; o &lt;em&gt;tibble&lt;/em&gt; que contenga la información necesaria para construirlo. La fuente primaria de estos datos es la web de la &lt;a href=&#34;https://resultados.eleccionescongresales2020.pe/PRECE2020/&#34;&gt;ONPE&lt;/a&gt;, de donde se puede obtener el detalle de la votación por varios niveles de desagregación. Debido a que no es propósito de este post mostrar cómo hacer el &lt;em&gt;scrapping&lt;/em&gt; de la información, ni el cálculo de las curules, voy a preferir un resumen que ya ha trabajado otra persona para graficar en base a ello.&lt;/p&gt;
+&lt;p&gt;En la web de &lt;a href=&#34;http://www.joseincio.com/post/resultados-congreso-extraordinario-2020/&#34;&gt;José Incio&lt;/a&gt; podemos encontrar un cuadro de la distribución de escaños del nuevo congreso peruano. Debido a que esa información aún está actualizándose según el conteo de los votos que ONPE sigue realizando, quiero hacer uso de &lt;code&gt;Sys.time()&lt;/code&gt; para mostrar la hora en que estoy escribiendo este post.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;Sys.time()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;2021-08-15 22:30:14 -05&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Haciendo uso del add-in &lt;em&gt;Paste as tribble&lt;/em&gt; que el paquete &lt;code&gt;datapasta&lt;/code&gt; incluye en RStudio, puedo obtenr el &lt;em&gt;tibble&lt;/em&gt; &lt;code&gt;congreso&lt;/code&gt;, que no es más que un copy/paste de la tabla elaborada por José Incio disponible a esta hora.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;votos &amp;lt;- tibble::tribble(
+                                          ~Partido, ~Escaños,
+                                  &amp;quot;ACCION POPULAR&amp;quot;,      25L,
+                        &amp;quot;ALIANZA PARA EL PROGRESO&amp;quot;,      22L,
+   &amp;quot;FRENTE POPULAR AGRICOLA FIA DEL PERU - FREPAP&amp;quot;,      15L,
+                                  &amp;quot;FUERZA POPULAR&amp;quot;,      15L,
+                               &amp;quot;UNION POR EL PERU&amp;quot;,      13L,
+                  &amp;quot;PARTIDO DEMOCRATICO SOMOS PERU&amp;quot;,      11L,
+                                    &amp;quot;PODEMOS PERU&amp;quot;,      11L,
+  &amp;quot;EL FRENTE AMPLIO POR JUSTICIA, VIDA Y LIBERTAD&amp;quot;,       9L,
+                                  &amp;quot;PARTIDO MORADO&amp;quot;,       9L
+  )&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;El siguiente paso es mejorar el &lt;em&gt;tibble&lt;/em&gt; de tal modo que nos permita realizar el gráfico deseado. Empezamos por agregarle un color a cada uno de los partidos presentes en el gráfico. Podemos guiarnos de una &lt;a href=&#34;http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf&#34;&gt;hoja de referencia&lt;/a&gt; para escoger los colores, tomando en cuenta los colores partidarios. Podemos unir los colores a los partidos haciendo uso de &lt;code&gt;bind_cols()&lt;/code&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;congreso &amp;lt;- tibble(
+  colores = c(
+  &amp;quot;darkred&amp;quot;,
+  &amp;quot;dodgerblue4&amp;quot;,
+  &amp;quot;deepskyblue3&amp;quot;,
+  &amp;quot;darkorange2&amp;quot;,
+  &amp;quot;gold2&amp;quot;,
+  &amp;quot;brown3&amp;quot;,
+  &amp;quot;royalblue3&amp;quot;,
+  &amp;quot;forestgreen&amp;quot;,
+  &amp;quot;mediumpurple4&amp;quot;
+)) %&amp;gt;% 
+  bind_cols(votos)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Ahora que contamos con los datos, simplemente realizamos el gráfico. Hacemos uso de &lt;code&gt;geom_parliament()&lt;/code&gt; del paquete &lt;code&gt;ggpol&lt;/code&gt;. Tan sólo necesitamos mapear dos argumentos:&lt;/p&gt;
+&lt;ol style=&#34;list-style-type: decimal&#34;&gt;
+&lt;li&gt;&lt;code&gt;seats&lt;/code&gt;: la cantidad de escaños o &lt;em&gt;asientos&lt;/em&gt; obtenidos&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;fill&lt;/code&gt;: el nombre de los partidos&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Además de eso, usaremos &lt;code&gt;scale_fill_manual()&lt;/code&gt; para utilizar nuestros colores personalizados y el nombre de los partidos en la leyenda del gráfico. Luego, &lt;code&gt;coord_fixed()&lt;/code&gt; nos ayuda a preservar el ratio de aspecto del gráfico.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;grafico &amp;lt;- ggplot(congreso)+
+  geom_parliament(
+    aes(
+      seats = Escaños, 
+      fill = Partido), 
+    color = &amp;quot;white&amp;quot;) +
+  scale_fill_manual(
+    values = congreso$colores, 
+    labels = congreso$Partido) +
+  coord_fixed()
+
+print(grafico)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://academic-demo.netlify.app/post/grafico-de-parlamento/index.es_files/figure-html/grafico-1.png&#34; width=&#34;480&#34; style=&#34;display: block; margin: auto;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Vemos que hemos obtenido el gráfico y los partidos aparecen pintados con los colores que hemos asignado. Sin embargo, aún es posible hacerle unas mejoras estéticas. Usamos &lt;code&gt;theme_no_axes()&lt;/code&gt; del paquete &lt;code&gt;ggforce&lt;/code&gt; para eliminar las líneas guía de nuestro plano cartesiano y quedarnos sólo con un marco negro. También usamos &lt;code&gt;labs()&lt;/code&gt; para agregarle un título a nuestro gráfico y &lt;code&gt;theme()&lt;/code&gt; para cambiar el tamaño de los elementos de nuestra leyenda.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;grafico +
+  theme_no_axes() +
+  labs(
+    title = &amp;quot;DISTRIBUCIÓN DE ESCAÑOS&amp;quot;) +
+  theme(
+    legend.text = element_text(
+      size=5),
+    legend.key.size = unit(
+      x = 3, 
+      units = &amp;quot;mm&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://academic-demo.netlify.app/post/grafico-de-parlamento/index.es_files/figure-html/final-1.png&#34; width=&#34;480&#34; style=&#34;display: block; margin: auto;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Ya tenemos un gráfico más presentable y sencillo de replicar.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Cédula Elecciones 2020 usando ggplot2 (parte 3)</title>
+      <link>https://academic-demo.netlify.app/post/cedula-2020-ggplot2-parte-3/</link>
+      <pubDate>Fri, 24 Jan 2020 00:00:00 +0000</pubDate>
+      <guid>https://academic-demo.netlify.app/post/cedula-2020-ggplot2-parte-3/</guid>
+      <description>
+&lt;script src=&#34;https://academic-demo.netlify.app/post/cedula-2020-ggplot2-parte-3/index.es_files/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
+
+
+&lt;p&gt;En el &lt;a href=&#34;https://academic-demo.netlify.app/blog/cedula-2020-ggplot2-parte-2/&#34;&gt;post anterior&lt;/a&gt; logramos agregarle texto al esqueleto de nuestra cédula. Ahora debemos aprender a agregarle imágenes. Iniciamos, como siempre, haciendo uso de nuestros paquetes predilectos.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(tidyverse)&lt;/code&gt;&lt;/pre&gt;
+&lt;div id=&#34;lo-básico&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Lo básico&lt;/h3&gt;
+&lt;p&gt;Para poder entender cómo se logra insertar los logos de los partidos políticos hace falta primero entender cómo insertar imágenes a un gráfico de ggplot2. Hasta la fecha, la forma más conveniente que he encontrado es haciendo uso de &lt;code&gt;annotation_custom()&lt;/code&gt;. Esta función toma como primer argumento un &lt;code&gt;grob&lt;/code&gt;, un objeto que sirve como bloque básico de construcción de todos los gráficos de ggplot2. Para lo que buscamos hacer, colocar los logos de los partidos dentro del gráfico, necesitamos convertir nuestras imágenes en &lt;code&gt;grob&lt;/code&gt;s.&lt;/p&gt;
+&lt;p&gt;Para que R interprete nuestras imágenes, hacemos uso de la función &lt;code&gt;load.image()&lt;/code&gt; del paquete &lt;code&gt;imager&lt;/code&gt;. Con el objeto obtenido hacemos uso de la función &lt;code&gt;rasterGrob()&lt;/code&gt; del paquete &lt;code&gt;grid&lt;/code&gt;, para obtener el &lt;code&gt;grob&lt;/code&gt; necesario. Finalmente, &lt;code&gt;annotation_custom()&lt;/code&gt; nos permite colocar el &lt;code&gt;grob&lt;/code&gt; usando una sintaxis muy similar a la que hemos usado anteriormente con &lt;code&gt;geom_rect()&lt;/code&gt;. Con el siguiente ejemplo, que usa el logo de esta página, debería quedar más claro.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;url_ejemplo &amp;lt;- &amp;quot;https://www.samuelenrique.com/images/240px.png&amp;quot;
+imagen_ejemplo &amp;lt;- imager::load.image(url_ejemplo)
+grob_ejemplo &amp;lt;- grid::rasterGrob(imagen_ejemplo)
+
+ggplot()+
+  xlim(c(0,10))+
+  ylim(c(0,10))+
+  annotation_custom(grob = grob_ejemplo,
+                    xmin = 0, xmax = 10,
+                    ymin = 0, ymax = 10)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://academic-demo.netlify.app/post/cedula-2020-ggplot2-parte-3/index.es_files/figure-html/unnamed-chunk-1-1.png&#34; width=&#34;288&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;lo-real&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Lo real&lt;/h3&gt;
+&lt;p&gt;Ahora que hemos entendido cómo funciona el procedimiento de agregar las imágenes, estamos listos para agregar los logos a nuestra cédula. Podríamos repetir el procedimiento anterior por cada partido en contienda, sin embargo, aprovechemos las ventajas de usar R para hacerlo más rápido (no necesariamente más sencillo).&lt;/p&gt;
+&lt;p&gt;Lo primero será tener los enlaces a todos los logos de los partidos. Esto es posible debido a que el portal &lt;a href=&#34;https://votoinformado.jne.gob.pe/voto&#34;&gt;Voto Informado&lt;/a&gt; cuenta con todos ellos. El vector &lt;code&gt;logo_url&lt;/code&gt; fue creado manualmente para contener todos los logos, a excepción del de &lt;strong&gt;Todos por el Perú&lt;/strong&gt; debido a que fue eliminado de la contienda por el JNE. En nuestro vector aparece como un &lt;code&gt;NA&lt;/code&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;logo_url &amp;lt;- c(
+  &amp;quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/2160.JPG&amp;quot;,
+  &amp;quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/1366.JPG&amp;quot;,
+  &amp;quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/1264.JPG&amp;quot;,
+  &amp;quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/55.JPG&amp;quot;,
+  NA,
+  &amp;quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/1257.JPG&amp;quot;,
+  &amp;quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/2840.JPG&amp;quot;,
+  &amp;quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/4.JPG&amp;quot;,
+  &amp;quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/2173.JPG&amp;quot;,
+  &amp;quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/5.JPG&amp;quot;,
+  &amp;quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/2731.JPG&amp;quot;,
+  &amp;quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/47.JPG&amp;quot;,
+  &amp;quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/14.JPG&amp;quot;,
+  &amp;quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/2191.JPG&amp;quot;,
+  &amp;quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/32.JPG&amp;quot;,
+  &amp;quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/2649.JPG&amp;quot;,
+  &amp;quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/2646.JPG&amp;quot;,
+  &amp;quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/2235.JPG&amp;quot;,
+  &amp;quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/2218.JPG&amp;quot;,
+  &amp;quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/2190.JPG&amp;quot;,
+  &amp;quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/22.JPG&amp;quot;,
+  &amp;quot;https://votoinformado.jne.gob.pe/voto/Resources/imgs/logoop/15.JPG&amp;quot;
+)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Ahora que contamos con los enlaces, creamos una función que nos permita repetir el proceso de crear los &lt;code&gt;grob&lt;/code&gt;s, de tal modo que podamos usarla sistemáticamente. La función que estamos creando, &lt;code&gt;grob_url()&lt;/code&gt;, devuelve los valores &lt;code&gt;NA&lt;/code&gt;. El argumento &lt;code&gt;interpolate = TRUE&lt;/code&gt; dentro de &lt;code&gt;grid::rasterGrob()&lt;/code&gt; ayuda a mejorar la calidad de la imagen.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;grob_url &amp;lt;- function(fileurl){
+  if(is.na(fileurl)) return(NA)
+  img &amp;lt;- imager::load.image(fileurl)
+  grob &amp;lt;- grid::rasterGrob(
+    img, 
+    interpolate=TRUE)
+  
+  grob
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Ahora que contamos con una función que cumple nuestros objetivos, la aplicamos a todos los enlaces contenidos en &lt;code&gt;logo_url&lt;/code&gt;. Para ello hacemos uso de la función &lt;code&gt;map()&lt;/code&gt; del paquete &lt;code&gt;purrr&lt;/code&gt;. Debido a que &lt;code&gt;map()&lt;/code&gt; siempre nos devuelve una lista, usamos la función &lt;code&gt;tibble()&lt;/code&gt; para crear un objeto &lt;em&gt;tibble&lt;/em&gt; con una sola columna (grob), que contiene cada uno de nuestros &lt;code&gt;grob&lt;/code&gt;s. Es el mismo nombre que el primer argumento de &lt;code&gt;annotation_custom()&lt;/code&gt;, y tiene un motivo que descubriremos más adelante. El objeto &lt;code&gt;grob&lt;/code&gt; ahora es una tabla que contiene listas en su única columna, pero nos permite trabajar con ella como si fuera cualquier &lt;em&gt;data.frame&lt;/em&gt; normal.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;grob &amp;lt;- map(logo_url, grob_url) %&amp;gt;% 
+  tibble(grob = .)
+
+head(grob)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;# A tibble: 6 x 1
+  grob      
+  &amp;lt;list&amp;gt;    
+1 &amp;lt;rastrgrb&amp;gt;
+2 &amp;lt;rastrgrb&amp;gt;
+3 &amp;lt;rastrgrb&amp;gt;
+4 &amp;lt;rastrgrb&amp;gt;
+5 &amp;lt;lgl [1]&amp;gt; 
+6 &amp;lt;rastrgrb&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Ahora podemos hacer uso de &lt;code&gt;annotation_custom()&lt;/code&gt; en cada uno de nuestros &lt;code&gt;grob&lt;/code&gt;s. Recordemos los argumentos que esta función necesita:&lt;/p&gt;
+&lt;ol style=&#34;list-style-type: decimal&#34;&gt;
+&lt;li&gt;&lt;code&gt;grob&lt;/code&gt;: Es el &lt;em&gt;grob&lt;/em&gt; que será dibujado en el gráfico.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;xmin&lt;/code&gt;: El primer valor del eje X, o posición de la esquina izquierda de la imagen.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;xmax&lt;/code&gt;: El segundo valor del eje X, o posición de la esquina derecha de la imagen.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ymin&lt;/code&gt;: El primer valor del eje Y, o posición de la esquina inferior de la imagen.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ymax&lt;/code&gt;: El segundo valor del eje Y, o posición de la esquina superior de la imagen.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Ya tenemos nuestros &lt;em&gt;grobs&lt;/em&gt; mapeados en el tibble &lt;code&gt;grob&lt;/code&gt;, ahora necesitamos los otros cuatro argumentos. Sin embargo, estos ya los teníamos desde hace muchísimo antes. Están contenidos en el tibble &lt;code&gt;preferencial&lt;/code&gt; que creamos en la &lt;a href=&#34;https://academic-demo.netlify.app/blog/cedula-2020-ggplot2-parte-2/&#34;&gt;primera parte&lt;/a&gt; cuando usamos &lt;code&gt;geom_rect()&lt;/code&gt; para dibujar los cuadros para voto preferencial.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;head(preferencial)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;# A tibble: 6 x 4
+   xmin  xmax  ymin  ymax
+  &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt;
+1  10.8  11.8  27.3  28.3
+2  10.8  11.8  26.1  27.1
+3  10.8  11.8  24.9  25.9
+4  10.8  11.8  23.7  24.7
+5  10.8  11.8  22.5  23.5
+6  10.8  11.8  21.3  22.3&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Entonces, lo que necesitamos hacer ahora es unir ambos tibbles con &lt;code&gt;bind_cols()&lt;/code&gt; del paquete &lt;code&gt;dplyr()&lt;/code&gt;. Luego usamos &lt;code&gt;filter()&lt;/code&gt; para librarnos del valor &lt;code&gt;NA&lt;/code&gt; porque ya no es útil (de hecho, si lo dejamos ocasionaremos un bug que me costó más tiempo del debido identificar). Finalmente, utilizamos &lt;code&gt;pmap()&lt;/code&gt; del paquete &lt;code&gt;purrr&lt;/code&gt; para usar cada fila de nuestri tibble como lista de argumentos de &lt;code&gt;annotation_custom()&lt;/code&gt;. Con esto, hemos conseguido la lista &lt;code&gt;annotations&lt;/code&gt; con la que podemos graficar todos los logos.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;annotations &amp;lt;- grob %&amp;gt;% 
+  bind_cols(preferencial) %&amp;gt;% 
+  filter(!is.na(grob)) %&amp;gt;% 
+  pmap(annotation_custom)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Sin embargo, unir todos los &lt;em&gt;annotations&lt;/em&gt; no es tan sencillo como hacer &lt;code&gt;cedula + annotations&lt;/code&gt; debido a que &lt;code&gt;annotation_custom()&lt;/code&gt; no se comporta como un &lt;code&gt;geom_*&lt;/code&gt;. Será necesario crear una función que nos permita hacer una suma recursiva de todos los elementos: &lt;code&gt;rec_ggadd()&lt;/code&gt; toma un objeto de &lt;code&gt;ggplot2&lt;/code&gt; y una lista para añadir recursivamente sus elementos al objeto. El tercer argumento es un iterador que permite la recursividad, y no necesita ser identificado por quien use la función.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;rec_ggadd &amp;lt;- function(ggobj, lista, i = length(lista)){
+  if(i == 1){
+    ggobj + lista[[i]]
+  } else {
+    ggobj &amp;lt;- ggobj + lista[[i]]
+    rec_ggadd(ggobj, lista, i = i-1)
+  }
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Ahora sí, sólo queda aplicar la función a nuestra &lt;code&gt;cedula&lt;/code&gt; y habremos conseguido lo que tanto deseábamos.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;cedula &amp;lt;- rec_ggadd(cedula, annotations)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Imprimimos &lt;code&gt;cedula&lt;/code&gt; para ver que todo salió bien.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;cedula&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;cedula.png&#34; width=&#34;288&#34; height=&#34;615&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Cédula Elecciones 2020 usando ggplot2 (parte 2)</title>
+      <link>https://academic-demo.netlify.app/post/cedula-2020-ggplot2-parte-2/</link>
+      <pubDate>Sat, 18 Jan 2020 00:00:00 +0000</pubDate>
+      <guid>https://academic-demo.netlify.app/post/cedula-2020-ggplot2-parte-2/</guid>
+      <description>
+&lt;script src=&#34;https://academic-demo.netlify.app/post/cedula-2020-ggplot2-parte-2/index.es_files/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
+
+
+&lt;p&gt;En el &lt;a href=&#34;https://academic-demo.netlify.app/blog/cedula-2020-ggplot2-parte-1/&#34;&gt;post anterior&lt;/a&gt; mostramos cómo crear el “esqueleto” de la cédula. En este, en cambio, incluiremos el texto y los logos de los partidos. Primero lo primero, habilitamos los paquetes del tidyverse.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(tidyverse)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Nos aseguramos de contar con los objetos creados en el paso anterior. Especialmente el objeto &lt;code&gt;cedula&lt;/code&gt;, que contiene las instrucciones de nuestro “esqueleto”.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ls()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;[1] &amp;quot;cedula&amp;quot;        &amp;quot;instrucciones&amp;quot; &amp;quot;preferencial&amp;quot;  &amp;quot;rectangulos&amp;quot;  &lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Comenzaremos por crear un vector que contenga los nombres de los partidos políticos en contienda, basados en el orden que obtuvieron en el &lt;a href=&#34;https://www.onpe.gob.pe/sala-prensa/notas-prensa/elecciones-congresales-2020-onpe-sorteo-ubicacion-de-organizaciones-politicas-en-cedulas-sufragio/&#34;&gt;sorteo&lt;/a&gt; realizado por la ONPE para determinar la posición en la cédula. Lo llamamos &lt;code&gt;partidos&lt;/code&gt;.
+.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;partidos &amp;lt;- c(
+  &amp;quot;EL FRENTE AMPLIO POR JUSTICIA, VIDA Y LIBERTAD&amp;quot;,
+  &amp;quot;FUERZA POPULAR&amp;quot;,
+  &amp;quot;JUNTOS POR EL PERU&amp;quot;,
+  &amp;quot;PERU PATRIA SEGURA&amp;quot;,
+  &amp;quot;TODOS POR EL PERU&amp;quot;,
+  &amp;quot;ALIANZA PARA EL PROGRESO&amp;quot;,
+  &amp;quot;PARTIDO MORADO&amp;quot;,
+  &amp;quot;ACCION POPULAR&amp;quot;,
+  &amp;quot;AVANZA PAIS – PARTIDO DE INTEGRACION SOCIAL&amp;quot;,
+  &amp;quot;RENACIMIENTO UNIDO NACIONAL&amp;quot;,
+  &amp;quot;PODEMOS PERU&amp;quot;,
+  &amp;quot;UNION POR EL PERU&amp;quot;,
+  &amp;quot;PARTIDO DEMOCRATICO SOMOS PERU&amp;quot;,
+  &amp;quot;DEMOCRACIA DIRECTA&amp;quot;,
+  &amp;quot;PARTIDO APRISTA PERUANO&amp;quot;,
+  &amp;quot;PERU NACION&amp;quot;,
+  &amp;quot;FRENTE POPULAR AGRICOLA FIA DEL PERU- FREPAP&amp;quot;,
+  &amp;quot;PARTIDO POLITICO CONTIGO&amp;quot;,
+  &amp;quot;PARTIDO POLITICO NACIONAL PERU LIBRE&amp;quot;,
+  &amp;quot;VAMOS PERU&amp;quot;,
+  &amp;quot;SOLIDARIDAD NACIONAL&amp;quot;,
+  &amp;quot;PARTIDO POPULAR CRISTIANO - PPC&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Del mismo modo que utilizamos una secuencia para generar el objeto &lt;code&gt;preferencial&lt;/code&gt; en la primera parte, generamos una secuencia para la ubicación de los nombres de los partidos. Esta vez, la generamos directamente dentro de &lt;code&gt;geom_text()&lt;/code&gt;, la función que nos permite colocar texto en un gráfico de &lt;code&gt;ggplot&lt;/code&gt;. Tengamos en cuenta que el argumento &lt;code&gt;size&lt;/code&gt; cambiará según el tamaño en pixeles que le hayamos asignado al gráfico&lt;a href=&#34;#fn1&#34; class=&#34;footnote-ref&#34; id=&#34;fnref1&#34;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/a&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;cedula &amp;lt;- cedula +
+  geom_text(
+    aes(x = 0.8, 
+        y = seq(
+          from = 27.8, 
+          to = 2.6, 
+          by = -1.2), 
+        label = partidos),
+      fontface = &amp;quot;bold&amp;quot;,
+      size = 1.5,
+      hjust = 0)
+cedula&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://academic-demo.netlify.app/post/cedula-2020-ggplot2-parte-2/index.es_files/figure-html/unnamed-chunk-2-1.png&#34; width=&#34;288&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Lo siguiente es incluir el título de la cédula. Para esto utilizamos nuevamente &lt;code&gt;geom_text()&lt;/code&gt;. Esta vez será necesario utilizar un &lt;em&gt;linebreak&lt;/em&gt; (&lt;code&gt;\n&lt;/code&gt;) para tener el texto en dos líneas.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;cedula &amp;lt;- cedula +
+  geom_text(
+    aes(x = 7.5, 
+        y = 30.6, 
+        label = &amp;quot;ELECCIONES CONGRESALES\nEXTRAORDINARIAS 2020&amp;quot;), 
+    fontface = &amp;quot;bold&amp;quot;,
+    size = 2.1,
+    lineheight = 0.8)
+cedula&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://academic-demo.netlify.app/post/cedula-2020-ggplot2-parte-2/index.es_files/figure-html/unnamed-chunk-3-1.png&#34; width=&#34;288&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Incluyamos ahora las instrucciones que indican cómo votar. Nuevamente, &lt;code&gt;geom_text()&lt;/code&gt; nos servirá para lograrlo. En esta ocasión incluiremos más de un &lt;em&gt;linebreak&lt;/em&gt; en algunos casos.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;cedula &amp;lt;- cedula +
+  geom_text(
+    aes(x = 6.3, 
+        y = 29.6, 
+        label = &amp;quot;ORGANIZACIÓN POLÍTICA&amp;quot;),
+    fontface = &amp;quot;bold&amp;quot;,
+    size = 1.2)+
+  geom_text(
+    aes(x = 6.3,
+        y = 28.9,
+        label = &amp;quot;MARQUE CON UNA CRUZ  +   O UN ASPA   X  DENTRO DEL RECUADRO DEL SÍMBOLO\nDE SU PREFERENCIA&amp;quot;),
+    size = 0.9) +
+  geom_text(
+    aes(x = 13.25,
+        y = 29.5,
+        label = &amp;quot;VOTO\nPREFERENCIAL&amp;quot;),
+    fontface = &amp;quot;bold&amp;quot;,
+    size = 1.05,
+    lineheight = 0.8) +
+  geom_text(
+    aes(x = 13.25,
+        y = 28.9,
+        label = &amp;quot;SI DESEA COLOQUE DENTRO\nDE LOS RECUADROS UNO O DOS\nNÚMEROS DE LOS CANDIDATOS\nDE SU PREFERENCIA&amp;quot;),
+    size = 0.54,
+    lineheight = 0.9)
+
+cedula&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://academic-demo.netlify.app/post/cedula-2020-ggplot2-parte-2/index.es_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;288&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;¡Cada vez estamos más cerca! El siguiente paso es incluir los logos de las agrupaciones políticas.&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34;&gt;
+&lt;hr /&gt;
+&lt;ol&gt;
+&lt;li id=&#34;fn1&#34;&gt;&lt;p&gt;En esta ocasión, el tamaño del gráfico es de 3 x 6.4 pulgadas, manteniendo la proporción del tamaño oficial.&lt;a href=&#34;#fnref1&#34; class=&#34;footnote-back&#34;&gt;↩︎&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Cédula Elecciones 2020 usando ggplot2 (parte 1)</title>
+      <link>https://academic-demo.netlify.app/post/cedula-2020-ggplot2-parte-1/</link>
+      <pubDate>Wed, 15 Jan 2020 00:00:00 +0000</pubDate>
+      <guid>https://academic-demo.netlify.app/post/cedula-2020-ggplot2-parte-1/</guid>
+      <description>
+&lt;script src=&#34;https://academic-demo.netlify.app/post/cedula-2020-ggplot2-parte-1/index.es_files/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
+
+
+&lt;p&gt;No tengo conocimiento sobre el software que ha utilizado ONPE para diseñar la cédula que se utilizará en nuestras elecciones congresales, pero es posible intentar replicarla en R, usando funciones de la colección de paquetes del &lt;code&gt;tidyverse&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Para ello, primero cargamos los paquetes. Omitiré aquí los mensajes y warnings que aparecerán en una sesión normal. Además, en general utilizaré una línea por cada parámetro en las funciones que utilice, de modo que sea fácil de visualizar el código en teléfonos móviles.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(tidyverse)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;El siguiente paso será crear una superficie en la que irá el gráfico. Usaremos las funciones de &lt;code&gt;ggplot2&lt;/code&gt; para esto y para todas las futuras personalizaciones. Utilizaremos un ancho de 15 unidades (eje x) y un alto de 32 unidades (eje y) para mantener las proporciones definidas por la ONPE en la &lt;a href=&#34;https://busquedas.elperuano.pe/normaslegales/aprueban-modelos-definitivos-de-cedulas-de-sufragio-para-vot-resolucion-jefatural-n-000263-2019-jnonpe-1835783-1/&#34;&gt;RESOLUCIÓN JEFATURAL Nº 000263-2019-JN/ONPE&lt;/a&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;cedula &amp;lt;- ggplot()+
+  # límites del plano
+  xlim(c(0, 15))+
+  ylim(c(0, 32))
+
+cedula&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://academic-demo.netlify.app/post/cedula-2020-ggplot2-parte-1/index.es_files/figure-html/limites-1.png&#34; width=&#34;288&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Debido a que las líneas divisorias y el fondo no nos ayudan para nuestros propósitos, nos vamos a deshacer de ellos usando &lt;code&gt;theme_void()&lt;/code&gt;. Para mantener la referencia de los límites del gráfico, crearemos un marco con borde negro utilizando &lt;code&gt;geom_rect()&lt;/code&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;cedula &amp;lt;- cedula +
+  theme_void() +
+    # marco rectangular con borde negro
+    geom_rect(aes(xmin = 0, 
+                  xmax = 15, 
+                  ymin = 0, 
+                  ymax = 32), 
+              color = &amp;quot;black&amp;quot;, 
+              alpha = 0)
+
+cedula&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://academic-demo.netlify.app/post/cedula-2020-ggplot2-parte-1/index.es_files/figure-html/marco-1.png&#34; width=&#34;288&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Lo siguiente es establecer el espacio que ocuparán los elementos de la cédula. En este caso, podemos llamar &lt;code&gt;instrucciones&lt;/code&gt; a los marcos de texto que contienen las instrucciones de cómo votar. Los nombres de las columnas del &lt;em&gt;tibble&lt;/em&gt; &lt;code&gt;instrucciones&lt;/code&gt; nos permitirán identificarlos con los parámetros de &lt;code&gt;geom_rect()&lt;/code&gt; cuando lo agreguemos al gráfico.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;instrucciones &amp;lt;- tribble(
+  ~xmin, ~xmax, ~ymin, ~ymax,
+  0.6,  11.8,  28.4,  29.9,
+  12.1,  14.4,  28.4,  29.9)
+
+cedula &amp;lt;- cedula +
+    # contenedores debajo del título con instruciones
+    geom_rect(data = instrucciones, 
+              aes(xmin = xmin, 
+                  xmax = xmax,
+                  ymin = ymin, 
+                  ymax = ymax), 
+              alpha = 0.25)
+cedula&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://academic-demo.netlify.app/post/cedula-2020-ggplot2-parte-1/index.es_files/figure-html/instrucciones-1.png&#34; width=&#34;288&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Llamaremos&lt;code&gt;rectangulos&lt;/code&gt; a los marcos en los que van contenidos los nombres de las agrupaciones políticas. Debido a que son varios contenedores y la distancia entre ellos es uniforme, crearemos los valores del eje Y usando un generador de secuencias. Los valores del eje X, en cambio, son constantes.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;rectangulos &amp;lt;- tibble(xmin = 0.6, 
+                      xmax = 11.8, 
+                      ymin= seq(
+                        from = 27.3, 
+                        to = 2.1, 
+                        by = -1.2), 
+                      ymax = ymin + 1)
+
+cedula &amp;lt;- cedula +
+# rectángulos para nombres de partidos
+    geom_rect(data = rectangulos, 
+              aes(xmin = xmin, 
+                  xmax = xmax,
+                  ymin = ymin, 
+                  ymax = ymax), 
+              alpha = 0.15)
+
+cedula&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://academic-demo.netlify.app/post/cedula-2020-ggplot2-parte-1/index.es_files/figure-html/rectangulos-1.png&#34; width=&#34;288&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;El &lt;em&gt;tibble&lt;/em&gt; &lt;code&gt;preferencial&lt;/code&gt; contiene los cuadrados en los que el votante puede marcar el logo de la agrupación política de su preferencia. Modificando un poco su ubicación el eje X en dos ocasiones, permitirá tener también los cuadrados de voto preferencial.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;preferencial &amp;lt;- tibble(
+  xmin = 10.8, 
+  xmax = 11.8, 
+  ymin= seq(
+    from = 27.3, 
+    to = 2.1, 
+    by = -1.2), 
+  ymax = ymin + 1)
+
+cedula &amp;lt;- cedula +
+  # cuadrados para logo 
+  geom_rect(data = preferencial, 
+            aes(xmin = xmin, 
+                xmax = xmax,
+                ymin = ymin, 
+                ymax = ymax), 
+            color = &amp;quot;black&amp;quot;, 
+            fill = &amp;quot;white&amp;quot;) +
+  # cuadrado para voto preferencial 1
+  geom_rect(data = preferencial, 
+            aes(xmin = xmin + 1.3, 
+                xmax = xmax + 1.3,
+                ymin = ymin, 
+                ymax = ymax), 
+            color = &amp;quot;black&amp;quot;, 
+            fill = &amp;quot;white&amp;quot;) +
+  # cuadrado para voto preferencial 1
+  geom_rect(data = preferencial, 
+            aes(xmin = xmin + 2.6, 
+                xmax = xmax + 2.6,
+                ymin = ymin, 
+                ymax = ymax), 
+            color = &amp;quot;black&amp;quot;, 
+            fill = &amp;quot;white&amp;quot;)
+
+cedula&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://academic-demo.netlify.app/post/cedula-2020-ggplot2-parte-1/index.es_files/figure-html/preferencial-1.png&#34; width=&#34;288&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;En la segunda parte del post explicaré cómo agregar el texto, tanto de los nombres de los partidos políticos como de las instrucciones para votar.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
