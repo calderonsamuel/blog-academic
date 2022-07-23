@@ -1,6 +1,6 @@
 ---
 date: "2021-10-12"
-external_link: https://samuelcalderon.shinyapps.io/caluladora-renacyt/
+external_link: https://apps.samuelenrique.com/calculadora-renacyt
 image:
   caption: Ejemplo de cálculo de calificación
   focal_point: Smart
