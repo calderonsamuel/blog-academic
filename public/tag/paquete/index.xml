@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>paquete | Samuel Enrique</title>
+    <link>https://academic-demo.netlify.app/tag/paquete/</link>
+      <atom:link href="https://academic-demo.netlify.app/tag/paquete/index.xml" rel="self" type="application/rss+xml" />
+    <description>paquete</description>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>es-pe</language><lastBuildDate>Tue, 12 Oct 2021 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>https://academic-demo.netlify.app/media/logo_hu1da6768c2a734c01a8ccbdd7b5277e1b_24707_300x300_fit_lanczos_3.png</url>
+      <title>paquete</title>
+      <link>https://academic-demo.netlify.app/tag/paquete/</link>
+    </image>
+    
+    <item>
+      <title>Dos paquetes para mapas peruanos</title>
+      <link>https://academic-demo.netlify.app/post/dos-paquetes-para-mapas-peruanos/</link>
+      <pubDate>Tue, 12 Oct 2021 00:00:00 +0000</pubDate>
+      <guid>https://academic-demo.netlify.app/post/dos-paquetes-para-mapas-peruanos/</guid>
+      <description>
+&lt;script src=&#34;https://academic-demo.netlify.app/post/dos-paquetes-para-mapas-peruanos/index.es_files/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
+
+
+&lt;p&gt;Por cuestiones de trabajo, en los últimos meses tuve necesidad de dibujar mapas y usar las cifras del &lt;a href=&#34;https://www.inei.gob.pe/media/MenuRecursivo/publicaciones_digitales/Est/Lib1718/Libro.pdf&#34;&gt;Mapa de Pobreza 2018&lt;/a&gt; del INEI. En ambos casos, conseguir que la data se encuentre en un formato ordenado que permita trabajar de manera sencilla no fue fácil de lograr.&lt;/p&gt;
+&lt;p&gt;Para que otras personas no tengan que pasar por ese mismo &lt;em&gt;entretenimiento&lt;/em&gt;, desarrollé dos paquetes que contienen la data lista para usar. De paso, creé la sección de &lt;a href=&#34;https://academic-demo.netlify.app/project&#34;&gt;proyectos&lt;/a&gt; en mi web, donde alojaré nuevos paquetes o apps que cree en el futuro. Cada paquete tiene su propia web y repositorio en Github.&lt;/p&gt;
+&lt;p&gt;Con &lt;code&gt;{perumapas}&lt;/code&gt; se puede obtener las geometrías necesarias para dibujar los mapas y con &lt;code&gt;{perupobreza2018}&lt;/code&gt; se puede usar las cifras del mapa de pobreza, incluyendo una columna calculada de cifra de pobreza monetaria.&lt;/p&gt;
+&lt;p&gt;A continuación, un ejemplo para ver cómo trabajan en conjunto.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(perupobreza2018)
+library(perumapas)
+library(sf) # obligatorio para perumapas
+library(tidyverse) # para transformación y gráficos&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Con &lt;code&gt;{perumapas}&lt;/code&gt; es sencillo realizar mapas a nivel regional, provincial y distrital. Por ejemplo, el mapa de las regiones del Perú.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;mapa_regional %&amp;gt;% 
+    ggplot() +
+    geom_sf()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://academic-demo.netlify.app/post/dos-paquetes-para-mapas-peruanos/index.es_files/figure-html/unnamed-chunk-2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;El mapa de los distritos de la provincia de Lima:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;mapa_distrital %&amp;gt;% 
+    filter(departamento == &amp;quot;LIMA&amp;quot;, provincia == &amp;quot;LIMA&amp;quot;) %&amp;gt;% 
+    ggplot() +
+    geom_sf()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://academic-demo.netlify.app/post/dos-paquetes-para-mapas-peruanos/index.es_files/figure-html/unnamed-chunk-3-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Con &lt;code&gt;{perupobreza2018}&lt;/code&gt; podemos añadirle una capa de información a cualquier mapa distrital. Para ello, primero se hace un join/merge entre los datos.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;pobreza_lima &amp;lt;- mapa_distrital %&amp;gt;% 
+    filter(departamento == &amp;quot;LIMA&amp;quot;, provincia == &amp;quot;LIMA&amp;quot;) %&amp;gt;% 
+    left_join(pobreza2018, by = &amp;quot;ubigeo&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Con este cruce, podemos colorear cada distrito según su cifra de pobreza monetaria.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;pobreza_lima %&amp;gt;% 
+    ggplot() +
+    geom_sf(aes(fill = pobreza_monetaria))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://academic-demo.netlify.app/post/dos-paquetes-para-mapas-peruanos/index.es_files/figure-html/unnamed-chunk-5-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Evidentemente, también es posible usar los paquetes de manera independiente. El nivel de personalización de los mapas generados dependerá del conocimiento en R y el paquete &lt;code&gt;{ggplot2}&lt;/code&gt; .&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>perumapas</title>
+      <link>https://academic-demo.netlify.app/paquetes/perumapas/</link>
+      <pubDate>Tue, 12 Oct 2021 00:00:00 +0000</pubDate>
+      <guid>https://academic-demo.netlify.app/paquetes/perumapas/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>perupobreza2018</title>
+      <link>https://academic-demo.netlify.app/paquetes/perupobreza2018/</link>
+      <pubDate>Tue, 12 Oct 2021 00:00:00 +0000</pubDate>
+      <guid>https://academic-demo.netlify.app/paquetes/perupobreza2018/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

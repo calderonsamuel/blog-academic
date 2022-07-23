@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Opinión | Samuel Enrique</title>
+    <link>https://academic-demo.netlify.app/tag/opinion/</link>
+      <atom:link href="https://academic-demo.netlify.app/tag/opinion/index.xml" rel="self" type="application/rss+xml" />
+    <description>Opinión</description>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>es-pe</language><lastBuildDate>Tue, 10 Mar 2020 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>https://academic-demo.netlify.app/media/logo_hu1da6768c2a734c01a8ccbdd7b5277e1b_24707_300x300_fit_lanczos_3.png</url>
+      <title>Opinión</title>
+      <link>https://academic-demo.netlify.app/tag/opinion/</link>
+    </image>
+    
+    <item>
+      <title>¿Por qué debo dejar que usen mi trabajo?</title>
+      <link>https://academic-demo.netlify.app/post/por-que-debo-dejar-que-usen-mi-trabajo/</link>
+      <pubDate>Tue, 10 Mar 2020 00:00:00 +0000</pubDate>
+      <guid>https://academic-demo.netlify.app/post/por-que-debo-dejar-que-usen-mi-trabajo/</guid>
+      <description>
+&lt;script src=&#34;https://academic-demo.netlify.app/post/por-que-debo-dejar-que-usen-mi-trabajo/index.es_files/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
+
+
+&lt;p&gt;El día de hoy ingresé, como ya se me está haciendo costumbre, a &lt;a href=&#34;https://es.stackoverflow.com/&#34;&gt;StackOverflow&lt;/a&gt; a ver si podía hacer algo para aumentar mis puntos de reputación. Como suele ocurrir en internet, uno empieza viendo una cosa y termina en un sitio bien diferente.&lt;/p&gt;
+&lt;p&gt;Llegué a &lt;a href=&#34;https://academia.stackexchange.com/&#34;&gt;StackExchange Academia&lt;/a&gt; y vi una &lt;a href=&#34;https://academia.stackexchange.com/questions/145212/advisor-professor-asking-me-for-the-source-code-of-my-dissertation-in-order-to-b&#34;&gt;pregunta&lt;/a&gt;, que me pareció muy interesante. Una persona cuenta que trabajó mucho para realizar un trabajo de investigación para su tesis de postgrado, y que ahora su asesor le está pidiendo el código utilizado en su trabajo para que otra persona lo utilice. Me pareció interesante además que una de las etiquetas con las que esta persona marcó su pregunta fuera la de &lt;em&gt;Propiedad intelectual&lt;/em&gt;.&lt;/p&gt;
+&lt;div id=&#34;ser-autor-de-mi-trabajo-está-bien&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Ser autor de mi trabajo está bien&lt;/h2&gt;
+&lt;p&gt;No cuesta mucho entender por qué. Si me pasé meses (o años) de duro trabajo para encontrar o construir los datos o procedimientos de análisis que me permitieron validar o refutar una hipótesis mía o de la comunidad científica, si le dediqué tanto tiempo, esfuerzo y rigurosidad a que mi trabajo sea de una calidad que me permita obtener una gran nota en mi presentación, si tuve que gastar mis escasos recursos y tiempo para obtener mi trabajo, es lógico que todo lo que se derive de ello sea &lt;strong&gt;mío&lt;/strong&gt;. Yo no creo que pensar de esta manera sea egoísta.&lt;/p&gt;
+&lt;p&gt;La mayoría de instituciones que le dedican recursos a la investigación terminan publicando los resultados en algún tipo de reporte, libro, mapa, dashboard, medio de comunicación, redes sociales, etc. Nos llegamos a enterar de los resultados de las investigaciones a través de resúmenes ejecutivos o abstracts. Pero, ¿qué pasa si queremos verificar que la investigación siguió cierto estándar de calidad? Esto en general se refiere a los datos utilizados, desde su recolección hasta la metodología de análisis empleada. También me interesa averiguar si la persona que investigó obtuvo las conclusiones adecuadas respecto a los resultados de sus tests. Mientras más cercanas a la academia, las instituciones van aumentando su nivel de rigurosidad, y son mandatorios los marcos teóricos, capítulos de metodología, resultados y conclusiones. En el caso de las entidades públicas (y en general), se va haciendo cada vez más común que los conjuntos de datos utilizados en los análisis sean compartidos de manera pública. En el Perú, el &lt;a href=&#34;www.inei.gob.pe&#34;&gt;INEI&lt;/a&gt; realiza esto a través de su portal de Microdatos y el Poder Ejecutivo muestra avances con su portal de &lt;a href=&#34;https://www.datosabiertos.gob.pe/&#34;&gt;Datos Abiertos&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Sin embargo, quiero atreverme a decir que esto no es suficiente. Cuando una persona se involucra en el análisis de datos, está realizando investigación, lo que significa que se encuentra una pregunta que quiere responder, se plantea una hipótesis al respecto y decide un método a través del cuál validará o rechazará su hipótesis. No hay investigación sin pregunta de investigación, ni hipótesis, ni metodología. Eso lo conocemos desde que asistimos a la primaria, porque es el método científico. En lo que nos quedamos cortos es en la &lt;em&gt;reproducibilidad&lt;/em&gt; y la &lt;em&gt;replicabilidad&lt;/em&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;replicable-o-reproducible&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;¿Replicable o reproducible?&lt;/h2&gt;
+&lt;p&gt;Según el diccionario de Oxford, lo reproducible es algo que:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Puede ser producido o hecho nuevamente de la misma manera&lt;a href=&#34;#fn1&#34; class=&#34;footnote-ref&#34; id=&#34;fnref1&#34;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;En el caso de una investigación, nos referimos a que &lt;em&gt;con el mismo conjunto de datos&lt;/em&gt; del análisis, realizando el mismo procedimiento, podemos obtener el mismo resultado. Esto hace que la calidad de la investigación tenga mayor facilidad de ser verificado por pares. Esta es una práctica bastante común en entornos que usan investigación estadística o a través de código.&lt;/p&gt;
+&lt;p&gt;Por otro lado, lo replicable es algo que:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Puede ser copiado exactamente&lt;a href=&#34;#fn2&#34; class=&#34;footnote-ref&#34; id=&#34;fnref2&#34;&gt;&lt;sup&gt;2&lt;/sup&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Roger D. Peng nos da un ejemplo de lo que esto significa en un contexto científico:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Si dices que X causa Y, o que la Vitamina C agudiza una enfermedad, o que algo causa un problema, sucede que otros científicos, independientes de ti, tratarán de investigar la misma pregunta y ver si obtienen un resultado similar. Si muchas otras personas obtienen el mismo resultado y replican el hallazgo original, entonces tendemos a pensar que el hallazgo original probablemente fue verdadero, y que se trata de una relación o hallazgo real.&lt;a href=&#34;#fn3&#34; class=&#34;footnote-ref&#34; id=&#34;fnref3&#34;&gt;&lt;sup&gt;3&lt;/sup&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;En otras palabras, un estudio es replicado cuando al usar el mismo método de análisis &lt;em&gt;en un nuevo conjunto de datos&lt;/em&gt; generados por el mismo diseño experimental, los resultados son similares.&lt;/p&gt;
+&lt;p&gt;La replicabilidad en sí no tiene nada de malo, es uno de los pilares del método científico y, en teoría, es aspirable. Sin embargo, es costosa. Recordemos que los resultados de los &lt;a href=&#34;http://censo2017.inei.gob.pe/&#34;&gt;Censos 2017&lt;/a&gt; en Perú fueron cuestionados desde el mismo día de la recolección de datos, por la gran cantidad de personas que reportaron no haber sido visitados por el personal de INEI. Pero, ¿quién podría replicar un censo?. Fuera de los límites legales, ¿qué persona o institución privada querría disponer &lt;a href=&#34;https://elcomercio.pe/peru/censo-2017-invertira-proceso-noticia-463178-noticia/&#34;&gt;173.8 millones de soles&lt;/a&gt; en verificar que los resultados obtenidos sean los mismos que los del INEI?&lt;/p&gt;
+&lt;p&gt;Evidentemente, un censo es un caso extremo. Pero podríamos cuestionar también la replicabilidad de encuestas de hogares, estudios económicos, tests de tratamientos experimentales, y un largo etcétera que incluye las encuestas de opinión que tanto aparecen en los medios de comunicación. A medida que aumenta nuestra necesidad (y capacidad) de obtener información, la replicabilidad se vuelve cada vez más difícil.&lt;/p&gt;
+&lt;p&gt;Es por ello que la reproducibilidad se convierte en una alternativa viable. Esto no quiere decir que la replicabilidad deje de ser deseada. Si volvemos al caso de la pregunta que encontré en Stack Exchange, esta persona fue cuestionada por su asesor acerca de que otra persona pueda usar su &lt;em&gt;código&lt;/em&gt; para su trabajo de investigación, en otras palabras, esta nueva persona estaba buscando &lt;em&gt;replicar&lt;/em&gt; el trabajo, cosa que debería ser aceptada y promovida, porque es la mejor manera de hacer que la ciencia avance.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;footnotes&#34;&gt;
+&lt;hr /&gt;
+&lt;ol&gt;
+&lt;li id=&#34;fn1&#34;&gt;&lt;p&gt;Traducción propia de &lt;a href=&#34;https://www.oxfordlearnersdictionaries.com/us/definition/english/reproducible?q=reproducible&#34; class=&#34;uri&#34;&gt;https://www.oxfordlearnersdictionaries.com/us/definition/english/reproducible?q=reproducible&lt;/a&gt;&lt;a href=&#34;#fnref1&#34; class=&#34;footnote-back&#34;&gt;↩︎&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li id=&#34;fn2&#34;&gt;&lt;p&gt;Traducción propia de &lt;a href=&#34;https://www.oxfordlearnersdictionaries.com/definition/english/replicable?q=replicable&#34; class=&#34;uri&#34;&gt;https://www.oxfordlearnersdictionaries.com/definition/english/replicable?q=replicable&lt;/a&gt;&lt;a href=&#34;#fnref2&#34; class=&#34;footnote-back&#34;&gt;↩︎&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li id=&#34;fn3&#34;&gt;&lt;p&gt;Traducción propia de Peng, R. (2019) &lt;em&gt;Report writing for Data Science in R&lt;/em&gt;. pg. 1. LeanPub.&lt;a href=&#34;#fnref3&#34; class=&#34;footnote-back&#34;&gt;↩︎&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

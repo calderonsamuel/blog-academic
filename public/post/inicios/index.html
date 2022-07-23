@@ -1,0 +1,1247 @@
+<!DOCTYPE html><html lang="es-pe" >
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  
+  
+  
+    <meta name="generator" content="Wowchemy 5.3.0 for Hugo" />
+  
+
+  
+
+  
+  
+  
+  
+  
+    
+    
+    
+  
+  
+
+  <meta name="author" content="Samuel Calderon Serrano" />
+
+  
+  
+  
+    
+  
+  <meta name="description" content="¿Para qué un blog?Este blog se hace con la intención de compartir diferentes tipos de trabajo. Desde el año pasado emprendí la tarea de aprender el lenguaje R por mi cuenta, para ello me valí de varias plataformas en las que a través de artículos, videos, tutoriales y otros, he podido alcanzar un nivel más o menos avanzado en la comprensión del lenguaje." />
+
+  
+  <link rel="alternate" hreflang="es-pe" href="https://academic-demo.netlify.app/post/inicios/" />
+
+  
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  
+
+  
+  
+  
+    <meta name="theme-color" content="#707070" />
+  
+
+  
+  
+    
+    <script src="/js/mathjax-config.js"></script>
+  
+
+  
+  
+  
+  
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha256-FMvZuGapsJLjouA6k7Eo2lusoAX9i0ShlWFG6qt7SLc=" crossorigin="anonymous" media="print" onload="this.media='all'">
+
+    
+    
+    
+    
+      
+      
+    
+    
+    
+
+    
+    
+    
+      
+    
+    
+      
+      
+        
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/styles/github.min.css" crossorigin="anonymous" title="hl-light" media="print" onload="this.media='all'">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/styles/dracula.min.css" crossorigin="anonymous" title="hl-dark" media="print" onload="this.media='all'" disabled>
+        
+      
+    
+
+    
+    
+    
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.min.css" integrity="sha512-1xoFisiGdy9nvho8EgXuXvnpR5GAMSjFwp40gSRE3NwdUdIMIKuPa7bqoUhLD0O/5tPNhteAsE5XyyMi5reQVA==" crossorigin="anonymous" media="print" onload="this.media='all'">
+    
+
+    
+
+    
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" integrity="" crossorigin="anonymous" async></script>
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+  
+
+  
+  
+  
+    
+      
+      <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cutive+Mono&family=Lora:wght@400;700&family=Roboto:wght@400;700&display=swap&display=swap">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cutive+Mono&family=Lora:wght@400;700&family=Roboto:wght@400;700&display=swap&display=swap" media="print" onload="this.media='all'">
+    
+  
+
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="/css/wowchemy.63fb3b0311bed08654b7d3b5863082d9.css" />
+
+  
+
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1YGT1Y5480"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+
+  function gtag() {
+      dataLayer.push(arguments);
+  }
+
+  function trackOutboundLink(url, target) {
+    gtag('event', 'click', {
+         'event_category': 'outbound',
+         'event_label': url,
+         'transport_type': 'beacon',
+         'event_callback': function () {
+           if (target !== '_blank') {
+             document.location = url;
+           }
+         }
+    });
+    console.debug("Outbound link clicked: " + url);
+  }
+
+  function onClickCallback(event) {
+    if ((event.target.tagName !== 'A') || (event.target.host === window.location.host)) {
+      return;
+    }
+    trackOutboundLink(event.target, event.target.getAttribute('target'));  
+  }
+
+  gtag('js', new Date());
+  gtag('config', 'G-1YGT1Y5480', {});
+  gtag('set', {'cookie_flags': 'SameSite=None;Secure'});
+
+  
+  document.addEventListener('click', onClickCallback, false);
+</script>
+
+
+  
+
+  
+
+  
+
+
+
+
+  
+  
+  
+
+  
+
+  
+    <link rel="manifest" href="/manifest.webmanifest" />
+  
+
+  <link rel="icon" type="image/png" href="/media/icon_hudc2d73b0c59810dfdf204c48ffabf147_23909_32x32_fill_lanczos_center_3.png" />
+  <link rel="apple-touch-icon" type="image/png" href="/media/icon_hudc2d73b0c59810dfdf204c48ffabf147_23909_180x180_fill_lanczos_center_3.png" />
+
+  <link rel="canonical" href="https://academic-demo.netlify.app/post/inicios/" />
+
+  
+  
+  
+  
+  
+  
+  
+  
+    
+    
+  
+  
+  <meta property="twitter:card" content="summary" />
+  
+  <meta property="og:site_name" content="Samuel Enrique" />
+  <meta property="og:url" content="https://academic-demo.netlify.app/post/inicios/" />
+  <meta property="og:title" content="Inicios | Samuel Enrique" />
+  <meta property="og:description" content="¿Para qué un blog?Este blog se hace con la intención de compartir diferentes tipos de trabajo. Desde el año pasado emprendí la tarea de aprender el lenguaje R por mi cuenta, para ello me valí de varias plataformas en las que a través de artículos, videos, tutoriales y otros, he podido alcanzar un nivel más o menos avanzado en la comprensión del lenguaje." /><meta property="og:image" content="https://academic-demo.netlify.app/media/logo_hu1da6768c2a734c01a8ccbdd7b5277e1b_24707_300x300_fit_lanczos_3.png" />
+    <meta property="twitter:image" content="https://academic-demo.netlify.app/media/logo_hu1da6768c2a734c01a8ccbdd7b5277e1b_24707_300x300_fit_lanczos_3.png" /><meta property="og:locale" content="es-pe" />
+  
+    
+      <meta
+        property="article:published_time"
+        content="2020-01-13T00:00:00&#43;00:00"
+      />
+    
+    <meta property="article:modified_time" content="2021-08-15T19:58:03-05:00">
+  
+
+  
+
+
+    
+
+
+
+
+
+
+  
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://academic-demo.netlify.app/post/inicios/"
+  },
+  "headline": "Inicios",
+  
+  "datePublished": "2020-01-13T00:00:00Z",
+  "dateModified": "2021-08-15T19:58:03-05:00",
+  
+  "author": {
+    "@type": "Person",
+    "name": "Samuel Calderon Serrano"
+  },
+  
+  "publisher": {
+    "@type": "Organization",
+    "name": "Samuel Enrique",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://academic-demo.netlify.app/media/logo_hu1da6768c2a734c01a8ccbdd7b5277e1b_24707_192x192_fit_lanczos_3.png"
+    }
+  },
+  "description": "¿Para qué un blog?\rEste blog se hace con la intención de compartir diferentes tipos de trabajo. Desde el año pasado emprendí la tarea de aprender el lenguaje R por mi cuenta, para ello me valí de varias plataformas en las que a través de artículos, videos, tutoriales y otros, he podido alcanzar un nivel más o menos avanzado en la comprensión del lenguaje."
+}
+</script>
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+  <title>Inicios | Samuel Enrique</title>
+</head>
+
+
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" class="page-wrapper   " data-wc-page-id="ff109531cf21044961ff9fbd38fdeec8" >
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <script src="/js/wowchemy-init.min.8988fb2a4bba758785868cfcb5244555.js"></script>
+
+  
+
+
+<aside class="search-modal" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Buscar</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#" aria-label="Cerrar"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        <input name="q" id="search-query" placeholder="Buscar..." autocapitalize="off"
+        autocomplete="off" autocorrect="off" spellcheck="false" type="search" class="form-control"
+        aria-label="Buscar...">
+        
+      </div>
+
+      
+      
+
+      
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+
+  <div class="page-header">
+    
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id="navbar-main">
+  <div class="container-xl">
+
+    
+    <div class="d-none d-lg-inline-flex">
+      <a class="navbar-brand" href="/"><img src="/media/logo_hu1da6768c2a734c01a8ccbdd7b5277e1b_24707_0x70_resize_lanczos_3.png" alt="Samuel Enrique"></a>
+    </div>
+    
+
+    
+    <button type="button" class="navbar-toggler" data-toggle="collapse"
+            data-target="#navbar-content" aria-controls="navbar-content" aria-expanded="false" aria-label="Barra de navegación">
+    <span><i class="fas fa-bars"></i></span>
+    </button>
+    
+
+    
+    <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
+      <a class="navbar-brand" href="/"><img src="/media/logo_hu1da6768c2a734c01a8ccbdd7b5277e1b_24707_0x70_resize_lanczos_3.png" alt="Samuel Enrique"></a>
+    </div>
+    
+
+    
+    
+    <div class="navbar-collapse main-menu-item collapse justify-content-end" id="navbar-content">
+
+      
+      <ul class="navbar-nav d-md-inline-flex">
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+            
+            
+            
+              
+            
+            
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#about"><span>Acerca de mí</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link  active" href="/post/"><span>Blog</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/project/"><span>Proyectos</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+            
+            
+            
+              
+            
+            
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#contact"><span>Contacto</span></a>
+        </li>
+
+        
+        
+
+      
+
+        
+      </ul>
+    </div>
+
+    <ul class="nav-icons navbar-nav flex-row ml-auto d-flex pl-md-2">
+
+      
+      
+        
+          
+          <li class="nav-item d-none d-lg-inline-flex">
+            <a class="nav-link" href="https://twitter.com/samuel__case" data-toggle="tooltip" data-placement="bottom" title="Sígueme en Twitter" target="_blank" rel="noopener" aria-label="Sígueme en Twitter">
+              <i class="fab fa-twitter" aria-hidden="true"></i>
+            </a>
+          </li>
+        
+      
+
+      
+      
+      <li class="nav-item">
+        <a class="nav-link js-search" href="#" aria-label="Buscar"><i class="fas fa-search" aria-hidden="true"></i></a>
+      </li>
+      
+
+      
+      
+      <li class="nav-item dropdown theme-dropdown">
+        <a href="#" class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-label="Mostrar preferencias">
+          <i class="fas fa-moon" aria-hidden="true"></i>
+        </a>
+        <div class="dropdown-menu">
+          <a href="#" class="dropdown-item js-set-theme-light">
+            <span>Claro</span>
+          </a>
+          <a href="#" class="dropdown-item js-set-theme-dark">
+            <span>Oscuro</span>
+          </a>
+          <a href="#" class="dropdown-item js-set-theme-auto">
+            <span>Automático</span>
+          </a>
+        </div>
+      </li>
+      
+
+      
+      
+
+    </ul>
+
+  </div>
+</nav>
+
+
+  </div>
+
+  <div class="page-body">
+    <article class="article">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+  
+  
+<div class="article-container pt-3">
+  <h1>Inicios</h1>
+
+  
+
+  
+    
+
+
+<div class="article-metadata">
+
+  
+  
+
+  
+  <span class="article-date">
+    
+    
+      
+          Última actualización el
+      
+    
+    Aug 15, 2021
+  </span>
+  
+
+  
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    5 min de lectura
+  </span>
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fas fa-folder mr-1"></i><a href="/category/r/">R</a></span>
+  
+
+</div>
+
+    
+
+
+
+
+
+  
+</div>
+
+
+
+  <div class="article-container">
+
+    <div class="article-style">
+      
+<script src="https://academic-demo.netlify.app/post/inicios/index.es_files/header-attrs/header-attrs.js"></script>
+
+
+<div id="para-qué-un-blog" class="section level2">
+<h2>¿Para qué un blog?</h2>
+<p>Este blog se hace con la intención de compartir diferentes tipos de trabajo. Desde el año pasado emprendí la tarea de aprender el lenguaje R por mi cuenta, para ello me valí de varias plataformas en las que a través de artículos, videos, tutoriales y otros, he podido alcanzar un nivel más o menos avanzado en la comprensión del lenguaje.</p>
+</div>
+<div id="la-importancia-de-rstudio" class="section level2">
+<h2>La importancia de RStudio</h2>
+<p>Quiero resaltar que ha sido particularmente beneficioso que la comunidad que utiliza R es, además, especialmente activa en lo que respecta a enseñar a otros a utilizar dicha herramienta. Entre ellos destaco el trabajo que hace el equipo de <a href="https://rstudio.com/">RStudio</a>, quienes además de desarrollar el IDE más utilizado actualmente para trabajar con R, han desarrollado una serie de paquetes que facilitan el acceso al mundo del famoso “Data Science” bajo la filosofía del <a href="https://www.tidyverse.org/">tidyverse</a>. Hago una mención honrosa al paquete <em>blogdown</em>, que me permite desarrollar esta web de una manera bastante sencilla.</p>
+</div>
+<div id="pequeña-reseña" class="section level2">
+<h2>Pequeña reseña</h2>
+<p>Debo decir que este no es mi primer intento de tener un espacio virtual. El año 2013, cuando estaba en mi tercer año universitario, junto a un grupo de la carrera desarrollamos en Wordpress un blog llamado <em>Polinóptico</em> que tenía la intención de ser un espacio en el que estudiantes de la carrera de Ciencia Política de la Universidad Antonio Ruiz de Montoya pudieran compartir sus trabajos y ser leídos por quien quisiera. Lamentablemente ese entusiasmo no llegó a la masa de estudiantes de la carrera, y el blog murió, no sin antes haber tenido varios intentos de ser revivido.</p>
+<p>Ese mismo año llevé una clase de estadística dictada por <a href="http://www.joseincio.com/">José Incio</a> en la que me fue bien. En esa clase conocí por primera vez el lenguaje R. Incio nos enseñaba conceptos de estadística descriptiva e inferencial ayudándose de scripts de R que tenía guardados, en algunas ocasiones editándolos en vivo para algún tipo de personalización, especialmente cuando se trataba de gráficos. A pesar de que trató de enseñarnos los beneficios de usar R, al final preferí prestar más atención al aprendizaje de SPSS en las clases de práctica porque resultaba más intuitivo y cercano a lo que ya conocía, Excel.</p>
+<p>En los años siguientes, no tuve necesidad de usar ni Excel, ni SPSS, ni R para <strong>ningún</strong> trabajo de la universidad (no exagero), ni para ningún trabajo pagado eventual. La única excepción a esto fue la clase de Análisis de Regresión dictada por la gran Heidi Sada durante mi intercambio en la Ibero, Ciudad de México.</p>
+<p>El 2014 alguien que no recuerdo ahora me presentó la plataforma Coursera en la que se podían llevar cursos MOOC de buena calidad y gratuitos. Después de llevar algunos por curiosidad, en setiembre del 2017 decidí llevar la “Data Science Specialization” de la Universidad de John Hopkins, que hacía uso intensivo de R en sus explicaciones. Fue mi segundo acercamiento al lenguaje y el primero al IDE RStudio. No terminé la especialización en Coursera porque los últimos módulos se me complicaron demasiado, y además ya tenía otro proyecto en mente.</p>
+<p>Todo este interludio sobre mi llegada a R es para decir que en el verano 2018 decidí tener un blog propio en Wordpress en el que haría tutoriales sobre R. Un plan bastante ambicioso para alguien que apenas había empezado a conocer lo más básico del lenguaje. Logré hacer dos entradas, la primera sobre cómo instalar R y la segunda sobre cómo instalar RStudio. La idea era ir aprendiendo R e ir haciendo tutoriales de lo que acababa de aprender. Nunca hice público el blog porque ahí murió. Nunca le agregué más contenido.</p>
+<p>Lo que sí hice ese año fue estudiar estadística aplicada y SPSS en la escuela del <a href="https://www.inei.gob.pe/enei/">INEI</a>. Aunque aprendí bastante en estos cursos, el mayor uso que le encontré fue convencerme de que R era superior.</p>
+<p>Fue recién en enero del 2019 que se juntaron varias cosas que me permitieron aprender realmente el lenguaje:</p>
+<ol style="list-style-type: decimal">
+<li>No tenía trabajo, por lo tanto tampoco tenía dinero para matricularme en cursos.</li>
+<li>Mi enamorada se fue de viaje por varios meses y yo sentía que necesitaba tener el tiempo y la cabeza ocupados en algo productivo.</li>
+<li>Esta es más de ñoño. No me gusta salir en verano porque hace mucho calor en la calle y el sol es horrible, así que me la pasaba todo el tiempo en mi casa.</li>
+</ol>
+<p>Así fue que terminé en tiempo récord el programa de estudios <em>Data Scientist with R</em> de la plataforma <a href="https://www.datacamp.com/">Datacamp</a> e hice una shiny <a href="https://samuelcalderon.shinyapps.io/ver1-0/">app</a> para no olvidar lo que estaba aprendiendo.</p>
+<p>Durante el resto del año hice todo lo posible para usar R con cualquier excusa. En esto fue de gran ayuda conocer la existencia de <a href="https://rstudio.cloud/">RStudio.cloud</a> porque me permitió usar R en el trabajo sin necesidad de pedir permiso a la oficina de tecnologías de la información para instalarlo.</p>
+<p>Creé este blog en setiembre 2019 para mantener activo mi conocimiento de las funciones de los paquetes <code>blogdown</code> y <code>Rmarkdown</code>. Este es el tercer intento de blog, y para asegurarme de que funcione, esta vez lo hago público el mismo día en que me compro el dominio. Si cuento con lectores estaré muy agradecido de que me hagan llegar sugerencias de temas a tratar en el futuro. No soy un politólogo que bloguea sobre R, sino un politólogo que usa R para bloguear.</p>
+</div>
+
+    </div>
+
+    
+
+
+
+
+
+
+<div class="article-tags">
+  
+  <a class="badge badge-light" href="/tag/r-markdown/">R Markdown</a>
+  
+</div>
+
+
+
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://twitter.com/intent/tweet?url=https://academic-demo.netlify.app/post/inicios/&amp;text=Inicios" target="_blank" rel="noopener" class="share-btn-twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.facebook.com/sharer.php?u=https://academic-demo.netlify.app/post/inicios/&amp;t=Inicios" target="_blank" rel="noopener" class="share-btn-facebook">
+          <i class="fab fa-facebook"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="mailto:?subject=Inicios&amp;body=https://academic-demo.netlify.app/post/inicios/" target="_blank" rel="noopener" class="share-btn-email">
+          <i class="fas fa-envelope"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.linkedin.com/shareArticle?url=https://academic-demo.netlify.app/post/inicios/&amp;title=Inicios" target="_blank" rel="noopener" class="share-btn-linkedin">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="whatsapp://send?text=Inicios%20https://academic-demo.netlify.app/post/inicios/" target="_blank" rel="noopener" class="share-btn-whatsapp">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://service.weibo.com/share/share.php?url=https://academic-demo.netlify.app/post/inicios/&amp;title=Inicios" target="_blank" rel="noopener" class="share-btn-weibo">
+          <i class="fab fa-weibo"></i>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+  
+  
+    
+  
+  
+  
+  <div class="media author-card content-widget-hr">
+    
+      
+      <a href="https://academic-demo.netlify.app/"><img class="avatar mr-3 avatar-circle" src="/author/samuel-calderon-serrano/avatar_hub487044f85bdcc4ef4242a9f554decc8_113020_270x270_fill_q75_lanczos_center.jpg" alt="Samuel Calderon Serrano"></a>
+    
+
+    <div class="media-body">
+      <h5 class="card-title"><a href="https://academic-demo.netlify.app/">Samuel Calderon Serrano</a></h5>
+      <h6 class="card-subtitle">Integrante del Equipo Técnico Normativo de la Dirección de Licenciamiento</h6>
+      <p class="card-text">Me interesan los temas de datos abiertos, educación superior y enseñanza de uso de herramientas para análisis de datos.</p>
+      <ul class="network-icon" aria-hidden="true">
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="/#contact" >
+        <i class="fas fa-envelope"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://twitter.com/samuel__case" target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://github.com/calderonsamuel" target="_blank" rel="noopener">
+        <i class="fab fa-github"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://www.linkedin.com/in/samuelcalderon/" target="_blank" rel="noopener">
+        <i class="fab fa-linkedin"></i>
+      </a>
+    </li>
+  
+</ul>
+
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+  </div>
+</article>
+  </div>
+
+  <div class="page-footer">
+    
+    
+    <div class="container">
+      <footer class="site-footer">
+
+  
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+
+
+
+
+
+  <p class="powered-by">
+    
+    
+    
+      
+      
+      
+      
+      
+      
+      Published with <a href="https://wowchemy.com/?utm_campaign=poweredby" target="_blank" rel="noopener">Wowchemy</a> — the free, <a href="https://github.com/wowchemy/wowchemy-hugo-modules" target="_blank" rel="noopener">open source</a> website builder that empowers creators.
+    
+  </p>
+</footer>
+
+    </div>
+    
+  </div>
+
+  
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Citar</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><code class="tex hljs"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copiar
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Descargar
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+      
+
+    
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/instant.page/5.1.0/instantpage.min.js" integrity="sha512-1+qUtKoh9XZW7j+6LhRMAyOrgSQKenQ4mluTR+cvxXjP1Z54RxZuzstR/H9kgPXQsVB8IW7DMDFUJpzLjvhGSQ==" crossorigin="anonymous"></script>
+
+      
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js" integrity="sha256-lqvxZrPLtfffUl2G/e7szqSvPBILGbwmsGE1MKlOi0Q=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js" integrity="sha256-CBrpuqrMhXwcLLUd5tvQ4euBHCdh7wGlDfNz8vbu/iI=" crossorigin="anonymous"></script>
+      
+
+      
+      
+
+      
+
+      
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/highlight.min.js" integrity="sha512-TDKKr+IvoqZnPzc3l35hdjpHD0m+b2EC2SrLEgKDRWpxf2rFCxemkgvJ5kfU48ip+Y+m2XVKyOCD85ybtlZDmw==" crossorigin="anonymous"></script>
+        
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/languages/r.min.js" crossorigin="anonymous"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/languages/python.min.js" crossorigin="anonymous"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/languages/latex.min.js" crossorigin="anonymous"></script>
+        
+      
+
+    
+
+    
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.min.js" integrity="sha512-SeiQaaDh73yrb56sTW/RgVdi/mMqNeM2oBwubFHagc5BkixSpP1fvqF47mKzPGWYSSy4RwbBunrJBQ4Co8fRWA==" crossorigin="anonymous"></script>
+    
+
+    
+    
+
+    
+    
+    
+      
+      <script id="search-hit-fuse-template" type="text/x-template">
+        <div class="search-hit" id="summary-{{key}}">
+          <div class="search-hit-content">
+            <div class="search-hit-name">
+              <a href="{{relpermalink}}">{{title}}</a>
+              <div class="article-metadata search-hit-type">{{type}}</div>
+              <p class="search-hit-description">{{snippet}}</p>
+            </div>
+          </div>
+        </div>
+      </script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.2.1/fuse.min.js" integrity="sha256-VzgmKYmhsGNNN4Ph1kMW+BjoYJM2jV5i4IlFoeZA9XI=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+      
+    
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    <script src="/js/bootstrap.bundle.min.6aed84840afc03ab4d5750157f69c120.js"></script>
+
+    
+    
+      
+      
+      
+      
+      
+      
+      
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+      
+      
+    
+    
+    <script src="/es/js/wowchemy.min.82b398ff03225825117e1d7207584740.js"></script>
+
+    
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Javascript | Samuel Enrique</title>
+    <link>https://academic-demo.netlify.app/category/javascript/</link>
+      <atom:link href="https://academic-demo.netlify.app/category/javascript/index.xml" rel="self" type="application/rss+xml" />
+    <description>Javascript</description>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>es-pe</language><lastBuildDate>Sat, 25 Apr 2020 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>https://academic-demo.netlify.app/media/logo_hu1da6768c2a734c01a8ccbdd7b5277e1b_24707_300x300_fit_lanczos_3.png</url>
+      <title>Javascript</title>
+      <link>https://academic-demo.netlify.app/category/javascript/</link>
+    </image>
+    
+    <item>
+      <title>Código noob de JS</title>
+      <link>https://academic-demo.netlify.app/post/codigo-noob-de-js/</link>
+      <pubDate>Sat, 25 Apr 2020 00:00:00 +0000</pubDate>
+      <guid>https://academic-demo.netlify.app/post/codigo-noob-de-js/</guid>
+      <description>
+&lt;script src=&#34;https://academic-demo.netlify.app/post/codigo-noob-de-js/index.es_files/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
+
+
+&lt;p&gt;Este es sólo un recordatorio de un código escrito en JavaScript mientras aprendía, para recordarle a mi yo futuro que ya debería conocer una mejor forma de hacerlo.&lt;/p&gt;
+&lt;div id=&#34;basic-algorithm-scripting-mutations&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Basic Algorithm Scripting: Mutations&lt;/h2&gt;
+&lt;p&gt;Return true if the string in the first element of the array contains all of the letters of the string in the second element of the array.&lt;/p&gt;
+&lt;p&gt;For example, [“hello”, “Hello”], should return true because all of the letters in the second string are present in the first, ignoring case.&lt;/p&gt;
+&lt;p&gt;The arguments [“hello”, “hey”] should return false because the string “hello” does not contain a “y”.&lt;/p&gt;
+&lt;p&gt;Lastly, [“Alien”, “line”], should return true because all of the letters in “line” are present in “Alien”.&lt;/p&gt;
+&lt;pre class=&#34;js&#34;&gt;&lt;code&gt;function mutation(arr) {
+  // a minusculas las dos palabras
+  let arr2 = arr.map(el =&amp;gt; el.toLowerCase());
+  // segunda palabra a array
+  let word2 = arr2[1].split(&amp;quot;&amp;quot;);
+  // indice de aparicion de letra de palabra 2 en palabra 1
+  let indices = word2.map(el =&amp;gt; arr2[0].search(el));
+  // test logico para ver si existe un &amp;#39;-1&amp;#39; en indices
+  let bool = indices.map(el =&amp;gt; el &amp;gt;= 0);
+  // se ordena el array bool y se obtiene el primer elemento
+  // si hay &amp;#39;false&amp;#39; siempre estará delante
+  return bool.sort()[0];
+}
+
+let res = mutation([&amp;quot;Hello&amp;quot;, &amp;quot;hey&amp;quot;]);
+//let res2 = [true, false, true, false];
+console.log(res);
+
+
+&amp;gt;false&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
