@@ -1,0 +1,72 @@
+---
+title: Monitorear ejecución presupuestal desde R
+author: Samuel Calderon
+date: '2022-08-09'
+slug: monitorear-ejecuci-n-presupuestal-desde-r
+categories: []
+tags:
+  - r
+  - Open source
+subtitle: ''
+summary: ''
+authors: []
+lastmod: '2022-08-09T17:15:42-05:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
+```
+
+
+Este post marca el lanzamiento oficial de un nuevo paquete para R llamado `{perutranspaeconomica}`. El paquete cuenta con [sitio web oficial](https://perutranspaeconomica.samuelenrique.com/) y [repositorio en Github](https://github.com/calderonsamuel/perutranspaeconomica). Su objetivo es acceder a los datos de ejecución presupuestal de las unidades ejecutoras (entidades públicas) que operan en el país. 
+
+El paquete es mejor aprovechable para las personas que estén familiarizadas con el [Portal de seguimiento a la ejecución de gasto presupuestal](https://apps5.mineco.gob.pe/transparencia/Navegador/default.aspx) del Ministerio de Economía y Finanzas. Hasta el momento, sirve para hacer consultas a partir del 2012. Con el paso del tiempo (y con algo de apoyo de la comunidad) puede ampliarse para abarcar años anteriores.
+
+Como ejemplo, podemos ver cuánto se presupuesto y gastó en el año 2021 en todo el país. Comenzamos por cargar el paquete y la colección `tidyverse` para facilidad de tratamiento de los datos.
+
+```{r}
+library(perutranspaeconomica)
+library(tidyverse)
+```
+
+Para hacer la consulta, podemos usar la función `gasto()`. Con esto obtenemos una tabla muy similar a la de la plataforma del MEF. Para apreciar mejor la información, la convierto en un objeto JSON.
+
+```{r}
+gasto(year = 2021) |> 
+    jsonlite::toJSON(pretty = TRUE)
+```
+
+Para ver una evolución en el tiempo, podemos usar una consulta iterativa. Así aprovechamos mejor las oportunidades del paquete.
+
+```{r}
+consulta <- 2012:2021 |> 
+    map_dfr(~gasto(year = .x))
+
+consulta
+```
+
+Por último, podemos graficar los datos obtenidos. En este caso, para conocer la evolución en la ejecución presupuestal del Estado peruano desde el 2012 al 2021.
+
+```{r}
+consulta |> 
+    ggplot(aes(year, avance_percent)) +
+    geom_line() +
+    geom_label(aes(label = avance_percent))
+```
+
+Como se puede ver, la ejecución presupuestal ha sido superior al 80% en los últimos años, pero nunca alcanzó el 90% de lo presupuestado.
+
+Sin usar el paquete habría sido necesario:
+
+1. Navegar la plataforma año por año 
+2. Para cada año, descargar un archivo excel con la información
+3. Juntar todas las tablas en un solo archivo.
+4. Procesar la información y generar el gráfico
+
+¡El paquete permitió saltarse los tres primeros pasos! Una consulta más compleja hubiese requerido más tiempo repetido en los pasos 1 y 2. Este es un ejemplo simple para demostrar las posibilidades de usar la información que tenemos a la mano. 
