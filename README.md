@@ -1,3 +1,7 @@
+# Nota
+
+Este repositorio albergaba el contenido de mi web personal, renderizado por Netlify. Actualmente mi web usa [Quarto](https://quarto.org/) y su repositorio es <https://github.com/calderonsamuel/web>
+
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
